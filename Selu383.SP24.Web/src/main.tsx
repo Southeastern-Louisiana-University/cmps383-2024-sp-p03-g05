@@ -12,19 +12,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.css'
 
 // Importing Pages //
-import App from './App.tsx'
-import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import Header from "./elements/NavigationBar.tsx"
 import SignUp from './routes/login/sign-up.tsx';
 import Home from './routes/home.tsx';
 import Login from './routes/login/login.tsx';
+import Demo from './App.tsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home/>,
     errorElement: <ErrorPage/>
+  },{
+    path:"/demo",
+    element:<Demo/>,
+    errorElement:<ErrorPage/>
   },{
     path:"/login",
     element:<Login/>,
