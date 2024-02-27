@@ -1,6 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import Header from "../../elements/NavigationBar.tsx"
 import Footer from "../../elements/footer.tsx";
+import { Link } from "react-router-dom";
 
 export default function login() {
     return (
@@ -38,7 +39,14 @@ export default function login() {
                 </div>
                 <div className="col-1"></div>
                 <div className="col-4">
-                    <h1>SignUp</h1>
+                    <center>
+                        <br style={{height: 60}}/>
+                        <h1> First Time? </h1>
+                        <br />
+                        <Link to={"./signup"}><Button variant="secondary background-3">Sign Up Here</Button>{' '}</Link>
+                        
+                    </center>
+                    
                 </div>
                 <div className="col-1 background-1"></div>
             </div>
