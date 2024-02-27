@@ -16,7 +16,7 @@ import App from './App.tsx'
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Header from "./elements/NavigationBar.tsx"
-import SignUp from './routes/sign-up.tsx';
+import SignUp from './routes/login/sign-up.tsx';
 import Home from './routes/home.tsx';
 
 const router = createBrowserRouter([
