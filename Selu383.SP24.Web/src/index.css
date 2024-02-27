@@ -1,9 +1,20 @@
+.background-1{
+  background-color: rgb(106, 163, 13);
+}
+.background-2{
+  background-color: rgb(243, 239, 224);
+}
+.background-3{
+  background-color: rgb(208, 102, 62);
+}
+
+
 .header-text{
   color: rgb(106, 163, 13);
 }
 
 .footer-text{
-  color: rgb(106, 163, 13);
+  color: rgb(201, 218, 234);
 }
 
 .bg-dark{
