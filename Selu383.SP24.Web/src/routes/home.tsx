@@ -1,4 +1,4 @@
-import Header from "./header.tsx"
+import Header from "../elements/NavigationBar.tsx"
 function Home() {
     return (
         <>

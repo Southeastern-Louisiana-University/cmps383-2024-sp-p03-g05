@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Header from "./header.tsx"
+import Header from "../elements/NavigationBar.tsx"
 
 const SignUp = () => {
     return (
