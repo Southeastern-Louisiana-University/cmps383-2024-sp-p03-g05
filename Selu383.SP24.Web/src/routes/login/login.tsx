@@ -10,7 +10,7 @@ export default function login() {
                 <div className="col-1 background-1"></div>
 
                 <div className="col-5">
-                    <h1>Let's Get you back in Paradice</h1>
+                    <h1>Let's Get you back in Paradise</h1>
                     <div>
                         <Form.Label htmlFor="inputUsername">Username / Email</Form.Label>
                     <Form.Control
