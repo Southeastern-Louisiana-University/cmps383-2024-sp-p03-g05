@@ -1,4 +1,4 @@
-import { Link, useRouteError } from "react-router-dom";
+import {useRouteError } from "react-router-dom";
 import sadFace from "./assets/sad-face-icon.svg";
 import Footer from "./elements/footer";
 import NavigationBar from "./elements/NavigationBar";
