@@ -236,3 +236,36 @@ i {
   color: #fff;
   text-decoration: none;
 }
+
+.p1 {
+  text-align: center;
+  font-size: xx-large;
+}
+
+.center-picture {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5px;
+  width: 50%;
+}
+
+.left {
+  display: block;
+  margin: left 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.signupbutton {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 10%;
+  opacity: 1;
+}
