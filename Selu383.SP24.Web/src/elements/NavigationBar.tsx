@@ -18,7 +18,7 @@ export default function NavigationBar() {
           <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-          <Nav.Link className='header-text' href="/sign-up">SignUp / Login</Nav.Link>
+          <Nav.Link className='header-text' href="/login">SignUp / Login</Nav.Link>
           </Navbar.Text>
         </Navbar.Collapse>
         </Container>
