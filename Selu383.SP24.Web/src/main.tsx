@@ -17,21 +17,17 @@ import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Header from "./routes/header.tsx"
 import SignUp from './routes/sign-up.tsx';
+import Home from './routes/home.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Header />,
-    children:[{
-      path: "/",
-      element: <ErrorPage/>
-    }],
+    element: <Home/>,
     errorElement: <ErrorPage/>
-  },
-
-  {
-    path: "/sign-up",
-    element: <SignUp />
+  },{
+    path:"/sign-up",
+    element:<SignUp/>,
+    errorElement:<ErrorPage/>
   }
 ]);
 
