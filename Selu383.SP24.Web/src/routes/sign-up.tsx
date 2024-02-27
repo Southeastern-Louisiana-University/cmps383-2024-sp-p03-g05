@@ -1,37 +1,10 @@
 import { Link } from "react-router-dom";
+import Header from "./header.tsx"
 
 const SignUp = () => {
     return (
         <>
-        <header className="header">
-            <h1>EnStay</h1>
-            <nav>
-                <ul>
-                    <div className='row'>
-                        <div className='col-1'>
-                            <Link to={'/'}> Home </Link>
-                        </div>
-                        <div className='col-1'>
-                            <Link to={'/hotels'}> Hotels </Link>
-                        </div>
-                        <div className='col-1'>
-                            <Link to={'/appointments'}> Appointments </Link>
-                        </div>
-                        <div className='col-1'>
-                            <Link to={'/'}> Other Link </Link>
-                        </div>
-                        <div className='col-6'></div>
-                        <div className='col-1'>
-                            <Link to={'/login'}> Login </Link>
-                        </div>
-                        <div className='col-1'>
-                            <Link to={'/sign-up'}> Sign-Up </Link>
-                        </div>
-                    </div>
-
-                </ul>
-            </nav>
-        </header>
+        <Header/>
         <h1 className="center">Account Creation</h1>
         <form> 
             <p>
