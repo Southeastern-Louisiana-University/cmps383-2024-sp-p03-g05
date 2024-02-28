@@ -1,10 +1,11 @@
 import Header from "../elements/NavigationBar.tsx"
 import Footer from "../elements/footer.tsx"
+import Hotelimg from '../assets/Enstay-Hotel1.jpg'
 function Home() {
     return (
         <>
         <Header/>
-        <img src="Enstay-Hotel1.jpg" alt="Nice exterior of hotel" className="center-picture"></img>
+        <img src={Hotelimg} alt="Nice exterior of hotel" className="center-picture"></img>
             <p className='p1'>Welcome to Enstay, your home away from home!</p>
             <br></br>
             <p> Come stay at one of Enstay's many hospitable hotels so while you go on a fantastic vacation, 
