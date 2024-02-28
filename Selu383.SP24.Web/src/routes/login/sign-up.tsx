@@ -8,7 +8,7 @@ const SignUp = () => {
       <Header />
       <div className="row background-2">
         <h1 className="center">Account Creation</h1>
-        <div className="col-md-3"></div>
+        <div className="col-md-3 background-1"></div>
         <Col md={6}>
           <div className="text-center">
             <Form.Label htmlFor="inputUsername">Email</Form.Label>
@@ -34,7 +34,7 @@ const SignUp = () => {
             <Button variant="secondary background-1">Create Account</Button>
           </div>
         </Col>
-        <div className="col-md-3"></div>
+        <div className="col-md-3 background-1"></div>
       </div>
       <div className="pb-4"></div>
       <Footer />
