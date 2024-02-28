@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Header from "../../elements/NavigationBar.tsx"
 import Footer from "../../elements/footer.tsx";
 
