@@ -5,6 +5,7 @@ function Home() {
     return (
         <>
         <Header/>
+        {/* This is here to allow me to do a Rebase */}
         <img src={Hotelimg} alt="Nice exterior of hotel" className="center-picture"></img>
             <p className='p1'>Welcome to Enstay, your home away from home!</p>
             <br></br>
