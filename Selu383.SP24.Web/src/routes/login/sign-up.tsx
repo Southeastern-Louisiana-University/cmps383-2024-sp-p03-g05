@@ -1,33 +1,45 @@
-
-import Header from "../../elements/NavigationBar.tsx"
+import { Button, Form, Col } from "react-bootstrap";
+import Header from "../../elements/NavigationBar.tsx";
 import Footer from "../../elements/footer.tsx";
 
 const SignUp = () => {
-    return (
-        <>
-        <Header/>
+  return (
+    <>
+      <Header />
+      <div className="row background-2">
         <h1 className="center">Account Creation</h1>
-        <form> 
-            <p>
-                <label htmlFor="first">First Name =</label>
-                <input type="text" id="first" name="first" placeholder="First Name?"></input>
-            </p>
-            <p>
-                <label htmlFor="last">Last Name =</label>
-                <input type="text" id="last" name="last" placeholder="Last Name?"></input>
-            </p>
-            <p>
-                <label htmlFor="email">Email =</label>
-                <input type="text" id="email" name="email" placeholder="Email?"></input>
-            </p>
-            <p>
-                <input type="submit" value="Submit" className="signupbutton"></input>
-                
-            </p>
-        </form>
-        <Footer/>
+        <div className="col-md-3"></div>
+        <Col md={6}>
+          <div className="text-center">
+            <Form.Label htmlFor="inputUsername">Email</Form.Label>
+            <Form.Control type="text" id="inputUsername" className="text-center border border-dark" />
+          </div>
+          <br />
+          <div className="text-center">
+            <Form.Label htmlFor="inputPassword">Password</Form.Label>
+            <Form.Control type="password" id="inputPassword" className="text-center border border-dark" />
+          </div>
+          <br />
+          <div className="text-center">
+            <Form.Label htmlFor="inputFirstname">First Name</Form.Label>
+            <Form.Control type="text" id="inputFirstname" className="text-center border border-dark" />
+          </div>
+          <br />
+          <div className="text-center">
+            <Form.Label htmlFor="inputLastname">Last Name</Form.Label>
+            <Form.Control type="text" id="inputLastname" className="text-center border border-dark" />
+          </div>
+          <br />
+          <div className="text-center">
+            <Button variant="secondary background-1">Create Account</Button>
+          </div>
+        </Col>
+        <div className="col-md-3"></div>
+      </div>
+      <div className="pb-4"></div>
+      <Footer />
     </>
-    );
-  };
-  
-  export default SignUp;
+  );
+};
+
+export default SignUp;
