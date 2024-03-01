@@ -16,7 +16,7 @@ namespace Selu383.SP24.Api.Features.HotelServices;
         public User? User { get; set; }
         public int RoleId { get; set; }
         public UniversalStatus? RequestStatus { get; set; }
-        public int RequestStatusId { get; set; }
+        public string Status { get; set; } = string.Empty;
         public Room? Room { get; set; }
         public int RoomNumber { get; set; }
         public DateTime CreateDate { get; set; }
