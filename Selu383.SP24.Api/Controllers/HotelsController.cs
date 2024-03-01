@@ -55,6 +55,7 @@ public class HotelsController : ControllerBase
             Address = dto.Address,
             ManagerId = dto.ManagerId
         };
+
         hotels.Add(hotel);
 
         dataContext.SaveChanges();
