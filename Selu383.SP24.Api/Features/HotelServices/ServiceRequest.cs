@@ -13,12 +13,12 @@ namespace Selu383.SP24.Api.Features.HotelServices;
         public int Id { get; set; }
         public string Request { get; set; } = string.Empty;
         public int CreatorId { get; set; }
-        public User? User { get; set; }
         public int RoleId { get; set; }
+        public User? User { get; set; }
+        public int RequestStatusId { get; set; } 
         public UniversalStatus? RequestStatus { get; set; }
-        public string Status { get; set; } = string.Empty;
         public Room? Room { get; set; }
-        public int RoomNumber { get; set; }
+        public int RoomId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

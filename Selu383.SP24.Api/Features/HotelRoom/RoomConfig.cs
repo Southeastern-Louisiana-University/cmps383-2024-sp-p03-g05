@@ -12,16 +12,6 @@ namespace Selu383.SP24.Api.Features.HotelRoom
             builder.ToTable("Rooms"); 
 
             builder.HasKey(r => r.Id);
-
-            builder.HasOne(r => r.Hotel)
-                .WithMany()
-                .HasForeignKey(r => r.HotelId);
-
-            builder.HasOne(r => r.Package)
-                .WithMany();
-
-            builder.HasOne(r => r.UniversalStatus)
-                .WithMany();
         }
     }
 }

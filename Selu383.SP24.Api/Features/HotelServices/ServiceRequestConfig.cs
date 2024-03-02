@@ -9,9 +9,11 @@ namespace Selu383.SP24.Api.Features.HotelServices
         {
             builder.ToTable("ServiceRequests");
 
-            // Primary Key
             builder.HasKey(sr => sr.Id);
-  
+            builder.HasOne(sr => sr.RequestStatus)
+                .WithMany()
+                .HasForeignKey(sr => sr.RequestStatusId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 

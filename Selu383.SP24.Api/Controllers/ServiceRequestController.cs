@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Selu383.SP24.Api.Controllers;
 
-[Route("api/servicerequests")]
+[Route("api/servicerequest")]
 [ApiController]
 public class ServiceRequestController : ControllerBase
 {
@@ -32,41 +32,55 @@ public class ServiceRequestController : ControllerBase
     }
 
     [HttpGet("GetAllServiceRequest")]
-    public IEnumerable<ServiceRequestDTO> Get()
+    public IEnumerable<ServiceRequest> Get()
     {
         try
         {
             var serviceRequest = _context.ServiceRequests
                 .Include(sr => sr.RequestStatus)
                 .Include(sr => sr.User)
-                .Include(sr => sr.Room).ToList();
+                .Include(sr => sr.Room)
+                    .ThenInclude(r => r.Hotel)
+                .Include(sr => sr.Room)
+                    .ThenInclude(r => r.Package)
+                .Include(sr => sr.Room)
+                    .ThenInclude(r => r.RoomStatus)
+                 .ToList();
 
-            var serviceRequestDTO = _autoMapper.Map<List<ServiceRequestDTO>>(serviceRequest);
 
-            return(serviceRequestDTO);
+            return(serviceRequest);
 
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while processing the GetAllServiceRequest request.");
-            return Enumerable.Empty<ServiceRequestDTO>();
+            return Enumerable.Empty<ServiceRequest>();
         }
     }
     [HttpGet("GetServiceRequestByStatus")]
-    public async Task<ActionResult<ServiceRequestDTO>> GetServiceRequestByStatus(string status)
+    public async Task<ActionResult<ServiceRequest>> GetServiceRequestByStatus(string status)
     {
         try
         {
-            var serviceRequest = await _context.ServiceRequests.Where(sr => sr.Status == status).ToListAsync();
+            var serviceRequest = await _context.ServiceRequests
+                .Where(sr => sr.RequestStatus.Status == status)
+                 .Include(sr => sr.RequestStatus)
+                 .Include(sr => sr.User)
+                 .Include(sr => sr.Room)
+                     .ThenInclude(r => r.Hotel)
+                 .Include(sr => sr.Room)
+                     .ThenInclude(r => r.Package)
+                 .Include(sr => sr.Room)
+                     .ThenInclude(r => r.RoomStatus)
+                  .ToListAsync();
 
-            if(serviceRequest.Count == 0)
+            if (serviceRequest == null)
             {
                 return NotFound($"There are no service requests with the status '{status}' ");
             }
 
-            var serviceRequestDTO = _autoMapper.Map<List<ServiceRequestDTO>>(serviceRequest);
 
-            return Ok(serviceRequestDTO);
+            return Ok(serviceRequest);
         }
         catch (Exception ex)
         {
@@ -77,7 +91,7 @@ public class ServiceRequestController : ControllerBase
     }
 
     [HttpGet("GetServiceRequestById")]
-    public async Task<ActionResult<ServiceRequestDTO>> Get(int id)
+    public async Task<ActionResult<ServiceRequest>> Get(int id)
     {
         try
         {
@@ -85,16 +99,20 @@ public class ServiceRequestController : ControllerBase
                  .Include(sr => sr.RequestStatus)
                  .Include(sr => sr.User)
                  .Include(sr => sr.Room)
-                 .FirstOrDefaultAsync(sr => sr.Id == id);
+                     .ThenInclude(r => r.Hotel)
+                 .Include(sr => sr.Room)
+                     .ThenInclude(r => r.Package)
+                 .Include(sr => sr.Room)
+                     .ThenInclude(r => r.RoomStatus)
+                  .FirstOrDefaultAsync(sr => sr.Id == id);
 
             if (serviceRequest == null)
             {
                 return NotFound("Service request was not found");
             }
 
-            var serviceRequestDTO = _autoMapper.Map<ServiceRequestDTO>(serviceRequest);
 
-            return Ok(serviceRequestDTO);
+            return Ok(serviceRequest);
         }
         catch (Exception ex)
         {
@@ -119,9 +137,9 @@ public class ServiceRequestController : ControllerBase
             var request = new ServiceRequest
             {
                 Request = serviceRequestDTO.Request,
-                RoomNumber = serviceRequestDTO.RoomNumber,
+                RoomId = serviceRequestDTO.RoomId,
                 CreatorId = user.Id,
-                Status = requestStatus.Status,
+                RequestStatusId = requestStatus.Id,
                 CreateDate = DateTime.Now,
             };
 
@@ -159,7 +177,7 @@ public class ServiceRequestController : ControllerBase
             }
 
             serviceRequest.StartDate = DateTime.Now;
-            serviceRequest.Status = requestStatus.Status;
+            serviceRequest.RequestStatusId = requestStatus.Id;
 
             _context.ServiceRequests.Update(serviceRequest);
 
@@ -195,7 +213,7 @@ public class ServiceRequestController : ControllerBase
             }
 
             serviceRequest.EndDate = DateTime.Now;
-            serviceRequest.Status = requestStatus.Status;
+            serviceRequest.RequestStatusId = requestStatus.Id;
 
             _context.ServiceRequests.Update(serviceRequest);
             await _context.SaveChangesAsync();
@@ -230,7 +248,7 @@ public class ServiceRequestController : ControllerBase
             }
 
             serviceRequest.EndDate = DateTime.Now;
-            serviceRequest.Status = requestStatus.Status;
+            serviceRequest.RequestStatusId = requestStatus.Id;
 
             _context.ServiceRequests.Update(serviceRequest);
             await _context.SaveChangesAsync();
@@ -258,7 +276,7 @@ public class ServiceRequestController : ControllerBase
                 return NotFound("Service request not found");
             }
 
-            serviceRequest.RoomNumber = serviceRequestDTO.RoomNumber;
+            serviceRequest.RoomId = serviceRequestDTO.RoomId;
             serviceRequest.Request = serviceRequestDTO.Request;
 
             _context.ServiceRequests.Update(serviceRequest);

@@ -11,9 +11,6 @@ namespace Selu383.SP24.Api.Features.HotelRoom
 
             builder.HasKey(rp => rp.Id);
 
-            builder.Property(rp => rp.Description)
-                .IsRequired()
-                .HasMaxLength(255); 
         }
     }
 }
