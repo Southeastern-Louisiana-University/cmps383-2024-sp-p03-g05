@@ -25,3 +25,11 @@ public class RoomDTO
     public int RoomNumber { get; set; }
     public int RoomStatusId { get; set; } 
 }
+
+public class CreateRoomDTO
+{
+    public int HotelId { get; set; }
+    public int PackageId { get; set; }
+    public double Price { get; set; }
+    public int RoomNumber { get; set;}
+}
