@@ -6,8 +6,8 @@ import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 
-function review(author: string, comment: string, image: string){
-    return(
+function review(author: string, comment: string, image: string) {
+    return (
         <>
             <h1>Hello World</h1>
         </>
@@ -32,7 +32,7 @@ function Home() {
                 <br />
                 <div className="row">
                     <div className="col-1"></div>
-                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height:"60vh"}}>
+                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "60vh" }}>
                         <br />
                         <h3>Destination : </h3>
                         <Form.Select size="lg" aria-label="Default select example">
@@ -41,11 +41,11 @@ function Home() {
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </Form.Select>
-                        <br/>
+                        <br />
                         <div className="row">
                             <div className="col-1"></div>
                             <div className="col-4">
-                            <h4>Check In</h4>
+                                <h4>Check In</h4>
                                 <Form.Control type="date" />
 
                             </div>
@@ -62,7 +62,7 @@ function Home() {
                             </div>
                             <div className="col-1"></div>
                         </div>
-                     
+
                     </div>
                     <div className="col-1"></div>
 
@@ -88,32 +88,32 @@ function Home() {
                     <div className="col-1"></div>
                     <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)' }}>
                         <div className="row">
-                        <div className="col-1">
-                            <h1>Comment Here</h1>
-                        </div>
-                        <div className="col-1"></div>
-                        <div className="col-1">
-                        <h1>Comment Here</h1>
-                        </div>
-                        <div className="col-1"></div>
-                        <div className="col-1">
-                        <h1>Comment Here</h1>
-                        </div>
-                        <div className="col-2"></div>
-                        <div className="col-1">
-                        <h1>Comment Here</h1>
-                        </div>
-                        <div className="col-1"></div>
-                        <div className="col-1">
-                        <h1>Comment Here</h1>
-                        </div>
-                        <div className="col-1"></div>
-                        <div className="col-1">
-                        <h1>Comment Here</h1>
-                        </div>
+                            <div className="col-1">
+                                <h1>Comment Here</h1>
+                            </div>
+                            <div className="col-1"></div>
+                            <div className="col-1">
+                                <h1>Comment Here</h1>
+                            </div>
+                            <div className="col-1"></div>
+                            <div className="col-1">
+                                <h1>Comment Here</h1>
+                            </div>
+                            <div className="col-2"></div>
+                            <div className="col-1">
+                                <h1>Comment Here</h1>
+                            </div>
+                            <div className="col-1"></div>
+                            <div className="col-1">
+                                <h1>Comment Here</h1>
+                            </div>
+                            <div className="col-1"></div>
+                            <div className="col-1">
+                                <h1>Comment Here</h1>
+                            </div>
                         </div>
 
-                     
+
                     </div>
                     <div className="col-1"></div>
 
