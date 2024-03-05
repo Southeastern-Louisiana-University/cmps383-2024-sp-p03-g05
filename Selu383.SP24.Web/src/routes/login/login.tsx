@@ -1,12 +1,10 @@
 import { Button, Form } from "react-bootstrap";
-import Header from "../../elements/NavigationBar.tsx";
 import Footer from "../../elements/footer.tsx";
 import { Link } from "react-router-dom";
 
 export default function login() {
   return (
     <>
-      <Header />
       <div className="row background-2">
         <div className="col-1 background-1"></div>
         <div className="col-5">

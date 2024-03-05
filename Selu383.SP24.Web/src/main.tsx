@@ -16,22 +16,27 @@ import ErrorPage from "./error-page";
 import SignUp from './routes/login/sign-up.tsx';
 import Home from './routes/home.tsx';
 import Login from './routes/login/login.tsx';
+import Header from "./elements/NavigationBar.tsx"
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>,
-    errorElement: <ErrorPage/>
-  },{
-    path:"/login",
-    element:<Login/>,
-    errorElement:<ErrorPage/>
-  },{
-    path:"/login/signup",
-    element:<SignUp/>,
-    errorElement:<ErrorPage/>
-  }
+    errorElement: <ErrorPage />,
+    element: <Header/>,
+    children: [
+    {
+      path: "/",
+      element: <Home />,
+    }, {
+      path: "/login",
+      element: <Login />,
+    }, {
+      path: "/login/signup",
+      element: <SignUp />,
+    },
+  ],
+  },
 ]);
 
 
