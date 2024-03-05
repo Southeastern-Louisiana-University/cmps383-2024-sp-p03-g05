@@ -30,9 +30,9 @@ function Home() {
                         <h3>Destination : </h3>
                         <Form.Select size="lg" aria-label="Default select example">
                             <option>Where do you want to get away to?</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="2">Hammond, LA &nbsp; - &nbsp; Courtyard by EnStay </option>
+                            <option value="1">New Orleans, LA &nbsp; - &nbsp; Enstay New Orleans Riverside    </option>
+                            <option value="3">New Orleans, LA &nbsp; - &nbsp; EnStay Regency</option>
                         </Form.Select>
                         <br />
                         <div className="row">
