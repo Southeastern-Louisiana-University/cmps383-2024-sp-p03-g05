@@ -6,13 +6,6 @@ import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 
-function review(author: string, comment: string, image: string) {
-    return (
-        <>
-            <h1>Hello World</h1>
-        </>
-    )
-}
 
 function Home() {
 
@@ -79,47 +72,72 @@ function Home() {
 
             <div style={{
                 backgroundImage: `url(${beach})`,
-                height: "60vh",
-                fontSize: "50px",
+                height: "80vh",
+                // fontSize: "50px",
                 backgroundRepeat: "no-repeat",
             }}>
                 <br />
-                <div className="row">
-                    <div className="col-1"></div>
-                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)' }}>
-                        <div className="row">
-                            <div className="col-1">
-                                <h1>Comment Here</h1>
-                            </div>
-                            <div className="col-1"></div>
-                            <div className="col-1">
-                                <h1>Comment Here</h1>
-                            </div>
-                            <div className="col-1"></div>
-                            <div className="col-1">
-                                <h1>Comment Here</h1>
-                            </div>
-                            <div className="col-2"></div>
-                            <div className="col-1">
-                                <h1>Comment Here</h1>
-                            </div>
-                            <div className="col-1"></div>
-                            <div className="col-1">
-                                <h1>Comment Here</h1>
-                            </div>
-                            <div className="col-1"></div>
-                            <div className="col-1">
-                                <h1>Comment Here</h1>
-                            </div>
+
+                <div className="" style={{ backgroundColor: 'rgba(255,255,255,.45)' }}>
+                    <div className="row">
+                        <div className="col-1"></div>
+
+                        <div className="col-2">
+                            <table>
+                                <tr>
+                                    <td><h3>We have Info</h3></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://loremflickr.com/250/300" /></td>
+                                </tr>
+                                <tr>
+                                    <td><p>hello I say words and more works with stuff and more stuff</p></td>
+                                </tr>
+                            </table>
                         </div>
+                        <div className="col-2"></div>
 
+                        <div className="col-2">
+                            <table>
+                                <tr>
+                                    <td><h3>We have Info</h3></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://loremflickr.com/250/300" /></td>
+                                </tr>
+                                <tr>
+                                    <td><p>hello I say words and more works with stuff and more stuff</p></td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div className="col-2"></div>
 
+                        <div className="col-2">
+                            <table>
+                                <tr>
+                                    <td><h3>We have Info</h3></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://loremflickr.com/250/300" /></td>
+                                </tr>
+                                <tr>
+                                    <td><p>hello I say words and more works with stuff and more stuff</p></td>
+                                </tr>
+                            </table>
+                            
+                        </div>
+                        <div className="col-1">
+                            {/* <h1>Comment Here</h1> */}
+                        </div>
                     </div>
-                    <div className="col-1"></div>
+
 
                 </div>
-            </div>
 
+</div>
+
+            
             <Footer />
         </>
     )
