@@ -14,8 +14,8 @@ function Home() {
 
             {/* This is here to allow me to do a Rebase */}
 
-
-            <div style={{
+        
+            <div className="" style={{
                 backgroundImage: `url(${lawn})`,
                 height: "90vh",
                 fontSize: "50px",
@@ -23,6 +23,7 @@ function Home() {
                 backgroundRepeat: "no-repeat",
             }}>
                 <br />
+                <div className="container">
                 <div className="row">
                     <div className="col-1"></div>
                     <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "60vh" }}>
@@ -60,6 +61,8 @@ function Home() {
                     <div className="col-1"></div>
 
                 </div>
+                </div>
+                
             </div>
 
 
@@ -78,7 +81,7 @@ function Home() {
             }}>
                 <br />
 
-                <div className="" style={{ backgroundColor: 'rgba(255,255,255,.45)' }}>
+                <div className="container" style={{ backgroundColor: 'rgba(255,255,255,.45)' }}>
                     <div className="row">
                         <div className="col-1"></div>
 
