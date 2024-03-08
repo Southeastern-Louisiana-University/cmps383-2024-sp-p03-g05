@@ -3,12 +3,9 @@ import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
 import mountain from "../../assets/mountain-hole.jpg"
 import { Button } from "react-bootstrap";
+import { HotelDto } from "../../features/hotels/HotelDto";
 
-interface HotelDto {
-    id: number;
-    name: string;
-    address: string;
-}
+
 
 function hotels() {
     const [hotels, setHotels] = useState<HotelDto[]>([]);
@@ -77,7 +74,4 @@ function hotels() {
     );
 }
 
-function hotel() {
-
-}
 export default hotels;
