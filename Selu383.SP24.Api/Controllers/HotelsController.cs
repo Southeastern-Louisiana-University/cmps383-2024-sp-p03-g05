@@ -35,6 +35,7 @@ public class HotelsController : ControllerBase
         return Ok(result);
     }
 
+
     [HttpGet]
     [Route("{id}")]
     public ActionResult<HotelDto> GetHotelById(int id)
