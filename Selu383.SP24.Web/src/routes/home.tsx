@@ -17,7 +17,7 @@ function Home() {
         
             <div className="" style={{
                 backgroundImage: `url(${lawn})`,
-                height: "90vh",
+                height: "70vh",
                 fontSize: "50px",
 
                 backgroundRepeat: "no-repeat",
@@ -26,37 +26,19 @@ function Home() {
                 <div className="container">
                 <div className="row">
                     <div className="col-1"></div>
-                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "70vh" }}>
+                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "30vh" }}>
                         <br />
-                        <h3>Destination : </h3>
-                        <Form.Select size="lg" aria-label="Default select example">
-                            <option>Where do you want to get away to?</option>
-                            <option value="2">Hammond, LA &nbsp; - &nbsp; Courtyard by EnStay </option>
-                            <option value="1">New Orleans, LA &nbsp; - &nbsp; Enstay New Orleans Riverside    </option>
-                            <option value="3">New Orleans, LA &nbsp; - &nbsp; EnStay Regency</option>
-                        </Form.Select>
+                        <Form className="d-flex">
+                            <Form.Control
+                                type="search"
+                                placeholder="Search for a Hotel or City"
+                                className="me-2"
+                                aria-label="Search"
+                            />
+                            <Button variant="success">Find my Paradise</Button>
+                        </Form>
                         <br />
-                        <div className="row">
-                            <div className="col-1"></div>
-                            <div className="col-4">
-                                <h4>Check In</h4>
-                                <Form.Control type="date" />
-
-                            </div>
-                            <div className="col-2">
-                                <br />
-                                <center>
-                                    <Button variant="secondary background-1">Plan my Paradise</Button>{" "}
-                                </center>
-                            </div>
-                            <div className="col-4">
-                                <h4>Check Out</h4>
-                                <Form.Control type="date" />
-
-                            </div>
-                            <div className="col-1"></div>
-                        </div>
-
+                        
                     </div>
                     <div className="col-1"></div>
 
