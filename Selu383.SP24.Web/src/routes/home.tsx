@@ -26,7 +26,7 @@ function Home() {
                 <div className="container">
                 <div className="row">
                     <div className="col-1"></div>
-                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "60vh" }}>
+                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "70vh" }}>
                         <br />
                         <h3>Destination : </h3>
                         <Form.Select size="lg" aria-label="Default select example">
