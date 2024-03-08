@@ -1,4 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP24.Api.Data;
@@ -12,26 +14,32 @@ namespace Selu383.SP24.Api.Controllers;
 [ApiController]
 public class HotelsController : ControllerBase
 {
-    private readonly DbSet<Hotel> hotels;
-    private readonly DataContext dataContext;
+    private readonly DataContext _context;
+    private readonly UserManager<User> _userManager;
+    private readonly ILogger<ServiceRequestController> _logger;
+    private readonly IMapper _autoMapper;
 
-    public HotelsController(DataContext dataContext)
+    public HotelsController(DataContext dataContext, UserManager<User> userManager, ILogger<ServiceRequestController> logger, IMapper mapper)
     {
-        this.dataContext = dataContext;
-        hotels = dataContext.Set<Hotel>();
+        this._context = dataContext;
+        _userManager = userManager;
+        _logger = logger;
+        _autoMapper = mapper;
     }
 
     [HttpGet]
-    public IQueryable<HotelDto> GetAllHotels()
+    public IEnumerable<HotelDto> GetAllHotels()
     {
-        return GetHotelDtos(hotels);
+       var result = _context.Hotels.ToList();
+
+       return (IEnumerable<HotelDto>)result;
     }
 
     [HttpGet]
     [Route("{id}")]
     public ActionResult<HotelDto> GetHotelById(int id)
     {
-        var result = GetHotelDtos(hotels.Where(x => x.Id == id)).FirstOrDefault();
+        var result = _context.Hotels.FirstOrDefault(h => h.Id == id);
         if (result == null)
         {
             return NotFound();
@@ -44,20 +52,16 @@ public class HotelsController : ControllerBase
     [Authorize(Roles = RoleNames.Admin)]
     public ActionResult<HotelDto> CreateHotel(HotelDto dto)
     {
-        if (IsInvalid(dto))
-        {
-            return BadRequest();
-        }
-
         var hotel = new Hotel
         {
             Name = dto.Name,
             Address = dto.Address,
             ManagerId = dto.ManagerId
         };
-        hotels.Add(hotel);
 
-        dataContext.SaveChanges();
+        _context.Hotels.Add(hotel);
+
+        _context.SaveChanges();
 
         dto.Id = hotel.Id;
 
@@ -69,12 +73,9 @@ public class HotelsController : ControllerBase
     [Authorize]
     public ActionResult<HotelDto> UpdateHotel(int id, HotelDto dto)
     {
-        if (IsInvalid(dto))
-        {
-            return BadRequest();
-        }
+        
 
-        var hotel = hotels.FirstOrDefault(x => x.Id == id);
+        var hotel = _context.Hotels.FirstOrDefault(x => x.Id == id);
         if (hotel == null)
         {
             return NotFound();
@@ -92,7 +93,7 @@ public class HotelsController : ControllerBase
             hotel.ManagerId = dto.ManagerId;
         }
 
-        dataContext.SaveChanges();
+        _context.SaveChanges();
 
         dto.Id = hotel.Id;
 
@@ -104,7 +105,7 @@ public class HotelsController : ControllerBase
     [Authorize]
     public ActionResult DeleteHotel(int id)
     {
-        var hotel = hotels.FirstOrDefault(x => x.Id == id);
+        var hotel = _context.Hotels.FirstOrDefault(x => x.Id == id);
         if (hotel == null)
         {
             return NotFound();
@@ -115,45 +116,26 @@ public class HotelsController : ControllerBase
             return Forbid();
         }
 
-        hotels.Remove(hotel);
+        _context.Hotels.Remove(hotel);
 
-        dataContext.SaveChanges();
+        _context.SaveChanges();
 
         return Ok();
     }
 
-    private bool InvalidManagerId(int? managerId)
+    [HttpGet("SearchForHotel")]
+    public IActionResult Search(string searchTerm)
     {
-        if (managerId == null)
+        if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            return false;
+            return BadRequest("Search term cannot be empty.");
         }
 
-        if (!User.IsInRole(RoleNames.Admin))
-        {
-            // only admins can change manager ids anyway
-            return false;
-        }
-        return !dataContext.Set<User>().Any(x => x.Id == managerId);
+        var result = _context.Hotels
+            .Where(h => EF.Functions.Like(h.Name, $"%{searchTerm}%") || EF.Functions.Like(h.Address, $"%{searchTerm}%"))
+            .ToList();
+
+        return Ok(result);
     }
 
-    private bool IsInvalid(HotelDto dto)
-    {
-        return string.IsNullOrWhiteSpace(dto.Name) ||
-               dto.Name.Length > 120 ||
-               string.IsNullOrWhiteSpace(dto.Address) ||
-               InvalidManagerId(dto.ManagerId);
-    }
-
-    private static IQueryable<HotelDto> GetHotelDtos(IQueryable<Hotel> hotels)
-    {
-        return hotels
-            .Select(x => new HotelDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Address = x.Address,
-                ManagerId = x.ManagerId
-            });
-    }
 }

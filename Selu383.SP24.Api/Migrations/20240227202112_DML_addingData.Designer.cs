@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Selu383.SP24.Api.Data;
 
@@ -11,9 +12,11 @@ using Selu383.SP24.Api.Data;
 namespace Selu383.SP24.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240227202112_DML_addingData")]
+    partial class DML_addingData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,45 +226,6 @@ namespace Selu383.SP24.Api.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Selu383.SP24.Api.Features.HotelReservations.Reservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("RoomId");
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Reservations", (string)null);
-                });
-
             modelBuilder.Entity("Selu383.SP24.Api.Features.HotelRoom.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -282,7 +246,11 @@ namespace Selu383.SP24.Api.Migrations
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomStatusId")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UniversalStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -291,7 +259,7 @@ namespace Selu383.SP24.Api.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.HasIndex("RoomStatusId");
+                    b.HasIndex("UniversalStatusId");
 
                     b.ToTable("Rooms", (string)null);
                 });
@@ -306,7 +274,8 @@ namespace Selu383.SP24.Api.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -340,7 +309,10 @@ namespace Selu383.SP24.Api.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -401,7 +373,7 @@ namespace Selu383.SP24.Api.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -459,41 +431,6 @@ namespace Selu383.SP24.Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Selu383.SP24.Api.Features.HotelReservations.Reservation", b =>
-                {
-                    b.HasOne("Selu383.SP24.Api.Features.Authorization.User", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Selu383.SP24.Api.Features.Hotels.Hotel", "Hotel")
-                        .WithMany()
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Selu383.SP24.Api.Features.HotelRoom.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Selu383.SP24.Api.Features.HotelServices.UniversalStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Guest");
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("Room");
-
-                    b.Navigation("Status");
-                });
-
             modelBuilder.Entity("Selu383.SP24.Api.Features.HotelRoom.Room", b =>
                 {
                     b.HasOne("Selu383.SP24.Api.Features.Hotels.Hotel", "Hotel")
@@ -508,17 +445,15 @@ namespace Selu383.SP24.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Selu383.SP24.Api.Features.HotelServices.UniversalStatus", "RoomStatus")
+                    b.HasOne("Selu383.SP24.Api.Features.HotelServices.UniversalStatus", "UniversalStatus")
                         .WithMany()
-                        .HasForeignKey("RoomStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UniversalStatusId");
 
                     b.Navigation("Hotel");
 
                     b.Navigation("Package");
 
-                    b.Navigation("RoomStatus");
+                    b.Navigation("UniversalStatus");
                 });
 
             modelBuilder.Entity("Selu383.SP24.Api.Features.HotelServices.ServiceRequest", b =>
@@ -526,14 +461,12 @@ namespace Selu383.SP24.Api.Migrations
                     b.HasOne("Selu383.SP24.Api.Features.HotelServices.UniversalStatus", "RequestStatus")
                         .WithMany()
                         .HasForeignKey("RequestStatusId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Selu383.SP24.Api.Features.HotelRoom.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.HasOne("Selu383.SP24.Api.Features.Authorization.User", "User")
                         .WithMany()
