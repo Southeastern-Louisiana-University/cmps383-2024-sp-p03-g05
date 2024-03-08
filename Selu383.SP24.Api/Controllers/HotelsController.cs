@@ -28,12 +28,13 @@ public class HotelsController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<HotelDto> GetAllHotels()
+    public ActionResult<Hotel> GetAllHotels()
     {
-       var result = _context.Hotels.ToList();
+        var result = _context.Hotels.ToList();
 
-       return (IEnumerable<HotelDto>)result;
+        return Ok(result);
     }
+
 
     [HttpGet]
     [Route("{id}")]
