@@ -5,16 +5,19 @@ import lawn from "../assets/chairs_with_grass.jpg"
 import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 
 function Home() {
+    const [searchTerm, setSearchTerm] = useState("");
 
     return (
         <>
 
             {/* This is here to allow me to do a Rebase */}
 
-        
+
             <div className="" style={{
                 backgroundImage: `url(${lawn})`,
                 height: "70vh",
@@ -24,27 +27,39 @@ function Home() {
             }}>
                 <br />
                 <div className="container">
-                <div className="row">
-                    <div className="col-1"></div>
-                    <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "30vh" }}>
-                        <br />
-                        <Form className="d-flex">
-                            <Form.Control
-                                type="search"
-                                placeholder="Search for a Hotel or City"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="success">Find my Paradise</Button>
-                        </Form>
-                        <br />
-                        
-                    </div>
-                    <div className="col-1"></div>
+                    <div className="row">
+                        <div className="col-1"></div>
+                        <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "30vh" }}>
+                            <br />
+                            <Form className="d-flex" >
+                                <Form.Control
+                                    type="search"
+                                    placeholder="Search for a Hotel or City"
+                                    className="me-2"
+                                    aria-label="Search"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value ?? "")}
+                                />
 
+
+
+                                <Link
+                                    onClick={(e) => (!searchTerm ? e.preventDefault() : null)}
+                                    to={`/hotel-search?searchTerm=${encodeURIComponent(searchTerm)}`}
+                                    aria-disabled={!searchTerm}
+                                >
+                                    <Button variant="success">Find my Paradise</Button>
+                                </Link>
+
+                            </Form>
+                            <br />
+
+                        </div>
+                        <div className="col-1"></div>
+
+                    </div>
                 </div>
-                </div>
-                
+
             </div>
 
 
@@ -95,7 +110,7 @@ function Home() {
                                 </tr>
                             </table>
                         </div>
-                        
+
                         <div className="col-2"></div>
 
                         <div className="col-2">
@@ -110,7 +125,7 @@ function Home() {
                                     <td><p>hello I say words and more works with stuff and more stuff</p></td>
                                 </tr>
                             </table>
-                            
+
                         </div>
                         <div className="col-1">
                             {/* <h1>Comment Here</h1> */}
@@ -120,9 +135,9 @@ function Home() {
 
                 </div>
 
-</div>
+            </div>
 
-            
+
             <Footer />
         </>
     )
