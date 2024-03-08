@@ -18,6 +18,7 @@ import Home from './routes/home.tsx';
 import Login from './routes/login/login.tsx';
 import Header from "./elements/NavigationBar.tsx"
 import Hotels  from './routes/hotel/index.tsx';
+import FindHotel from './routes/hotel/search.tsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,9 @@ const router = createBrowserRouter([
       path: "/hotels",
       element: <Hotels />,
     },{
+      path: "/hotel-search",
+      element: <FindHotel />,
+    },{
       path: "/login",
       element: <Login />,
     }, {
@@ -44,7 +48,7 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  ,
 )
