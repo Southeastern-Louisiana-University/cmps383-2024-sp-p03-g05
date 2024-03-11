@@ -29,8 +29,9 @@ function Home() {
                 <div className="container">
                     <div className="row">
                         <div className="col-1"></div>
-                        <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "30vh" }}>
+                        <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "40vh" }}>
                             <br />
+                            <h3>Let's plan your next Destination : </h3>
                             <Form className="d-flex" >
                                 <Form.Control
                                     type="search"
@@ -48,7 +49,7 @@ function Home() {
                                     to={`/hotel-search?searchTerm=${encodeURIComponent(searchTerm)}`}
                                     aria-disabled={!searchTerm}
                                 >
-                                    <Button variant="success">Find my Paradise</Button>
+                                    <Button variant="success">Find my Hotel</Button>
                                 </Link>
 
                             </Form>

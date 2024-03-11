@@ -58,7 +58,7 @@ export default function FindHotel() {
                                     to={`/hotel-search?searchTerm=${encodeURIComponent(getSearchTerm)}`}
                                     aria-disabled={!getSearchTerm}
                                 >
-                                    <Button variant="success">Find my Paradise</Button>
+                                    <Button variant="success">Find my Hotel</Button>
                                 </Link>
 
                             </Form>
