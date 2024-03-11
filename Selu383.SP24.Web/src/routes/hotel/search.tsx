@@ -98,15 +98,7 @@ export default function FindHotel() {
                 </div>
             </div>
 
-
-
             <Footer />
-
-            <br />
-            <div>
-                <p>{searchTerm}</p>
-                <div>Found these hotels</div>
-            </div>
         </>
 
     );
