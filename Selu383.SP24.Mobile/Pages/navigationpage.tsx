@@ -1,9 +1,9 @@
-import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './Home';
 import AboutPage from './About';
 import { StatusBar } from "expo-status-bar";
+
 
 
 const Drawer = createDrawerNavigator();
