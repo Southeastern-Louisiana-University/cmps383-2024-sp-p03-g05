@@ -1,14 +1,21 @@
-import { View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
+import SearchBar from './SearchBar';
 
 export default function Home({ navigation }) {
  return (    
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+  enabled={Platform.OS === 'ios' || Platform.OS === 'android'}
+    >
   <View style={styles.container}>
   <View style={styles.imageContainer}>
   <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.image} />
   </View>
   <Text style={styles.text}>Welcome To The EnStay App</Text>
-  <TextInput style={styles.searchbar} placeholder="Look For A Hotel"/>
+  <SearchBar navigation={undefined}/>
   </View>
+  </KeyboardAvoidingView>
  );
 };
 
@@ -38,14 +45,5 @@ const styles = StyleSheet.create({
  },
  text: {
   fontSize: 20,
- },
- searchbar: {
-  textAlign: 'center',
-  fontSize: 20,
-  backgroundColor: 'white', // Set white background
-  borderRadius: 25, // Adjust the borderRadius to make it round
-  padding: 10, // Add some padding for better appearance
-  marginLeft: 10,
-  width: "90%",
- },
+ }
 });

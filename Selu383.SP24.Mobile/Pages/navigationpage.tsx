@@ -4,6 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './Home';
 import AboutPage from './About';
 import HotelList from './HotelList';
+import CreateAccount from './CreateAccount';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,6 +15,7 @@ export default function NavigationPage() {
   <Drawer.Screen name="Home" component={Home}/>
   {/* <Drawer.Screen name="Booking" component={Home}/> */}
   <Drawer.Screen name="Hotels" component={HotelList}/>
+  <Drawer.Screen name="Create Account" component={CreateAccount}/>
   {/* <Drawer.Screen name="Settings" component={Home}/> */}
   <Drawer.Screen name="About" component={AboutPage} />
   </Drawer.Navigator>
