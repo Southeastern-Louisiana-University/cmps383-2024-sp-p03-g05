@@ -55,7 +55,7 @@ export default function FindHotel() {
                                 />
                                 <Link
                                     onClick={(e) => (!getSearchTerm ? e.preventDefault() : null)}
-                                    to={`/hotel-search?searchTerm=${encodeURIComponent(getSearchTerm)}`}
+                                    to={`/hotels/search?searchTerm=${encodeURIComponent(getSearchTerm)}`}
                                     aria-disabled={!getSearchTerm}
                                 >
                                     <Button variant="success">Find my Hotel</Button>

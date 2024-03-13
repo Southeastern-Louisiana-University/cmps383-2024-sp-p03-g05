@@ -46,7 +46,7 @@ function Home() {
 
                                 <Link
                                     onClick={(e) => (!searchTerm ? e.preventDefault() : null)}
-                                    to={`/hotel-search?searchTerm=${encodeURIComponent(searchTerm)}`}
+                                    to={`/hotels/search?searchTerm=${encodeURIComponent(searchTerm)}`}
                                     aria-disabled={!searchTerm}
                                 >
                                     <Button variant="success">Find my Hotel</Button>
