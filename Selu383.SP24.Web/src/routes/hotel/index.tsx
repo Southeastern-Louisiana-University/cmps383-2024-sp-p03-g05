@@ -46,7 +46,7 @@ function hotels() {
                                         </div>
                                         <div className="col-2">
                                             <br />
-                                            <Link to={`/hotel-details/${hotel.id}`}>
+                                            <Link to={`/hotels/details/${hotel.id}`}>
                                                 <Button variant="secondary background-1">Book a Reservation</Button>{" "}
                                             </Link>
                                         </div>

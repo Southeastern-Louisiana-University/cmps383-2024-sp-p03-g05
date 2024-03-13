@@ -39,21 +39,24 @@ export default function hotelDetails() {
                             <>
                                 <br />
                                 <div className="container">
-                                    <div className="row" style={{ backgroundColor: 'rgba(255,255,255,.95)' }}>
+                                    <div className="row" style={{ backgroundColor: 'rgba(255,255,255,.80)' }}>
                                         <div className="col-1"></div>
-                                        <div className="col-8">
+
+
+
+                                        <div className="col-10">
                                             <div >
                                                 <br />
-                                                <h2>{hotel?.name}</h2>
-                                                <p>{hotel?.address}</p>
+                                                <center><h1> Welcome to {hotel?.name}</h1>
+                                                <h3>located at {hotel?.address}</h3>
+                                                <p>Please Enjoy your Stay</p></center>
+                                                
                                             </div>
                                         </div>
-                                        <div className="col-2">
-                                            <br />
-                                            <Link to={`/hotel-details/${hotel?.id}`}>
-                                                <Button variant="secondary background-1">Book a Reservation</Button>{" "}
-                                            </Link>
-                                        </div>
+                                        
+
+
+
                                         <div className="col-1"></div>
                                     </div>
                                 </div>
