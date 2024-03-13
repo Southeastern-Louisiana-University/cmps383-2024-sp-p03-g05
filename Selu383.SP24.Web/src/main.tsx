@@ -1,5 +1,4 @@
 // Importing React Stuff //
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -16,27 +15,39 @@ import ErrorPage from "./error-page";
 import SignUp from './routes/login/sign-up.tsx';
 import Home from './routes/home.tsx';
 import Login from './routes/login/login.tsx';
-
+import Header from "./elements/NavigationBar.tsx"
+import Hotels  from './routes/hotel/index.tsx';
+import FindHotel from './routes/hotel/search.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>,
-    errorElement: <ErrorPage/>
-  },{
-    path:"/login",
-    element:<Login/>,
-    errorElement:<ErrorPage/>
-  },{
-    path:"/login/signup",
-    element:<SignUp/>,
-    errorElement:<ErrorPage/>
-  }
+    errorElement: <ErrorPage />,
+    element: <Header/>,
+    children: [
+    {
+      path: "/",
+      element: <Home />,
+    }, {
+      path: "/hotels",
+      element: <Hotels />,
+    },{
+      path: "/hotels/search",
+      element: <FindHotel />,
+    },{
+      path: "/login",
+      element: <Login />,
+    }, {
+      path: "/login/signup",
+      element: <SignUp />,
+    },
+  ],
+  },
 ]);
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  ,
 )

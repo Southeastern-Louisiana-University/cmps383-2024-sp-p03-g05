@@ -1,11 +1,9 @@
 import { Button, Form, Col } from "react-bootstrap";
-import Header from "../../elements/NavigationBar.tsx";
 import Footer from "../../elements/footer.tsx";
 
 const SignUp = () => {
   return (
     <>
-      <Header />
       <div className="row background-2">
         <div className="col-md-1 background-1"></div>
         <div className="col-md-2 background-2"></div>
