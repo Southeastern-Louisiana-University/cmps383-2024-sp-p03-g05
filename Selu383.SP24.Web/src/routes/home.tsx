@@ -1,6 +1,5 @@
 
 import Footer from "../elements/footer.tsx"
-import Hotelimg from '../assets/Enstay-Hotel1.jpg'
 import lawn from "../assets/chairs_with_grass.jpg"
 import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
