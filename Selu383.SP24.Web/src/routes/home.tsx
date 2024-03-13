@@ -1,4 +1,3 @@
-
 import Footer from "../elements/footer.tsx"
 import lawn from "../assets/chairs_with_grass.jpg"
 import beach from "../assets/beach-sunset.jpg"
@@ -21,8 +20,9 @@ function Home() {
                 backgroundImage: `url(${lawn})`,
                 height: "70vh",
                 fontSize: "50px",
-
                 backgroundRepeat: "no-repeat",
+                backgroundSize: "cover", // Add this line
+                backgroundAttachment: "fixed", // Add this line
             }}>
                 <br />
                 <div className="container">
@@ -75,6 +75,8 @@ function Home() {
                 height: "80vh",
                 // fontSize: "50px",
                 backgroundRepeat: "no-repeat",
+                backgroundSize: "cover", // Add this line
+                backgroundAttachment: "fixed", // Add this line
             }}>
                 <br />
 
