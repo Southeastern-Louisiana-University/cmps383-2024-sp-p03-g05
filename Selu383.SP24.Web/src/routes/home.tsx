@@ -1,5 +1,4 @@
 import Footer from "../elements/footer.tsx"
-import Hotelimg from '../assets/Enstay-Hotel1.jpg'
 import lawn from "../assets/chairs_with_grass.jpg"
 import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
@@ -46,7 +45,7 @@ function Home() {
 
                                 <Link
                                     onClick={(e) => (!searchTerm ? e.preventDefault() : null)}
-                                    to={`/hotel-search?searchTerm=${encodeURIComponent(searchTerm)}`}
+                                    to={`/hotels/search?searchTerm=${encodeURIComponent(searchTerm)}`}
                                     aria-disabled={!searchTerm}
                                 >
                                     <Button variant="success">Find my Hotel</Button>

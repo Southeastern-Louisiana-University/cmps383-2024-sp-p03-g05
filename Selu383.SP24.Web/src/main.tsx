@@ -1,5 +1,4 @@
 // Importing React Stuff //
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -33,7 +32,7 @@ const router = createBrowserRouter([
       path: "/hotels",
       element: <Hotels />,
     },{
-      path: "/hotel-search",
+      path: "/hotels/search",
       element: <FindHotel />,
     },{
       path: "/login",
