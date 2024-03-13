@@ -1,26 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
 import mountain from "../../assets/mountain-hole.jpg"
 import { Button } from "react-bootstrap";
 import { HotelDto } from "../../features/hotels/HotelDto";
+import useFetch from "use-http";
 
 
 
-function hotels() {
-    const [hotels, setHotels] = useState<HotelDto[]>([]);
+export default function hotelDetails() {
+
+
+    const { id } = useParams();
+
+    const [hotel, setHotel] = useState<HotelDto>();
 
 
     useEffect(() => {
-        fetch("/api/hotels", {
+        fetch("/api/hotels/" + id, {
             method: "get",
         })
-            .then<HotelDto[]>((r) => r.json())
+            .then<HotelDto>((r) => r.json())
             .then((j) => {
-                setHotels(j);
+                setHotel(j);
             });
     });
-
 
 
     return (
@@ -31,25 +35,28 @@ function hotels() {
                     <div className="col-1"></div>
 
                     <div className="col-10" >
-                        {hotels.map((hotel) => (
+                        
                             <>
                                 <br />
                                 <div className="container">
-                                    <div className="row" style={{ backgroundColor: 'rgba(255,255,255,.95)' }}>
+                                    <div className="row" style={{ backgroundColor: 'rgba(255,255,255,.80)' }}>
                                         <div className="col-1"></div>
-                                        <div className="col-8">
+
+
+
+                                        <div className="col-10">
                                             <div >
                                                 <br />
-                                                <h2>{hotel.name}</h2>
-                                                <p>{hotel.address}</p>
+                                                <center><h1> Welcome to {hotel?.name}</h1>
+                                                <h3>located at {hotel?.address}</h3>
+                                                <p>Please Enjoy your Stay</p></center>
+                                                
                                             </div>
                                         </div>
-                                        <div className="col-2">
-                                            <br />
-                                            <Link to={`/hotels/details/${hotel.id}`}>
-                                                <Button variant="secondary background-1">Book a Reservation</Button>{" "}
-                                            </Link>
-                                        </div>
+                                        
+
+
+
                                         <div className="col-1"></div>
                                     </div>
                                 </div>
@@ -57,7 +64,7 @@ function hotels() {
 
                                 <br />
                             </>
-                        ))}
+                      
                     </div>
 
                     <div className="col-1"></div>
@@ -73,5 +80,3 @@ function hotels() {
         </>
     );
 }
-
-export default hotels;
