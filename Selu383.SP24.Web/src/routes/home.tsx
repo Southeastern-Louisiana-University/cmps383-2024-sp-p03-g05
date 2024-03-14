@@ -13,24 +13,18 @@ function Home() {
     return (
         <>
 
-            {/* This is here to allow me to do a Rebase */}
-
-
             <div className="" style={{
-                backgroundImage: `url(${lawn})`,
-                height: "70vh",
-                fontSize: "50px",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover", // Add this line
-                backgroundAttachment: "fixed", // Add this line
+                
+                height: "80vh",
             }}>
                 <br />
                 <div className="container">
                     <div className="row">
                         <div className="col-1"></div>
-                        <div className="col-10" style={{ backgroundColor: 'rgba(255,255,255,.65)', height: "40vh" }}>
+                         <div className="col-10  ouline-1" style={{ backgroundColor: 'rgba(200,200,200,.65)', height: "40vh" }}> 
                             <br />
-                            <h3>Let's plan your next Destination : </h3>
+                            <center><h1 style={{color: ''}}>Let's plan your next Destination</h1></center>
+                            
                             <Form className="d-flex" >
                                 <Form.Control
                                     type="search"
@@ -70,7 +64,7 @@ function Home() {
             </div>
 
 
-            <div style={{
+            {/*<div style={{
                 backgroundImage: `url(${beach})`,
                 height: "80vh",
                 // fontSize: "50px",
@@ -80,7 +74,7 @@ function Home() {
             }}>
                 <br />
 
-                <div className="container" style={{ backgroundColor: 'rgba(255,255,255,.45)' }}>
+                 <div className="container" style={{ backgroundColor: 'rgba(255,255,255,.45)' }}>
                     <div className="row">
                         <div className="col-1"></div>
 
@@ -130,14 +124,16 @@ function Home() {
 
                         </div>
                         <div className="col-1">
-                            {/* <h1>Comment Here</h1> */}
+                            
                         </div>
-                    </div>
+                    </div> 
+                    
 
 
                 </div>
+            
 
-            </div>
+            </div>*/}
 
 
             <Footer />
