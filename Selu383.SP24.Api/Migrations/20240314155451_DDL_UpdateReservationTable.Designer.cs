@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Selu383.SP24.Api.Data;
 
@@ -11,9 +12,11 @@ using Selu383.SP24.Api.Data;
 namespace Selu383.SP24.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240314155451_DDL_UpdateReservationTable")]
+    partial class DDL_UpdateReservationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,9 +252,6 @@ namespace Selu383.SP24.Api.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoomId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
@@ -262,8 +262,6 @@ namespace Selu383.SP24.Api.Migrations
                     b.HasIndex("HotelId");
 
                     b.HasIndex("RoomId");
-
-                    b.HasIndex("RoomId1");
 
                     b.HasIndex("StatusId");
 
@@ -487,10 +485,6 @@ namespace Selu383.SP24.Api.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Selu383.SP24.Api.Features.HotelRoom.Room", null)
-                        .WithMany("Reservations")
-                        .HasForeignKey("RoomId1");
-
                     b.HasOne("Selu383.SP24.Api.Features.HotelServices.UniversalStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -577,11 +571,6 @@ namespace Selu383.SP24.Api.Migrations
                     b.Navigation("Hotels");
 
                     b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("Selu383.SP24.Api.Features.HotelRoom.Room", b =>
-                {
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

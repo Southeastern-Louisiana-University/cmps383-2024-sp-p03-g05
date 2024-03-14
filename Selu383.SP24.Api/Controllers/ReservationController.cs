@@ -28,17 +28,64 @@ public class ReservationController : ControllerBase
     }
 
     [HttpGet("GetAllReservations")]
-    public async Task<ActionResult<Reservation>> GetAllReservations()
+    public async Task<ActionResult<IEnumerable<ReservationDTO>>> GetAllReservations()
     {
-        var reservations = await _context.Reservations
+        // Query and project the reservations from the database to the ReservationDTO shape
+        var reservationsDto = await _context.Reservations
             .Include(r => r.Hotel)
             .Include(r => r.Room)
             .ThenInclude(ro => ro.Package)
             .Include(r => r.Status)
-            .Include(r => r.Guest).ToListAsync();
+            .Include(r => r.Guest)
+            .Select(r => new ReservationDTO
+            {
+                Id = r.Id,
+                Hotel = r.Hotel.Name, // Assuming Hotel has a Name property
+                RoomNumber = r.Room.RoomNumber, // Assuming Room has a Number property
+                GuestId = r.Guest.Id,
+                Status = r.Status.Status, // Assuming Status has a Name property
+                CreatedAt = r.CreatedAt,
+                ReservationStartDate = r.ReservationStartDate,
+                ReservationEndDate = r.ReservationEndDate
+            })
+            .ToListAsync();
 
-        return Ok(reservations);
+        return Ok(reservationsDto);
     }
+
+    [HttpGet("GetReservationsBetweenDates")]
+    public async Task<ActionResult<IEnumerable<ReservationDTO>>> GetReservationsBetweenDates(DateTime startDate, DateTime endDate)
+    {
+        // Ensure the date range is valid
+        if (startDate > endDate)
+        {
+            return BadRequest("The start date must be before the end date.");
+        }
+
+        // Query and project the reservations that are within the specified date range
+        var reservationsDto = await _context.Reservations
+            .Where(r => r.ReservationStartDate >= startDate && r.ReservationEndDate <= endDate)
+            .Include(r => r.Hotel)
+            .Include(r => r.Room)
+            .ThenInclude(ro => ro.Package)
+            .Include(r => r.Status)
+            .Include(r => r.Guest)
+            .Select(r => new ReservationDTO
+            {
+                Id = r.Id,
+                Hotel = r.Hotel.Name, // Assuming Hotel has a Name property
+                RoomNumber = r.Room.RoomNumber, // Assuming Room has a Number property
+                GuestId = r.Guest.Id,
+                Status = r.Status.Status, // Assuming Status has a Name property
+                CreatedAt = r.CreatedAt,
+                ReservationStartDate = r.ReservationStartDate,
+                ReservationEndDate = r.ReservationEndDate
+            })
+            .ToListAsync();
+
+        return Ok(reservationsDto);
+    }
+
 
     [HttpGet("GetReservationByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
@@ -82,11 +129,12 @@ public class ReservationController : ControllerBase
     }
 
     [HttpPost("CreateReservation")]
-    public async Task<ActionResult<ReservationDTO>> CreateReservation(int roomId, DateTime reservationDate)
+    public async Task<ActionResult<ReservationDTO>> CreateReservation(int roomId, DateTime reservationStartDate, DateTime reservationEndDate)
     {
         var user = await _userManager.GetUserAsync(User);
         var statusId = await _context.UniversalStatuses.Where(us => us.Status == "Started").Select(us => us.Id).FirstOrDefaultAsync();
         var hotelId = await _context.Rooms.Where(r => r.Id == roomId).Select(r => r.HotelId).FirstOrDefaultAsync();
+
         var reservation = new Reservation
         {
             HotelId = hotelId,
@@ -94,13 +142,14 @@ public class ReservationController : ControllerBase
             GuestId = user.Id,
             StatusId = statusId,
             CreatedAt = DateTime.UtcNow,
-            ReservationDate = reservationDate
+            ReservationStartDate = reservationStartDate,
+            ReservationEndDate = reservationEndDate
         };
 
         //TODO: Make Room Status "Reserved" when creating a reservation
 
         _context.Reservations.Add(reservation);
-        _context.SaveChanges();
+        _context.SaveChanges();    
 
         var reservationDTO = _autoMapper.Map<ReservationDTO>(reservation);
 
