@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
 import { packageGetDto } from "../../../features/package/packagesGetDto";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import hotel from "..";
 
-export default function schedule(){
+export default function schedule() {
     const [packages, setpackages] = useState<packageGetDto[]>([]);
     const [params] = useSearchParams();
-    const checkInDate = params.get("checkInDate");
-    const checkOutDate = params.get("checkOutDate");
+
+    const checkInDateArray = params.get("checkInDate")?.split("-");
+    const checkInDate:Date = new Date(parseInt(checkInDateArray[0]), parseInt(checkInDateArray[1]) -1, parseInt(checkInDateArray[2])); 
+    
+    const checkOutDateArry = params.get("checkOutDate")?.split("-");;
+    const checkOutDate:Date = new Date(parseInt(checkOutDateArry[0]), parseInt(checkOutDateArry[1]) -1, parseInt(checkOutDateArry[2])); 
+
+    
 
     useEffect(() => {
-        fetch("/api/packages/", {
+        fetch("/api/room/GetAllPackages", {
             method: "get",
         })
             .then<packageGetDto[]>((r) => r.json())
@@ -18,15 +26,48 @@ export default function schedule(){
             });
     }, []);
 
-    return(
-    <>
+    return (
+        <>
+        <center>
 
-     {packages?.map((roomPackage) => (
+            <h4>{checkInDate.toDateString()} - {checkOutDate.toDateString()}</h4>
+        </center>
+
+            {packages?.map((roomPackage) => (
+                <>
                 <div>
-                    {roomPackage.Description}
+                    <div className="container">
+                        <div className="row " style={{ backgroundColor: 'rgba(201, 218, 234, .60)' }}>
+                            <div className="col-1"></div>
+                            <div className="col-4 ">
+                                <div >
+                                    <br />
+                                    <h2>{roomPackage.title}</h2>
+                                    <p>{roomPackage.description}</p>
+                                </div>
+                            </div>
+                            <div className="col-4">
+                                <br />
+                                <p>Starting at : {roomPackage.startingPrice}</p>
+                            </div>
+                            <div className="col-2 ">
+                  
+                                    <Link to={`/hotels/details/${roomPackage.id}`}>
+                                    <Button variant="outline-success ">Book my Room</Button>{" "}
+                                </Link>
+                       
+                                
+                            </div>
+                            <div className="col-1"></div>
+                        </div>
+                    </div>
+                   <br />
                 </div>
+
+                </>
+
             ))}
-    
-    </>
+
+        </>
     )
 }
