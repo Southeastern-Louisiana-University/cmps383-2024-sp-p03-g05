@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { packageGetDto } from "../../../features/package/packagesGetDto";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import hotel from "..";
+
 
 export default function schedule() {
     const [packages, setpackages] = useState<packageGetDto[]>([]);
     const [params] = useSearchParams();
-
+    const { id } = useParams();
     const checkInDateArray = params.get("checkInDate")?.split("-");
     const checkInDate:Date = new Date(parseInt(checkInDateArray[0]), parseInt(checkInDateArray[1]) -1, parseInt(checkInDateArray[2])); 
     
@@ -17,7 +18,7 @@ export default function schedule() {
     
 
     useEffect(() => {
-        fetch("/api/room/GetAllPackages", {
+        fetch(`/api/room/GetAllAvailablePackages?hotelId=${id}`, {
             method: "get",
         })
             .then<packageGetDto[]>((r) => r.json())
@@ -48,12 +49,12 @@ export default function schedule() {
                             </div>
                             <div className="col-4">
                                 <br />
-                                <p>Starting at : {roomPackage.startingPrice}</p>
+                                <p>Starting at : ${roomPackage.startingPrice}/Night</p>
                             </div>
                             <div className="col-2 ">
                   
                                     <Link to={`/hotels/details/${roomPackage.id}`}>
-                                    <Button variant="outline-success ">Book my Room</Button>{" "}
+                                    <Button variant="outline-success ">Book my Suite</Button>{" "}
                                 </Link>
                        
                                 
