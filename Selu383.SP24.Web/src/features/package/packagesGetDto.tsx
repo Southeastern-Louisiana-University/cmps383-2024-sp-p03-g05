@@ -1,6 +1,7 @@
 export interface packageGetDto 
   {
     id: number,
-    Description: string
-  
+    title: string
+    description: string
+    startingPrice: number
   }
