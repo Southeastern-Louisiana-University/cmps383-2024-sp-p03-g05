@@ -11,6 +11,10 @@
   outline-color: rgb(106, 163, 13);
 }
 
+.package-strip{
+  background-color: rgba(201, 218, 234, .60);
+}
+
 body{
   background-color: rgb(33, 31, 32);
 }
