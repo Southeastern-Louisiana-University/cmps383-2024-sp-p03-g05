@@ -40,7 +40,7 @@ export default function hotelDetails() {
             .then((j) => {
                 setpackages(j);
             });
-    });
+    }, []);
 
 
     return (

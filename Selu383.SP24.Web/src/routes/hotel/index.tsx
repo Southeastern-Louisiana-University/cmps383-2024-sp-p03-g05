@@ -19,7 +19,7 @@ function hotels() {
             .then((j) => {
                 setHotels(j);
             });
-    });
+    }, []);
 
 
 
