@@ -144,8 +144,7 @@ public class ReservationService : IReservationService
             ReservationEndDate = reservationEndDate
         };
 
-        //TODO: Handle updating the room status to "Reserved" here, if not already being handled elsewhere.
-
+      
         _context.Reservations.Add(reservation);
         await _context.SaveChangesAsync(); // Use async version
 
