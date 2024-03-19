@@ -32,7 +32,7 @@ export default function hotelDetails() {
             .then((j) => {
                 setHotel(j);
             });
-    });
+    }, []);
 
     useEffect(() => {
         fetch("/api/packages/", {
