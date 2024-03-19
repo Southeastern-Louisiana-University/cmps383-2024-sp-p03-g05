@@ -47,6 +47,38 @@ public class RoomController : ControllerBase
         }
     }
 
+    [HttpGet("GetAvailableRooms")]
+    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRooms(int hotelId, DateTime startDate, DateTime endDate)
+    {
+        if (startDate > endDate)
+        {
+            return BadRequest("The start date must be before the end date.");
+        }
+
+        // Query to find rooms that either have no reservations or none that overlap the given date range
+        var availableRooms = await _context.Rooms
+            .Where(room => room.HotelId == hotelId)
+            .Include(room => room.Hotel)
+            .Include(room => room.Package)
+            .Include(room => room.RoomStatus)
+            .Where(room => !room.Reservations.Any(reservation =>
+                reservation.ReservationEndDate > startDate && reservation.ReservationStartDate < endDate))
+            .Select(room => new RoomDTO
+            {
+                Id = room.Id,
+                Hotel = room.Hotel.Name,
+                Package = room.Package.Description,
+                Price = room.Price,
+                RoomNumber = room.RoomNumber,
+                RoomStatus = room.RoomStatus.Status,
+            })
+            .ToListAsync();
+
+        return Ok(availableRooms);
+    }
+
+
+
     [HttpGet("GetRoomByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
        [FromQuery] int? packageId,
@@ -89,6 +121,30 @@ public class RoomController : ControllerBase
         return Ok(rooms);
     }
 
+    [HttpGet("GetAllPackages")]
+    public async Task<ActionResult<RoomPackage>> GetAllPackages()
+    {
+        var result = await _context.RoomsPackage.ToListAsync();
+
+        return Ok(result);
+    }
+
+    [HttpGet("GetPackagesByHotelId")]
+    public async Task<ActionResult<List<RoomPackage>>> GetPackageByHotelId(int hotelId)
+    {
+
+        var room = await _context.Rooms.FirstOrDefaultAsync(r => r.HotelId == hotelId);
+
+        if (room == null)
+        {
+            return NotFound();
+        }
+
+        var packages = await _context.RoomsPackage.Where(rp => rp.Id == room.PackageId).ToListAsync();
+
+        return Ok(packages);
+    }
+
     [HttpPost("CreateRoom")]
     public async Task<ActionResult<RoomDTO>> CreateRoom(CreateRoomDTO roomDTO)
     {
@@ -97,7 +153,7 @@ public class RoomController : ControllerBase
             return BadRequest("Input cannot be null");
         }
 
-        var statusId = _context.UniversalStatuses.Where(us => us.Status == "Available").Select(us => us.Id).FirstOrDefault();
+        var statusId = await _context.UniversalStatuses.Where(us => us.Status == "Available").Select(us => us.Id).FirstOrDefaultAsync();
 
         var room = new Room
         {
@@ -129,6 +185,8 @@ public class RoomController : ControllerBase
 
         return Ok(roomPackage);
     }
+
+
 
     [HttpPost("SetRoomStatusToOccupied")]
     public async Task<ActionResult<bool>> SetRoomStatusToOccupied(int roomId)
