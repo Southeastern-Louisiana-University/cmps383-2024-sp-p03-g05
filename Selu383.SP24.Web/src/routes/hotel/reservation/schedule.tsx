@@ -9,10 +9,10 @@ export default function schedule() {
     const [packages, setpackages] = useState<packageGetDto[]>([]);
     const [params] = useSearchParams();
     const { id } = useParams();
-    const checkInDateArray = params.get("checkInDate")?.split("-");
+    const checkInDateArray = params.get("checkInDate")?.split("-")?? [];
     const checkInDate:Date = new Date(parseInt(checkInDateArray[0]), parseInt(checkInDateArray[1]) -1, parseInt(checkInDateArray[2])); 
     
-    const checkOutDateArry = params.get("checkOutDate")?.split("-");;
+    const checkOutDateArry = params.get("checkOutDate")?.split("-")?? [];
     const checkOutDate:Date = new Date(parseInt(checkOutDateArry[0]), parseInt(checkOutDateArry[1]) -1, parseInt(checkOutDateArry[2])); 
 
     
