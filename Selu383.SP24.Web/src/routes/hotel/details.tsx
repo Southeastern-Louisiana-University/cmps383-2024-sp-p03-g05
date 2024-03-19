@@ -14,7 +14,6 @@ import { packageGetDto } from "../../features/package/packagesGetDto";
 
 export default function hotelDetails() {
 
-
     const { id } = useParams();
 
     const [hotel, setHotel] = useState<HotelDto>();
@@ -85,9 +84,12 @@ export default function hotelDetails() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                         <div className="col-1"></div>
+                                        <Outlet />
                                     </div>
+                                    
                                 </div>
 
 
@@ -101,13 +103,10 @@ export default function hotelDetails() {
 
 
                 </div>
+                
             </div>
 
-            {packages?.map((roomPackage) => (
-                <div>
-                    {roomPackage.Description}
-                </div>
-            ))}
+            
 
             <Footer />
         </>
