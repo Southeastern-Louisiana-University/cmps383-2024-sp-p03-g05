@@ -1,6 +1,4 @@
-
 import Footer from "../elements/footer.tsx"
-import Hotelimg from '../assets/Enstay-Hotel1.jpg'
 import lawn from "../assets/chairs_with_grass.jpg"
 import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
@@ -22,8 +20,9 @@ function Home() {
                 backgroundImage: `url(${lawn})`,
                 height: "70vh",
                 fontSize: "50px",
-
                 backgroundRepeat: "no-repeat",
+                backgroundSize: "cover", // Add this line
+                backgroundAttachment: "fixed", // Add this line
             }}>
                 <br />
                 <div className="container">
@@ -76,6 +75,8 @@ function Home() {
                 height: "80vh",
                 // fontSize: "50px",
                 backgroundRepeat: "no-repeat",
+                backgroundSize: "cover", // Add this line
+                backgroundAttachment: "fixed", // Add this line
             }}>
                 <br />
 
