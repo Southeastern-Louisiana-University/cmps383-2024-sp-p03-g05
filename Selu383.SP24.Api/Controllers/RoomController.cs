@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.HotelRoom;
+using System.Reflection;
 
 namespace Selu383.SP24.Api.Controllers;
 
@@ -46,7 +47,6 @@ public class RoomController : ControllerBase
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
-
     [HttpGet("GetAvailableRooms")]
     public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRooms(int hotelId, DateTime startDate, DateTime endDate)
     {
@@ -55,14 +55,21 @@ public class RoomController : ControllerBase
             return BadRequest("The start date must be before the end date.");
         }
 
-        // Query to find rooms that either have no reservations or none that overlap the given date range
+        // Step 1: Identify rooms with reservations that overlap the given date range
+        var reservedRoomIds = await _context.Reservations
+            .Where(reservation => reservation.ReservationEndDate > startDate
+                               && reservation.ReservationStartDate < endDate
+                               && reservation.Room.HotelId == hotelId)
+            .Select(reservation => reservation.RoomId)
+            .Distinct()
+            .ToListAsync();
+
+        // Step 2: Query for rooms in the given hotel that are not in the list of reservedRoomIds
         var availableRooms = await _context.Rooms
-            .Where(room => room.HotelId == hotelId)
+            .Where(room => room.HotelId == hotelId && !reservedRoomIds.Contains(room.Id))
             .Include(room => room.Hotel)
             .Include(room => room.Package)
             .Include(room => room.RoomStatus)
-            .Where(room => !room.Reservations.Any(reservation =>
-                reservation.ReservationEndDate > startDate && reservation.ReservationStartDate < endDate))
             .Select(room => new RoomDTO
             {
                 Id = room.Id,
@@ -76,6 +83,8 @@ public class RoomController : ControllerBase
 
         return Ok(availableRooms);
     }
+
+
 
 
 
@@ -128,21 +137,23 @@ public class RoomController : ControllerBase
 
         return Ok(result);
     }
-
-    [HttpGet("GetPackagesByHotelId")]
-    public async Task<ActionResult<List<RoomPackage>>> GetPackageByHotelId(int hotelId)
+    [HttpGet("GetAllAvailablePackages")]
+    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(int hotelId)
     {
+        var result = await _context.Rooms
+            .Where(room => room.HotelId == hotelId) 
+            .Select(room => room.Package)
+            .Distinct() 
+            .Select(package => new RoomPackage 
+            {         
+                Id = package.Id,
+                Title = package.Title,
+                Description = package.Description,
+                StartingPrice = package.StartingPrice
+            })
+            .ToListAsync();
 
-        var room = await _context.Rooms.FirstOrDefaultAsync(r => r.HotelId == hotelId);
-
-        if (room == null)
-        {
-            return NotFound();
-        }
-
-        var packages = await _context.RoomsPackage.Where(rp => rp.Id == room.PackageId).ToListAsync();
-
-        return Ok(packages);
+        return Ok(result);
     }
 
     [HttpPost("CreateRoom")]
@@ -173,11 +184,14 @@ public class RoomController : ControllerBase
     }
 
     [HttpPost("CreateRoomPackage")]
-    public async Task<ActionResult<RoomPackage>> CreatePackage(string description)
+    public async Task<ActionResult<RoomPackage>> CreatePackage(string description, string title, double price)
     {
         var roomPackage = new RoomPackage
         {
-            Description = description
+            Title = title,
+            Description = description,
+            StartingPrice = price
+            
         };
 
         _context.RoomsPackage.Add(roomPackage);
