@@ -1,4 +1,4 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
 import mountain from "../../assets/mountain-hole.jpg"
@@ -17,6 +17,9 @@ export default function hotelDetails() {
     const { id } = useParams();
 
     const [hotel, setHotel] = useState<HotelDto>();
+
+    const [getCheckInDate, setCheckInDate] = useState("");
+    const [getCheckOutDate, setCheckOutDate] = useState("");
 
     const [packages, setpackages] = useState<packageGetDto[]>([]);
 
@@ -49,8 +52,8 @@ export default function hotelDetails() {
                     <div className="row" >
                         <div className="col-1"></div>
                         <div className="col-10" >
-                            <>                                
-                            <br />
+                            <>
+                                <br />
                                 <div className="container">
                                     <div className="row" style={{ backgroundColor: 'rgba(255,255,255,.80)' }}>
                                         <div className="col-1"></div>
@@ -60,36 +63,51 @@ export default function hotelDetails() {
                                                 <center><h1> Welcome to {hotel?.name}</h1>
                                                     <h3>located at {hotel?.address}</h3>
                                                     <p>Please Enjoy your Stay</p>
-                                                <h3>When should we be Expeting you? </h3></center>
-                                                
+                                                    <h3>When should we be Expeting you? </h3></center>
+
                                                 <br />
                                                 <div className="row">
                                                     <div className="col-1"></div>
                                                     <div className="col-4">
                                                         <h4>Check In</h4>
-                                                        <Form.Control type="date" />
+
+                                                        <Form.Control type="date"
+                                                            value={getCheckInDate}
+                                                            onChange={(e) => setCheckInDate(e.target.value ?? "")}
+                                                        />
                                                     </div>
                                                     <div className="col-2">
                                                     </div>
                                                     <div className="col-4">
                                                         <h4>Check Out</h4>
-                                                        <Form.Control type="date" />
+
+                                                        <Form.Control type="date"
+                                                            value={getCheckOutDate}
+                                                            onChange={(e) => setCheckOutDate(e.target.value ?? "")}
+                                                        />
                                                     </div>
                                                     <div>
                                                         <br />
                                                         <center>
-                                                            <Button variant="secondary background-1">Let's See What's Available</Button>{" "}
+                                                            <Link
+                                                                onClick={(e) => (!getCheckInDate ? e.preventDefault() : null || !getCheckOutDate ? e.preventDefault() : null)}
+                                                                to={`/hotels/details/${hotel?.id}/schedule?checkInDate=${encodeURIComponent(getCheckInDate)}&checkOutDate=${encodeURIComponent(getCheckOutDate)}`}
+                                                                aria-disabled={!getCheckInDate || !getCheckOutDate}
+                                                            >
+                                                                <Button variant="secondary background-1">Let's See What's Available</Button>{" "}
+                                                            </Link>
+
                                                         </center>
                                                         <br />
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div className="col-1"></div>
                                         <Outlet />
                                     </div>
-                                    
+
                                 </div>
 
 
@@ -103,10 +121,10 @@ export default function hotelDetails() {
 
 
                 </div>
-                
+
             </div>
 
-            
+
 
             <Footer />
         </>
