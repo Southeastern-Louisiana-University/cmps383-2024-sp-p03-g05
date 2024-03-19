@@ -137,29 +137,23 @@ public class RoomController : ControllerBase
 
         return Ok(result);
     }
-
     [HttpGet("GetAllAvailablePackages")]
-    public async Task<ActionResult<RoomPackage>> GetAllAvailablePackages()
+    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(int hotelId)
     {
-        var result = await _context.Rooms.Where(r => r.RoomStatusId == 5).Select(r => r.Package).ToListAsync();
+        var result = await _context.Rooms
+            .Where(room => room.HotelId == hotelId) 
+            .Select(room => room.Package)
+            .Distinct() 
+            .Select(package => new RoomPackage 
+            {         
+                Id = package.Id,
+                Title = package.Title,
+                Description = package.Description,
+                StartingPrice = package.StartingPrice
+            })
+            .ToListAsync();
 
         return Ok(result);
-    }
-
-    [HttpGet("GetPackagesByHotelId")]
-    public async Task<ActionResult<List<RoomPackage>>> GetPackageByHotelId(int hotelId)
-    {
-
-        var room = await _context.Rooms.FirstOrDefaultAsync(r => r.HotelId == hotelId);
-
-        if (room == null)
-        {
-            return NotFound();
-        }
-
-        var packages = await _context.RoomsPackage.Where(rp => rp.Id == room.PackageId).ToListAsync();
-
-        return Ok(packages);
     }
 
     [HttpPost("CreateRoom")]
