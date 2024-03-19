@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, Image} from 'react-native';
 import { HotelDto  } from '../Queries/HotelDto';
+import SearchBar from './SearchBar';
 
 export default function HotelList({ navigation }) {
-const [hotels, setHotels] = useState<HotelDto[]>([]);
- useEffect(() => {
-  fetch("https://selu383-sp24-p03-g05.azurewebsites.net/api/hotels", {
-  method: "GET",
- })
- .then((response) => {
-   if (!response.ok) {
-   throw new Error(`HTTP error! Status: ${response.status}`);
-   }
-   return response.json();
-   })
-  .then((data: HotelDto[]) => {
-    setHotels(data);
-  })
-  .catch((error) => {
-    console.error("Error fetching data:", error);
-  });
-  }, []);
+// const [hotels, setHotels] = useState<HotelDto[]>([]);
+//  useEffect(() => {
+//   fetch("https://selu383-sp24-p03-g05.azurewebsites.net/api/hotels", {
+//   method: "GET",
+//  })
+//  .then((response) => {
+//    if (!response.ok) {
+//    throw new Error(`HTTP error! Status: ${response.status}`);
+//    }
+//    return response.json();
+//    })
+//   .then((data: HotelDto[]) => {
+//     setHotels(data);
+//   })
+//   .catch((error) => {
+//     console.error("Error fetching data:", error);
+//   });
+//   }, []);
 
 const renderHotelItem = ({ item }) => (
  <View style={styles.hotelContainer}>
@@ -38,9 +39,10 @@ const renderHotelItem = ({ item }) => (
 return (
  <View style={styles.container}>
  <Text style={styles.title}>All Hotels:</Text>
- <FlatList data={hotels} keyExtractor={(item) => item.id.toString()}
+<SearchBar navigation={undefined}/>
+ {/* <FlatList data={hotels} keyExtractor={(item) => item.id.toString()}
   renderItem={renderHotelItem}
-  />
+  /> */}
   </View>
   );
 }

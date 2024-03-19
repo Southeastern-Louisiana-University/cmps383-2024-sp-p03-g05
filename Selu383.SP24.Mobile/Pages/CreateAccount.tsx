@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, useWindowDimensions} from 'react-native';
 
 export default function CreateAccount({ navigation }) {
+  const { width } = useWindowDimensions();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -9,37 +10,69 @@ export default function CreateAccount({ navigation }) {
   return (
   <View style={styles.container}>
     <Text style={styles.title}>Create Your EnStay Account</Text>
-  <Text>Email:</Text>
+  <Text style={styles.Text}>Email:</Text>
   <TextInput
-   style={styles.input}
+   style={{ 
+    width: width * 0.7, 
+    height: 40, 
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 10, 
+    textAlign:'center',
+    marginBottom: 20
+  }}
     placeholder="Email"
     value={email}
     onChangeText={setEmail}
   />
-  <Text>Password:</Text>
+  <Text style={styles.Text}>Password:</Text>
   <TextInput
-   style={styles.input}
+   style={{ 
+    width: width * 0.7, 
+    height: 40, 
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 10, 
+    textAlign:'center',
+    marginBottom: 20
+  }}
     placeholder="Password"
     secureTextEntry
     value={password}
     onChangeText={setPassword}
   />
-  <Text>First Name:</Text>
+  <Text style={styles.Text}>First Name:</Text>
   <TextInput
-   style={styles.input}
+  style={{ 
+    width: width * 0.7, 
+    height: 40, 
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 10, 
+    textAlign:'center',
+    marginBottom: 20
+  }}
     placeholder="First Name"
     value={firstName}
     onChangeText={setFirstName}
   />
-  <Text>Last Name:</Text>
+  <Text style={styles.Text}>Last Name:</Text>
   <TextInput
-   style={styles.input}
+   style={{ 
+    width: width * 0.7, 
+    height: 40, 
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 20, 
+    textAlign:'center',
+    marginBottom: 20
+  }}
     placeholder="Last Name"
     value={lastName}
     onChangeText={setLastName}
   />
   <Pressable style={styles.Button}>
-  <Text style={styles.Text}>Sign Up</Text>
+  <Text style={{color: 'white'}}>Sign Up</Text>
   </Pressable>
   </View>
 );
@@ -48,7 +81,9 @@ export default function CreateAccount({ navigation }) {
 const styles = StyleSheet.create({
  
     Text: {
-     color: 'white'
+     color: 'black',
+     fontWeight: 'bold',
+     fontSize: 20
     },
     Space: {
      width: 20,
@@ -77,15 +112,8 @@ const styles = StyleSheet.create({
      backgroundColor: '#F3EFE0'
     },
     title: {
-     fontSize: 24,
-     marginBottom: 16,
-    },
-    input: {
-       height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-     
+     fontSize: 25,
+     marginBottom: 30,
     },
     errorText: {
      color: 'red',

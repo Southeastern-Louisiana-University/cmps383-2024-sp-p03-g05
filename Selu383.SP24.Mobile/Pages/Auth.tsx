@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, useWindowDimensions} from 'react-native';
 
 
 //const LoginPage = () => {
   export default function LoginScreen({ navigation }) {
+  const { width } = useWindowDimensions();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -36,19 +37,35 @@ import { View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
     <View style={styles.container}>
     <Text style={styles.title}>Let's Get You {"\n"} Back In Paradise</Text>
     <TextInput
-      style={styles.input}
+      style={{ 
+        width: width * 0.7, 
+        height: 40, 
+        borderColor: 'black',
+        borderWidth: 3,
+        paddingHorizontal: 10, 
+        textAlign:'center',
+        marginBottom: 20
+      }}
       placeholder="Username"
       value={username}
       onChangeText={(text) => setUsername(text)}
     />
     <TextInput
-      style={styles.input}
+      style={{ 
+        width: width * 0.7, 
+        height: 40, 
+        borderColor: 'black',
+        borderWidth: 3,
+        paddingHorizontal: 10, 
+        textAlign:'center',
+        marginBottom: 20
+      }}
       placeholder="Password"
       secureTextEntry
       value={password}
       onChangeText={(text) => setPassword(text)}
     />
-    <Pressable style={styles.Button} onPress={handleLogin}>
+    <Pressable style={styles.Button1} onPress={handleLogin}>
     <Text style={styles.Text}>Login</Text>
     </Pressable>
     <View style={styles.Space}/>
@@ -69,6 +86,15 @@ Space: {
  width: 20,
  height: 20,
 },
+Button1: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingVertical: 20,
+  paddingHorizontal: 62,
+  borderRadius: 4,
+  elevation: 3,
+  backgroundColor: '#3c3f6b',
+ },
 Button: {
  alignItems: 'center',
  justifyContent: 'center',
@@ -86,7 +112,7 @@ border: {
 },
 container: {
  flex: 1,
- padding : 55,
+ //padding : 55,
  justifyContent: 'center',
  alignItems: 'center',
  backgroundColor: '#F3EFE0'
@@ -94,13 +120,6 @@ container: {
 title: {
  fontSize: 24,
  marginBottom: 16,
-},
-input: {
-   height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
- 
 },
 errorText: {
  color: 'red',
