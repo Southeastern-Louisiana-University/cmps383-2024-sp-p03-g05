@@ -16,19 +16,21 @@ public class Reservation
     public User? Guest { get; set; }
     public int StatusId { get; set; }
     public UniversalStatus? Status { get; set; }
-    public DateTime CreatedAt {  get; set; }
-    public DateTime ReservationDate { get; set;}
+    public DateTime CreatedAt {  get; set; } 
+    public DateTime ReservationStartDate { get; set;}
+    public DateTime ReservationEndDate { get; set; }
 }
 
 public class ReservationDTO
 {
     public int Id { get; set; }
-    public int HotelId { get; set; }
-    public int RoomId { get; set; }
+    public string Hotel { get; set; }
+    public int RoomNumber { get; set; }
     public int GuestId { get; set;}
-    public int StatusId { get; set; }
+    public string Status { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime ReservationDate { get; set;}
+    public DateTime ReservationStartDate { get; set;}
+    public DateTime ReservationEndDate { get; set;}
 }
 
 public class  CreateReservationDTO

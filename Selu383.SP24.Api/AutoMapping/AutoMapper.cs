@@ -12,6 +12,10 @@ public class MappingProfile : Profile
 
         CreateMap<Room, RoomDTO>();
 
-        CreateMap<Reservation, ReservationDTO>();
+        CreateMap<Reservation, ReservationDTO>()
+                   .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => src.Hotel.Name))
+                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Status))
+                   .ForMember(dest => dest.RoomNumber, opt => opt.MapFrom(src => src.Room.RoomNumber));
+                   
     }
 }

@@ -19,6 +19,7 @@ import Header from "./elements/NavigationBar.tsx"
 import Hotels from './routes/hotel/index.tsx';
 import FindHotel from './routes/hotel/search.tsx';
 import HotelDetails from './routes/hotel/details.tsx';
+import ReservationSchedule from './routes/hotel/reservation/schedule.tsx'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,12 @@ const router = createBrowserRouter([
       }, {
         path: "/hotels/details/:id",
         element: <HotelDetails />,
+        children:[
+          {
+            path:"schedule",
+            element:<ReservationSchedule />
+          }
+        ]
       }, {
         path: "/login",
         element: <Login />,
