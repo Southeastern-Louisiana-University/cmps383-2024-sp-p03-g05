@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import Footer from "../../elements/footer.tsx";
-import lawn from "../../assets/chairs_with_grass.jpg";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -11,14 +10,37 @@ const SignUp = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
-    const handleEmailChange = (e) => setEmail(e.target.value);
-    const handlePasswordChange = (e) => setPassword(e.target.value);
-    const handleFirstNameChange = (e) => setFirstName(e.target.value);
-    const handleLastNameChange = (e) => setLastName(e.target.value);
+    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+    const handleFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value);
+    const handleLastNameChange = (e: ChangeEvent<HTMLInputElement>) => setLastName(e.target.value);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Implement your form submission logic here
+        try {
+            const response = await fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                }),
+            });
+            if (response.ok) {
+                // Account created successfully, you can redirect the user or show a success message
+                console.log('Account created successfully');
+            } else {
+                // Handle errors, such as displaying validation errors or generic error messages
+                console.error('Failed to create account');
+            }
+        } catch (error) {
+            // Handle network errors or other exceptions
+            console.error('Error creating account:', error);
+        }
     };
 
     return (

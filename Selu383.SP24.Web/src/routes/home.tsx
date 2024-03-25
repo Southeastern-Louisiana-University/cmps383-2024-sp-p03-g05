@@ -1,6 +1,4 @@
 import Footer from "../elements/footer.tsx"
-import lawn from "../assets/chairs_with_grass.jpg"
-import beach from "../assets/beach-sunset.jpg"
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
