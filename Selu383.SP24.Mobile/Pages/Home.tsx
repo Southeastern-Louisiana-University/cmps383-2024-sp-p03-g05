@@ -12,6 +12,10 @@ export default function Home({ navigation }) {
   const [error, setError] = useState('');
   const [userData, setUserData] = useState(null);
 
+  const handleSignUp = () => {
+    navigation.navigate('HomeSearch');
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -29,7 +33,7 @@ export default function Home({ navigation }) {
 
         const data = await response.json();
         setUserData(data);
-        console.log(data);
+        console.log("home", data);
       } catch (error) {
         console.error('Error fetching user data:', error);
         setError('Error fetching user data');
@@ -41,22 +45,6 @@ export default function Home({ navigation }) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (    
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
@@ -65,7 +53,7 @@ export default function Home({ navigation }) {
   </View> 
       </View>
       <View style={styles.Bar}>
-<Pressable>
+<Pressable onPress={handleSignUp}>
 <Text style={styles.searchBarText}>Where can we take you?</Text> 
 </Pressable>
 </View>
@@ -107,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
       // Try setting `flexDirection` to `"row"`.
       //flexDirection: 'column',
-      backgroundColor: '#000',
+      backgroundColor: '#45433f',
    
     flex: 1,
     marginBottom: -95,
@@ -125,7 +113,7 @@ const styles = StyleSheet.create({
     marginRight:-50,
     marginBottom:-50
   },
-  header: { paddingVertical: 20, paddingHorizontal: 24, backgroundColor: '#000' }, 
+  header: { paddingVertical: 20, paddingHorizontal: 24, backgroundColor: '#45433f' }, 
   headerText: { color: '#fff', fontSize: 18, fontWeight: 'bold', textAlign:'center'}, 
   imageContainer: {
     width: 200,

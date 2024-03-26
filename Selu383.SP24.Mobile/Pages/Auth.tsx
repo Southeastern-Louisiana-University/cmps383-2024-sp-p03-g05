@@ -1,41 +1,51 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable, useWindowDimensions} from 'react-native';
 
+
 export default function LoginScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
   const handleLogin = async () => {
-   try {
-   const response = await fetch('https://selu383-sp24-p03-g05.azurewebsites.net/api/authentication/login', {
-   method: 'POST',
-   headers: {'Content-Type': 'application/json'},
-   body: JSON.stringify({ username, password })
-   });
-   console.log(response);
-   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-   }
-   navigation.reset({
-   index: 0,
-   routes: [{ name: 'HomeScreen' }],
-   });
-   } 
-   catch (error) {
-   console.error('Error during login:', error);
-   setError('Invalid username or password');
-   }
+    if (isLoggingIn) return; // Prevent multiple presses
+
+    try {
+      setIsLoggingIn(true); // Set login in progress
+
+      const response = await fetch('https://selu383-sp24-p03-g05.azurewebsites.net/api/authentication/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'HomeScreen' }],
+      });
+    } catch (error) {
+      setError('Invalid username or password');
+    } finally {
+      setIsLoggingIn(false); // Reset login state
+    }
   };
 
   const MakeAccount = () => {
-   navigation.reset({
-   index: 1,
-   routes: [{ name: 'CreateScreen' }],
-   });
+    navigation.reset({
+      index: 1,
+      routes: [{ name: 'CreateScreen' }],
+    });
   };
 
+  
+        
   return (
    <View style={styles.border}>
    <View style={styles.container}>
@@ -71,7 +81,7 @@ export default function LoginScreen({ navigation }) {
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
-        <Pressable style={styles.Button1} onPress={handleLogin}>
+        <Pressable style={styles.Button1} onPress={handleLogin} disabled={isLoggingIn}>
           <Text style={styles.Text}>Login</Text>
         </Pressable>
         <View style={styles.Space}/>

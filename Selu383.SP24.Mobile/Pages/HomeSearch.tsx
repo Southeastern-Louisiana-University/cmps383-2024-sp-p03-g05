@@ -1,7 +1,9 @@
 import { View, StyleSheet, TextInput, FlatList, Text, Pressable, Image, KeyboardAvoidingView, Platform, useWindowDimensions } from 'react-native';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 //import Reservation from './Reservation';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function SearchBar() {
 const navigation = useNavigation(); 
@@ -69,37 +71,43 @@ const [hotels, setHotels] = useState([]);
     
     
     return (
+        <SafeAreaView>
      
         <View>
          
-            <TextInput
-                style={{ 
-                  width: width * 0.7, 
-                  height: 40, 
-                  borderColor: 'gray',
-                  borderWidth: 2,
-                  paddingHorizontal: 20, 
-                  textAlign:'center',
-                  marginBottom: 20,
-                  marginLeft: 20,
-                  alignItems: 'center',
-                   fontSize: 20,
-        backgroundColor: 'white',
-        borderRadius: 25,
-        padding: 10,
-   
-                }}
-                clearButtonMode="always"
-                placeholder="Look For A Hotel"
-                value={searchTerm} 
-                onChangeText={setSearchTerm}
-        
-                
-                
+        <TextInput
+  style={{ 
+    width: width * 0.7, 
+    height: 40, 
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 20, 
+    textAlign:'center',
+    marginBottom: 20,
+    marginLeft: 20,
+    alignItems: 'center',
+    fontSize: 20,
+    backgroundColor: 'white',
+    borderRadius: 25,
+    padding: 10,
+  }}
+  clearButtonMode="always"
+  placeholder="Look For A Hotel"
+  value={searchTerm} 
+  onChangeText={setSearchTerm}
+/>
 
-               
-            />
-
+{/* Arrow icon for navigation */}
+<Pressable
+  style={{
+    position: 'absolute',
+    top: 10,
+    left: 10,
+  }}
+  onPress={() => navigation.navigate('Home')}
+>
+  <Ionicons name="arrow-back" size={24} color="black" />
+</Pressable>
 {hotels.length > 0 &&  (
                 <FlatList
                     data={hotels}
@@ -109,6 +117,7 @@ const [hotels, setHotels] = useState([]);
                 />
             )}
         </View>
+        </SafeAreaView>
         
     );
 }
