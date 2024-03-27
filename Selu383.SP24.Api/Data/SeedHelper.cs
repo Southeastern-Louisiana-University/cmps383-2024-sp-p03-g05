@@ -67,6 +67,18 @@ public static class SeedHelper
         {
             Name = RoleNames.User
         });
+        await roleManager.CreateAsync(new Role
+        {
+            Name = RoleNames.Customer
+        });
+        await roleManager.CreateAsync(new Role
+        {
+            Name = RoleNames.Manager
+        });
+        await roleManager.CreateAsync(new Role
+        {
+            Name = RoleNames.Employee
+        });
     }
 
     private static async Task AddHotels(DataContext dataContext)
