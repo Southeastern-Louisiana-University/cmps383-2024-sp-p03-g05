@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Button, Form } from "react-bootstrap";
 import Footer from "../../elements/footer.tsx";
-import lawn from "../../assets/chairs_with_grass.jpg";
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -17,48 +16,59 @@ export default function Login() {
 
   return (
     <>
-      <div
-        style={{
-          backgroundImage: `url(${lawn})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
+      <div style={{
+        backgroundColor: 'rgba(33,31,32,1)',
+        height: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative"
+      }}>
+        <div className="ouline-1" style={{
+          backgroundColor: 'rgba(200,200,200,.65)',
+          width: "80%",
           padding: "20px",
-          marginBottom: "0px", // No margin to the bottom
-        }}
-      >
-        <h1 className="text-center mb-4" style={{ backgroundColor: "rgba(255, 255, 255, 0.65)", padding: "20px", borderRadius: "10px", width: "80%" }}>Let's Get you back in Paradise</h1>
-        
-        <div style={{ backgroundColor: "rgba(255, 255, 255, 0.65)", padding: "20px", borderRadius: "10px", width: "60%" }}> {/* Adjusted the width of the colored background */}
-          <Form>
-            <Form.Group controlId="inputUsername" className="mb-3 text-center"> {/* Centering the username field */}
+          minHeight: "60vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          position: "relative",
+          zIndex: 1
+        }}>
+          <h1 className="text-center mb-4">Let's Get you back in Paradise</h1>
+          
+          <Form className="text-center">
+            <Form.Group controlId="inputUsername" className="mb-3">
               <Form.Label><strong>Username / Email</strong></Form.Label>
-              <Form.Control type="text" placeholder="Enter username or email" style={{ width: "50%", margin: "auto" }} /> {/* Making the username field smaller and centered */}
+              <Form.Control type="text" placeholder="Enter username or email" style={{ width: "50%", margin: "auto" }} />
             </Form.Group>
 
-            <Form.Group controlId="inputPassword" className="mb-3 text-center"> {/* Centering the password field */}
+            <Form.Group controlId="inputPassword" className="mb-3">
               <Form.Label><strong>Password</strong></Form.Label>
-              <Form.Control type="password" placeholder="Password" style={{ width: "50%", margin: "auto" }} /> {/* Making the password field smaller and centered */}
+              <Form.Control type="password" placeholder="Password" style={{ width: "50%", margin: "auto" }} />
             </Form.Group>
 
-            <Button variant="secondary" className="w-100 background-1" style={{ width: "50%", margin: "auto" }}>Let's Get Booking</Button> {/* Making the button smaller and centered */}
+            <Button variant="secondary" className="background-1" style={{ width: "50%", margin: "auto" }}>Let's Get Booking</Button>
           </Form>
-        </div>
 
-        <div style={{ backgroundColor: "rgba(255, 255, 255, 0.65)", padding: "20px", borderRadius: "10px", width: "60%", marginTop: "20px" }}> {/* Adjusted the width of the colored background */}
-          <center>
-            <h1> First Time? </h1>
-            <Link to={"./signup"}>
-              <Button variant="secondary" className="w-100 background-1" style={{ width: "50%", margin: "auto" }}>Sign Up Here</Button> {/* Making the button smaller and centered */}
-            </Link>
-          </center>
+          <h1 className="text-center mt-4">First Time?</h1>
+          <Link to={"./signup"} className="text-center">
+            <Button variant="secondary" className="background-1" style={{ width: "50%", margin: "auto" }}>Sign Up Here</Button>
+          </Link>
         </div>
-        <Footer />
+        
+        {/* Black background */}
+        <div style={{
+          backgroundColor: 'rgba(33,31,32,1)',
+          height: "100%",
+          width: "100%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 0
+        }}></div>
       </div>
+      <Footer />
     </>
   );
 }
