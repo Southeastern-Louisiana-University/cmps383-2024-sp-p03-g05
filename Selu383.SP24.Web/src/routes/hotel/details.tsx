@@ -1,10 +1,9 @@
 import { Link, Outlet, useParams } from "react-router-dom";
 import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
-import mountain from "../../assets/mountain-hole.jpg"
-
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { Button, Form } from "react-bootstrap";
+//import { roomGetDto } from "../../features/rooms/roomGetDto";
 import { packageGetDto } from "../../features/package/packagesGetDto";
 
 
@@ -20,7 +19,7 @@ export default function hotelDetails() {
     const [getCheckInDate, setCheckInDate] = useState("");
     const [getCheckOutDate, setCheckOutDate] = useState("");
 
-    const [packages, setpackages] = useState<packageGetDto[]>([]);
+    //const [packages, setpackages] = useState<packageGetDto[]>([]);
 
 
     useEffect(() => {
@@ -38,15 +37,15 @@ export default function hotelDetails() {
             method: "get",
         })
             .then<packageGetDto[]>((r) => r.json())
-            .then((j) => {
-                setpackages(j);
+            .then((_j) => {
+                //setpackages(j);
             });
     }, []);
 
 
     return (
         <>
-            <div style={{ backgroundImage: `url(${mountain})` }}>
+            <div style={{ background: "rgba(33,31,32,1)" }}>
                 <div className="container">
                     <div className="row" >
                         <div className="col-1"></div>
