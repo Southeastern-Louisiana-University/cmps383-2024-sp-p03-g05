@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.HotelRoom;
+using System.Reflection;
 
 namespace Selu383.SP24.Api.Controllers;
 
@@ -46,6 +47,46 @@ public class RoomController : ControllerBase
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
+    [HttpGet("GetAvailableRooms")]
+    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRooms(int hotelId, DateTime startDate, DateTime endDate)
+    {
+        if (startDate > endDate)
+        {
+            return BadRequest("The start date must be before the end date.");
+        }
+
+        // Step 1: Identify rooms with reservations that overlap the given date range
+        var reservedRoomIds = await _context.Reservations
+            .Where(reservation => reservation.ReservationEndDate > startDate
+                               && reservation.ReservationStartDate < endDate
+                               && reservation.Room.HotelId == hotelId)
+            .Select(reservation => reservation.RoomId)
+            .Distinct()
+            .ToListAsync();
+
+        // Step 2: Query for rooms in the given hotel that are not in the list of reservedRoomIds
+        var availableRooms = await _context.Rooms
+            .Where(room => room.HotelId == hotelId && !reservedRoomIds.Contains(room.Id))
+            .Include(room => room.Hotel)
+            .Include(room => room.Package)
+            .Include(room => room.RoomStatus)
+            .Select(room => new RoomDTO
+            {
+                Id = room.Id,
+                Hotel = room.Hotel.Name,
+                Package = room.Package.Description,
+                Price = room.Price,
+                RoomNumber = room.RoomNumber,
+                RoomStatus = room.RoomStatus.Status,
+            })
+            .ToListAsync();
+
+        return Ok(availableRooms);
+    }
+
+
+
+
 
     [HttpGet("GetRoomByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
@@ -89,6 +130,32 @@ public class RoomController : ControllerBase
         return Ok(rooms);
     }
 
+    [HttpGet("GetAllPackages")]
+    public async Task<ActionResult<RoomPackage>> GetAllPackages()
+    {
+        var result = await _context.RoomsPackage.ToListAsync();
+
+        return Ok(result);
+    }
+    [HttpGet("GetAllAvailablePackages")]
+    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(int hotelId)
+    {
+        var result = await _context.Rooms
+            .Where(room => room.HotelId == hotelId) 
+            .Select(room => room.Package)
+            .Distinct() 
+            .Select(package => new RoomPackage 
+            {         
+                Id = package.Id,
+                Title = package.Title,
+                Description = package.Description,
+                StartingPrice = package.StartingPrice
+            })
+            .ToListAsync();
+
+        return Ok(result);
+    }
+
     [HttpPost("CreateRoom")]
     public async Task<ActionResult<RoomDTO>> CreateRoom(CreateRoomDTO roomDTO)
     {
@@ -97,7 +164,7 @@ public class RoomController : ControllerBase
             return BadRequest("Input cannot be null");
         }
 
-        var statusId = _context.UniversalStatuses.Where(us => us.Status == "Available").Select(us => us.Id).FirstOrDefault();
+        var statusId = await _context.UniversalStatuses.Where(us => us.Status == "Available").Select(us => us.Id).FirstOrDefaultAsync();
 
         var room = new Room
         {
@@ -117,11 +184,14 @@ public class RoomController : ControllerBase
     }
 
     [HttpPost("CreateRoomPackage")]
-    public async Task<ActionResult<RoomPackage>> CreatePackage(string description)
+    public async Task<ActionResult<RoomPackage>> CreatePackage(string description, string title, double price)
     {
         var roomPackage = new RoomPackage
         {
-            Description = description
+            Title = title,
+            Description = description,
+            StartingPrice = price
+            
         };
 
         _context.RoomsPackage.Add(roomPackage);
@@ -129,6 +199,8 @@ public class RoomController : ControllerBase
 
         return Ok(roomPackage);
     }
+
+
 
     [HttpPost("SetRoomStatusToOccupied")]
     public async Task<ActionResult<bool>> SetRoomStatusToOccupied(int roomId)
