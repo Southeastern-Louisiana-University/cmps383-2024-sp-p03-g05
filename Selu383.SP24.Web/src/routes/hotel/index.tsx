@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
-import mountain from "../../assets/mountain-hole.jpg"
 import { Button } from "react-bootstrap";
 import { HotelDto } from "../../features/hotels/HotelDto";
 
@@ -25,7 +24,7 @@ function hotels() {
 
     return (
         <>
-            <div style={{ backgroundImage: `url(${mountain})` }}>
+            <div style={{ background: "rgba(33,31,32,1)" }}>
 <div className="container">
                 <div className="row" >
                     <div className="col-1"></div>
