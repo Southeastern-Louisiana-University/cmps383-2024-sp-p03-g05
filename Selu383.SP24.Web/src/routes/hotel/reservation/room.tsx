@@ -1,6 +1,6 @@
 import { SetStateAction, useState } from "react";
 import { useSearchParams, useParams, Link } from "react-router-dom";
-import { packageGetDto } from "../../../features/package/packagesGetDto";
+
 import useFetch from "use-http";
 import Carousel from 'react-bootstrap/Carousel';
 import { Button } from "react-bootstrap";
@@ -8,13 +8,11 @@ import { HotelDto } from "../../../features/hotels/HotelDto";
 import { RoomGetDto } from "../../../features/rooms/roomGetDto";
 
 export default function confirmation() {
-    const [packages, setpackages] = useState<packageGetDto[]>([]);
     const [params] = useSearchParams();
     const { hotelId, packageId } = useParams();
-    const checkInDateArray = params.get("checkInDate")?.split("-") ?? [];
+
     const checkInDate = params.get("checkInDate") ?? "";
 
-    const checkOutDateArry = params.get("checkOutDate")?.split("-") ?? [];
     const checkOutDate = params.get("checkOutDate") ?? "";
 
     const [index, setIndex] = useState(0);
