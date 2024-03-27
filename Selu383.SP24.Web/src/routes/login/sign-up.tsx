@@ -18,7 +18,7 @@ const SignUp = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/signup', {
+            const response = await fetch('/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const SignUp = () => {
                 }),
             });
             if (response.ok) {
-                // Account created successfully, you can redirect the user or show a success message
+                //Redirect them to home page
                 console.log('Account created successfully');
             } else {
                 // Handle errors, such as displaying validation errors or generic error messages
@@ -46,12 +46,12 @@ const SignUp = () => {
     return (
         <>
             <div style={{
-                backgroundColor: 'rgba(33,31,32,1)', // Black background
+                backgroundColor: 'rgba(33,31,32,1)',
                 height: "80vh",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                position: "relative" // Position relative for stacking elements
+                position: "relative"
             }}>
                 <div className="ouline-1" style={{
                     backgroundColor: 'rgba(200,200,200,.65)',
@@ -61,8 +61,8 @@ const SignUp = () => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    position: "relative", // Position relative to allow stacking
-                    zIndex: 1 // Ensure the grey box appears above the black background
+                    position: "relative",
+                    zIndex: 1
                 }}>
                     <center><h1>Account Creation</h1></center>
 
@@ -102,7 +102,7 @@ const SignUp = () => {
                     position: "absolute",
                     top: 0,
                     left: 0,
-                    zIndex: 0 // Ensure the black background is behind the grey box
+                    zIndex: 0
                 }}></div>
             </div>
 
