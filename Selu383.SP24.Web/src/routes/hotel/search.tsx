@@ -1,7 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { useFetch } from "use-http";
-import mountain from "../../assets/mountain-hole.jpg"
 import Footer from "../../elements/footer";
 import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
@@ -37,7 +36,7 @@ export default function FindHotel() {
     return (
         <>
     
-            <div style={{ backgroundImage: `url(${mountain})` }}>
+            <div style={{ background: "rgba(33,31,32,1)" }}>
                 <div className="container">
                     <div className="row" >
                         <div className="col-1"></div>
@@ -69,7 +68,7 @@ export default function FindHotel() {
                                         <div className="row" style={{ backgroundColor: 'rgba(255,255,255,.95)' }}>
                                             <div className="col-1"></div>
                                             <div className="col-8">
-                                                <div >
+                                                <div>
                                                     <br />
                                                     <h2>{hotel.name}</h2>
                                                     <p>{hotel.address}</p>
