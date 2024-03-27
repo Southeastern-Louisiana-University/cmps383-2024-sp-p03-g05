@@ -74,6 +74,9 @@ export default function schedule() {
 
 function BookButton({id}:{id: number}) {
     const [isAuthed, setIsAuthed] = useState(false);
+    const [params] = useSearchParams();
+    const checkInDate = params.get("checkInDate") ?? ""
+    const checkoutDate = params.get("checkOutDate") ?? ""
 
     useEffect(() => {
         fetch(`/api/authentication/me`, {
@@ -86,7 +89,7 @@ function BookButton({id}:{id: number}) {
     if (isAuthed) {
         return (
             <>
-                <Link to={`/hotels/details/${id}`}>
+                <Link to={`../confirmation/${id}?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}`}>
                     <Button variant="outline-success ">Book my Suite</Button>{" "}
 
                 </Link>

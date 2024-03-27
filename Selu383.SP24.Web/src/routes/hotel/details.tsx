@@ -5,7 +5,6 @@ import mountain from "../../assets/mountain-hole.jpg"
 
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { Button, Form } from "react-bootstrap";
-import { roomGetDto } from "../../features/rooms/roomGetDto";
 import { packageGetDto } from "../../features/package/packagesGetDto";
 
 
