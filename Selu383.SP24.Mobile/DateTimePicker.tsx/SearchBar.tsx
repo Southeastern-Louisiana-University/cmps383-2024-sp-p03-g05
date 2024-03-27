@@ -1,11 +1,8 @@
 import { View, StyleSheet, TextInput, FlatList, Text, Pressable, Image, KeyboardAvoidingView, Platform, useWindowDimensions } from 'react-native';
 import { useState, useEffect } from "react";
-//import Reservation from './Reservation';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
-export default function SearchBar() {
-const navigation = useNavigation(); 
- 
+export default function SearchBar({ navigation }) {
    const { width } = useWindowDimensions();
 const [searchTerm, setSearchTerm] = useState("");
 const [hotels, setHotels] = useState([]);
@@ -16,23 +13,14 @@ const [hotels, setHotels] = useState([]);
   return;
   }
 
-  
-
-
-
   const fetchHotels = async () => {
   try {
   const response = await fetch(`https://selu383-sp24-p03-g05.azurewebsites.net/api/hotels/SearchForHotel?searchTerm=${searchTerm}`, {
   method: "GET",
-
-});
-
-
-
+  });
   if (!response.ok) {
   throw new Error(`HTTP error! Status: ${response.status}`);
   }
-  
   const data = await response.json();
   setHotels(data);
   } 
@@ -41,6 +29,10 @@ const [hotels, setHotels] = useState([]);
   //Handle error state
   }
   };
+//   if (searchTerm.length <= 1) {
+//     setHotels([]);
+//     return;
+//   }
   fetchHotels();
   console.log(searchTerm);
   },
@@ -48,26 +40,19 @@ const [hotels, setHotels] = useState([]);
   [searchTerm]
   );
 
-  
-
-  const renderHotelItem = ({ item }) => (
-
-    <View style={styles.hotelContainer}>
-     <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.imageContainer}/>
-     <Text style={styles.id}>id: {item.id}</Text>
-    <Text style={styles.hotelName}>Name: {item.name}</Text>
-    <Text style={styles.hotelAddress}>Address: {item.address}</Text>
-    <Text style={styles.ManagerID}>ManagerID: {item.managerID}</Text>
-   
-<Pressable style={styles.Button} onPress={() =>  navigation.navigate('Reservation', { hname: item.name, haddress: item.address })}>
+const renderHotelItem = ({ item }) => (
+ 
+        <View style={styles.hotelContainer}>
+         <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.imageContainer}/>
+            <Text style={styles.hotelName}>{item.name}</Text>
+            <Text style={styles.hotelAddress}>{item.address}</Text>
+            <Pressable style={styles.Button}>
  <Text style={styles.Text}>Make A Reservations</Text>
  </Pressable>
         </View>
         
     );
 
-    
-    
     return (
      
         <View>
@@ -93,17 +78,15 @@ const [hotels, setHotels] = useState([]);
                 placeholder="Look For A Hotel"
                 value={searchTerm} 
                 onChangeText={setSearchTerm}
-        
                 
                 
 
                
             />
 
-{hotels.length > 0 &&  (
+{hotels.length > 0 && (
                 <FlatList
                     data={hotels}
-                    ListEmptyComponent={this._listEmptyComponent}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={renderHotelItem}
                 />
@@ -135,7 +118,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
    },
    hotelContainer: {
-    flex: 1, // pushes the footer 
     backgroundColor: '#869190',
     padding: 16,
     marginBottom: 10,
