@@ -56,7 +56,7 @@ public static class SeedHelper
         var roleManager = serviceProvider.GetRequiredService<RoleManager<Role>>();
         if (roleManager.Roles.Any())
         {
-            return;
+            //return;
         }
         await roleManager.CreateAsync(new Role
         {

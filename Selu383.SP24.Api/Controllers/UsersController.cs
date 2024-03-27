@@ -75,7 +75,7 @@ public class UsersController : ControllerBase
 
         try
         {
-            var roleResult = await userManager.AddToRolesAsync(newUser, ["customer"]);
+            var roleResult = await userManager.AddToRolesAsync(newUser, ["Customer"]);
             if (!roleResult.Succeeded)
             {
                 return BadRequest("Failed");
