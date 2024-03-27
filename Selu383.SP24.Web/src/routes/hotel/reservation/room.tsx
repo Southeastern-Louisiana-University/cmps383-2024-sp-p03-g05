@@ -88,7 +88,6 @@ export default function confirmation() {
                                             <div className="container">
                                                 <div className="row">
                                                     <div className="col-1">
-
                                                     </div>
                                                     <div className="col-5">
                                                         <h3>Package Name Here</h3>
@@ -97,10 +96,8 @@ export default function confirmation() {
                                                     <div className="col-6">
                                                         <h2>${room.price}</h2>
                                                         <h3>Room #{room.roomNumber}</h3>
-
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div>
                                                 <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkOutDate)}&room=${encodeURIComponent(room.id)}`}>
