@@ -1,68 +1,77 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.grad-1{
+  background-image: linear-gradient(135deg, rgb(146, 203, 53),rgb(106, 163, 13),rgb(106, 163, 13), rgb(33, 31, 32));
+  outline-style: solid;
+  outline-width: 5px;
+  outline-color: rgb(106, 163, 13);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+.ouline-1{
+  outline-style: solid;
+  outline-width: 3px;
+  outline-color: rgb(106, 163, 13);
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.package-strip{
+  background-color: rgba(201, 218, 234, .60);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+body{
+  background-color: rgb(33, 31, 32);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.background-1{
+  background-color: rgb(106, 163, 13);
+}
+.background-2{
+  background-color: rgb(243, 239, 224);
+}
+.background-3{
+  background-color: rgb(208, 102, 62);
+}
+
+
+.header-text{
+  color: rgb(106, 163, 13);
+}
+
+.footer-text{
+  color: rgb(201, 218, 234);
+}
+
+.bg-dark{
+  background-color: rgb(33, 31, 32) !important;
+}
+
+.p1 {
+  text-align: center;
+  font-size: xx-large;
+}
+
+.center-picture {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5px;
+  width: 50%;
+}
+
+.left {
+  display: block;
+  margin: left 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.signupbutton {
+  background-color: rgb(208, 102, 62);
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  width: 10%;
+  opacity: 1;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}

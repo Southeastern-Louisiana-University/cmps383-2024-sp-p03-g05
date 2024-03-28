@@ -32,6 +32,9 @@
         "projectId": "a774222b-2873-48fb-93c8-ee6401335e4d"
       }
     },
-    "owner" : "joshua.cantu-2"
+    "owner": "joshua.cantu-2",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
