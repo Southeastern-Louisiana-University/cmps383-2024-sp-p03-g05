@@ -88,10 +88,6 @@ public class RoomController : ControllerBase
     }
 
 
-
-
-
-
     [HttpGet("GetRoomByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
        [FromQuery] int? packageId,

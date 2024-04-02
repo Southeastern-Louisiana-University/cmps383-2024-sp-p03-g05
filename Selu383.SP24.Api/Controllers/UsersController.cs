@@ -26,6 +26,8 @@ public class UsersController : ControllerBase
         var newUser = new User
         {
             UserName = dto.UserName,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
         };
         var createResult = await userManager.CreateAsync(newUser, dto.Password);
         if (!createResult.Succeeded)
@@ -53,6 +55,8 @@ public class UsersController : ControllerBase
             Id = newUser.Id,
             Roles = dto.Roles,
             UserName = newUser.UserName,
+            FirstName = newUser.FirstName,
+            LastName = newUser.LastName,
         });
     }
 
@@ -66,6 +70,8 @@ public class UsersController : ControllerBase
         var newUser = new User
         {
             UserName = dto.UserName,
+            FirstName = dto.FistName,
+            LastName = dto.LastName
         };
         var createResult = await userManager.CreateAsync(newUser, dto.Password);
         if (!createResult.Succeeded)
@@ -93,6 +99,8 @@ public class UsersController : ControllerBase
             Id = newUser.Id,
             Roles = ["Customer"],
             UserName = newUser.UserName,
+            FirstName = newUser.FirstName,
+            LastName = newUser.LastName
         });
     }
 
