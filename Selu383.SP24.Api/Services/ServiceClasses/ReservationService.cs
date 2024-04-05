@@ -117,41 +117,79 @@ public class ReservationService : IReservationService
             query = query.Where(reservation => reservation.ReservationStartDate <= reservationDate.Value && reservation.ReservationEndDate >= reservationDate.Value);
         }
 
-        // Assuming you have a method to map from Reservation entities to ReservationDTO
         var reservations = _autoMapper.Map<List<ReservationDTO>>(query);
-
 
         return reservations;
     }
 
 
 
-    public async Task<ReservationDTO> CreateReservationAsync(int roomId, DateTime reservationStartDate, DateTime reservationEndDate)
+    public async Task<ReservationDTO> CreateReservationAsync(int hotelId, int packageId, DateTime reservationStartDate, DateTime reservationEndDate)
     {
-        var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-
-        var statusId = await _context.UniversalStatuses.Where(us => us.Status == "Started").Select(us => us.Id).FirstOrDefaultAsync();
-        var hotelId = await _context.Rooms.Where(r => r.Id == roomId).Select(r => r.HotelId).FirstOrDefaultAsync();
-
-        var reservation = new Reservation
+        try
         {
-            HotelId = hotelId,
-            RoomId = roomId,
-            GuestId = user.Id, 
-            StatusId = statusId,
-            CreatedAt = DateTime.UtcNow,
-            ReservationStartDate = reservationStartDate,
-            ReservationEndDate = reservationEndDate
-        };
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException("User is not logged in.");
+            }
 
-      
-        _context.Reservations.Add(reservation);
-        await _context.SaveChangesAsync(); // Use async version
+            var status = await _context.UniversalStatuses.Where(us => us.Status == "Started").FirstOrDefaultAsync();
 
-        var reservationDTO = _autoMapper.Map<ReservationDTO>(reservation);
+            // Find the next available room
+            var roomToReserve = await _context.Rooms
+                .Where(r => r.HotelId == hotelId && r.PackageId == packageId)
+                .Where(r => !_context.Reservations.Any(res => res.RoomId == r.Id && res.ReservationEndDate > reservationStartDate && res.ReservationStartDate < reservationEndDate))
+                .FirstOrDefaultAsync();
 
-        return reservationDTO;
+            if (roomToReserve == null)
+            {
+
+                throw new ApplicationException("No available rooms for the selected dates.");
+            }
+
+            var hotelName = await _context.Hotels.Where(h => h.Id == hotelId).Select(h => h.Name).FirstOrDefaultAsync();
+
+            var reservation = new Reservation
+            {
+                HotelId = hotelId,
+                RoomId = roomToReserve.Id,
+                GuestId = user.Id,
+                StatusId = status.Id,
+                CreatedAt = DateTime.UtcNow,
+                ReservationStartDate = reservationStartDate,
+                ReservationEndDate = reservationEndDate
+            };
+            _context.Reservations.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            var reservationDTO = new ReservationDTO
+            {
+                Id = reservation.Id,
+                Hotel = hotelName,
+                RoomNumber = roomToReserve.RoomNumber,
+                GuestId = user.Id,
+                Status = status.Status,
+                CreatedAt = DateTime.UtcNow,
+                ReservationStartDate = reservationStartDate,
+                ReservationEndDate = reservationEndDate,
+            };
+
+            return reservationDTO;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // Handle unauthorized access
+            throw;
+        }
+        catch (Exception ex)
+        {
+            // Handle other exceptions
+            throw new ApplicationException("An error occurred while creating the reservation.", ex);
+        }
     }
+
+
 
 }
 

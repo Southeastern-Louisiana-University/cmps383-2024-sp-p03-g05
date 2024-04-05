@@ -61,11 +61,24 @@ public class ReservationController : ControllerBase
     }
 
     [HttpPost("CreateReservation")]
-    public async Task<ActionResult<ReservationDTO>> CreateReservation(int roomId, DateTime reservationStartDate, DateTime reservationEndDate)
+    public async Task<ActionResult<ReservationDTO>> CreateReservation(int hotelId, int packageId, DateTime reservationStartDate, DateTime reservationEndDate)
     {
-
-        var result = await _reservationService.CreateReservationAsync(roomId, reservationStartDate, reservationEndDate);
-
-        return Ok(result);
+        try
+        {
+            var result = await _reservationService.CreateReservationAsync(hotelId, packageId, reservationStartDate, reservationEndDate);
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // Log the exception message if necessary
+            return Unauthorized(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            // Handle other exceptions, possibly returning a generic error response
+            // Log the exception and return a suitable error message
+            return StatusCode(500, new { message = "An error occurred while processing your request." });
+        }
     }
+
 }
