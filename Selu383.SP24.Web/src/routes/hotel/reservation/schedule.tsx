@@ -52,7 +52,7 @@ export default function schedule() {
                                     <p>Starting at : ${roomPackage.startingPrice}/Night</p>
                                 </div>
                                 <div className="col-2 ">
-                                    <BookButton id={roomPackage.id} />
+                                    <BookButton packageId={roomPackage.id} />
                                     {/* <Link to={`/hotels/details/${roomPackage.id}`}>
                                     <Button variant="outline-success ">Book my Suite</Button>{" "}
                                 </Link> */}
@@ -72,11 +72,13 @@ export default function schedule() {
 }
 
 
-function BookButton({id}:{id: number}) {
+function BookButton({packageId}:{packageId: number}) {
     const [isAuthed, setIsAuthed] = useState(false);
     const [params] = useSearchParams();
     const checkInDate = params.get("checkInDate") ?? ""
     const checkoutDate = params.get("checkOutDate") ?? ""
+    const { id } = useParams();
+    const hotelId:string = id ?? ""
 
     useEffect(() => {
         fetch(`/api/authentication/me`, {
@@ -89,7 +91,7 @@ function BookButton({id}:{id: number}) {
     if (isAuthed) {
         return (
             <>
-                <Link to={`../confirmation/${id}?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}`}>
+                <Link to={`../confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
                     <Button variant="outline-success ">Book my Suite</Button>{" "}
 
                 </Link>
