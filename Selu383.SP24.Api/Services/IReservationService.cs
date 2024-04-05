@@ -10,4 +10,5 @@ public interface IReservationService
     Task<IEnumerable<ReservationDTO>> GetReservationsBetweenDatesAsync(DateTime startDate, DateTime endDate);
     Task<IEnumerable<ReservationDTO>> GetReservationsByAnyAsync(int? hotelId, int? roomId, int? roomNumber, string? reservationStatus, DateTime? reservationDate);
     Task<ReservationDTO> CreateReservationAsync(int hotelId, int packageId, DateTime reservationStartDate, DateTime reservationEndDate);
+    Task<List<ReservationDTO>> SeeMyReservation();
 }

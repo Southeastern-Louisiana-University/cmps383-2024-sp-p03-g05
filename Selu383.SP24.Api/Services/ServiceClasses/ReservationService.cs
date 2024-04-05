@@ -6,6 +6,7 @@ using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.HotelReservations;
 using Selu383.SP24.Api.Features.HotelRoom;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Selu383.SP24.Api.Services.ServiceClasses;
 
@@ -189,6 +190,36 @@ public class ReservationService : IReservationService
         }
     }
 
+    public async Task<List<ReservationDTO>> SeeMyReservation()
+    {
+        var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+        if (user == null)
+        {
+           
+            throw new UnauthorizedAccessException("User not found.");
+        }
+
+        var reservations = await _context.Reservations
+            .Where(r => r.GuestId == user.Id)
+            .Include(r => r.Room)
+            .ThenInclude(room => room.Hotel)
+            .Include(r => r.Status) 
+            .ToListAsync();
+
+        var reservationDTOs = reservations.Select(r => new ReservationDTO
+        {
+            Id = r.Id,
+            Hotel = r.Room.Hotel.Name, 
+            RoomNumber = r.Room.RoomNumber, 
+            GuestId = r.GuestId,
+            Status = r.Status.Status, 
+            CreatedAt = r.CreatedAt,
+            ReservationStartDate = r.ReservationStartDate,
+            ReservationEndDate = r.ReservationEndDate,
+        }).ToList();
+
+        return reservationDTOs;
+    }
 
 
 }
