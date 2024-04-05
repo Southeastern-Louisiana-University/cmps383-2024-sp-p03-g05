@@ -12,4 +12,6 @@ public class CreateUserDto
 
     [Required, MinLength(1)]
     public string[] Roles { get; set; } = Array.Empty<string>();
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
 }
