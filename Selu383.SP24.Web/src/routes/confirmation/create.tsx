@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import useFetch from "use-http";
 import { reservationDto } from "../../features/reservations/reservationsDto";
 import { userDto } from "../../features/user/userDto";
+import ErrorPage from "../../error-page";
 
 export default function create() {
     const [params] = useSearchParams();
@@ -58,9 +59,7 @@ export default function create() {
 
     if (conError || userError) {
         return (
-            <div>
-                <button type="button"> try again </button>
-            </div>
+            <ErrorPage />
         );
     }
     function handlePrint (){
