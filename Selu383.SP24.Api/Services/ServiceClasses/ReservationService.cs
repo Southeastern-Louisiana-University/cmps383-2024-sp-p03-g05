@@ -81,7 +81,7 @@ public class ReservationService : IReservationService
         return reservationsDto;
     }
 
-    public async Task<IEnumerable<ReservationDTO>> GetReservationsByAnyAsync(int? hotelId, int? roomId, int? roomNumber, string? reservationStatus, DateTime? reservationDate)
+    public async Task<IEnumerable<ReservationDTO>> GetReservationsByAnyAsync(int? id, int? hotelId, int? roomId, int? roomNumber, string? reservationStatus, DateTime? reservationDate)
     {
         var query =  _context.Reservations
             .Include(reservation => reservation.Room)
@@ -93,6 +93,10 @@ public class ReservationService : IReservationService
             .Include(reservation => reservation.Status)
             .AsQueryable();
 
+        if (id.HasValue)
+        {
+            query = query.Where(reservation => reservation.Id == id);
+        }
         if (hotelId.HasValue)
         {
             query = query.Where(reservation => reservation.Room.HotelId == hotelId);
