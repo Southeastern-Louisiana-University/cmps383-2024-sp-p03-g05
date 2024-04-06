@@ -91,7 +91,7 @@ function BookButton({packageId}:{packageId: number}) {
     if (isAuthed) {
         return (
             <>
-                <Link to={`../confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
+                <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
                     <Button variant="outline-success ">Book my Suite</Button>{" "}
 
                 </Link>
