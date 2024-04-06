@@ -2,6 +2,8 @@ using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 
 namespace Selu383.SP24.Api.Controllers;
@@ -11,10 +13,15 @@ namespace Selu383.SP24.Api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly UserManager<User> userManager;
+    private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UsersController(UserManager<User> userManager)
+
+    public UsersController(UserManager<User> userManager, DataContext Context, IHttpContextAccessor httpContextAccessor)
     {
         this.userManager = userManager;
+        _context = Context;
+        this._httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost]
@@ -104,5 +111,41 @@ public class UsersController : ControllerBase
         });
     }
 
+    [HttpGet("GetCardOnFile")]
+    public async Task<ActionResult<bool>> GetUserCardOnFile(int id)
+    {
+
+        var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+        if(user == null)
+        {
+            return Unauthorized();
+        }
+
+        var cardOnFile = await _context.Users
+            .Where(u => u.Id == id)
+            .Select(u => u.CardOnFile)
+            .FirstOrDefaultAsync();  
+
+        return Ok(cardOnFile);
+    }
+
+    [HttpPost("ToggleCardOnFile")]
+    public async Task<ActionResult<bool>> ToggleCardOnFile(int userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        user.CardOnFile = !user.CardOnFile;
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        return Ok(user.CardOnFile);
+    }
 
 }

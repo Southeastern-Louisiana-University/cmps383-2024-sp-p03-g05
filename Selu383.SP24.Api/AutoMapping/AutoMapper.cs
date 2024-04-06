@@ -2,6 +2,7 @@
 using AutoMapper;
 using Selu383.SP24.Api.Features.HotelReservations;
 using Selu383.SP24.Api.Features.HotelRoom;
+using Selu383.SP24.Api.Features.Hotels;
 using Selu383.SP24.Api.Features.HotelServices;
 
 public class MappingProfile : Profile
@@ -11,6 +12,8 @@ public class MappingProfile : Profile
         CreateMap<ServiceRequest, ServiceRequestDTO>();
 
         CreateMap<Room, RoomDTO>();
+
+        CreateMap<Hotel, HotelDto>();
 
         CreateMap<Reservation, ReservationDTO>()
                    .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => src.Hotel.Name))
