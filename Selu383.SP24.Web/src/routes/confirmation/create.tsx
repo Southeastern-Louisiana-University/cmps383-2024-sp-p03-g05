@@ -49,15 +49,19 @@ export default function create() {
 
     console.log(user)
     if (conLoading || userLoading) {
-        //return <div>Loading confirmation...</div>;
+        return  <>
+        <div>Creating confirmation...</div>;
+        <center> <div className="loader"></div></center>
+       
+        </> 
     }
 
     if (conError || userError) {
-        // return (
-        //     <div>
-        //         Error... <button type="button"> try again</button>
-        //     </div>
-        // );
+        return (
+            <div>
+                <button type="button"> try again </button>
+            </div>
+        );
     }
     function handlePrint (){
         window.print()
