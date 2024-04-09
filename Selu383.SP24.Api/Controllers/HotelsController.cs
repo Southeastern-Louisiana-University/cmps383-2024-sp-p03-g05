@@ -61,7 +61,8 @@ public class HotelsController : ControllerBase
         {
             Name = dto.Name,
             Address = dto.Address,
-            ManagerId = dto.ManagerId
+            ManagerId = dto.ManagerId,
+            PhoneNumber = dto.PhoneNumber
         };
 
         _context.Hotels.Add(hotel);
@@ -93,6 +94,8 @@ public class HotelsController : ControllerBase
 
         hotel.Name = dto.Name;
         hotel.Address = dto.Address;
+        hotel.PhoneNumber = dto.PhoneNumber;
+
         if (User.IsInRole(RoleNames.Admin))
         {
             hotel.ManagerId = dto.ManagerId;
