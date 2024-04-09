@@ -49,13 +49,14 @@ public class ReservationController : ControllerBase
 
     [HttpGet("GetReservationByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
+      [FromQuery] int? id,
       [FromQuery] int? hotelId,
       [FromQuery] int? roomId,
       [FromQuery] int? roomNumber,
       [FromQuery] string? reservationStatus,
       [FromQuery] DateTime? reservationDate)
     {
-        var result = await _reservationService.GetReservationsByAnyAsync(hotelId, roomId, roomNumber, reservationStatus, reservationDate);
+        var result = await _reservationService.GetReservationsByAnyAsync(id, hotelId, roomId, roomNumber, reservationStatus, reservationDate);
 
         return Ok(result);
     }
