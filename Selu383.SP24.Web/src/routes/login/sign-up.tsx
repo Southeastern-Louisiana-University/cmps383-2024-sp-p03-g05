@@ -5,12 +5,12 @@ import { Button } from "react-bootstrap";
 import Footer from "../../elements/footer.tsx";
 
 const SignUp = () => {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
     const handleFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value);
     const handleLastNameChange = (e: ChangeEvent<HTMLInputElement>) => setLastName(e.target.value);
@@ -18,16 +18,14 @@ const SignUp = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/users', {
+            const response = await fetch('/api/users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email,
+                    username,
                     password,
-                    firstName,
-                    lastName,
                 }),
             });
             if (response.ok) {
@@ -69,7 +67,7 @@ const SignUp = () => {
                     <Form className="d-flex flex-column align-items-center" onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail" className="mb-3 w-75">
                             <Form.Label><strong>Email address</strong></Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
+                            <Form.Control type="email" placeholder="Enter email" value={username} onChange={handleEmailChange} />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword" className="mb-3 w-75">

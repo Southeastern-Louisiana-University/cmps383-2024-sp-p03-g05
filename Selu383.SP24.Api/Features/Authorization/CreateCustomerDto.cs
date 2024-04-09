@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Selu383.SP24.Api.Features.Authorization;
 
-public class CreateUserDto
+public class CreateCustomerDto
 {
     [Required]
     public string UserName { get; set; } = string.Empty;
@@ -10,8 +10,9 @@ public class CreateUserDto
     [Required]
     public string Password { get; set; } = string.Empty;
 
-    [Required, MinLength(1)]
-    public string[] Roles { get; set; } = Array.Empty<string>();
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string Email { get; set; } = string.Empty;
+
+    public string FistName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+
 }

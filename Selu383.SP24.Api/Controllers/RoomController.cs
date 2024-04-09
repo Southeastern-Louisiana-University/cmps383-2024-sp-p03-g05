@@ -47,8 +47,8 @@ public class RoomController : ControllerBase
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
-    [HttpGet("GetAvailableRooms")]
-    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRooms(int hotelId, DateTime startDate, DateTime endDate)
+    [HttpGet("GetAvailableRoomsWithPackage")]
+    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRoomsWithPackage(int hotelId, int packageId, DateTime startDate, DateTime endDate)
     {
         if (startDate > endDate)
         {
@@ -57,16 +57,19 @@ public class RoomController : ControllerBase
 
         // Step 1: Identify rooms with reservations that overlap the given date range
         var reservedRoomIds = await _context.Reservations
-            .Where(reservation => reservation.ReservationEndDate > startDate
-                               && reservation.ReservationStartDate < endDate
-                               && reservation.Room.HotelId == hotelId)
+            .Where(reservation => reservation.ReservationEndDate >= startDate
+                               && reservation.ReservationStartDate <= endDate
+                               && reservation.Room.HotelId == hotelId
+                               && reservation.Room.PackageId == packageId) // Filter by packageId as well
             .Select(reservation => reservation.RoomId)
             .Distinct()
             .ToListAsync();
 
-        // Step 2: Query for rooms in the given hotel that are not in the list of reservedRoomIds
-        var availableRooms = await _context.Rooms
-            .Where(room => room.HotelId == hotelId && !reservedRoomIds.Contains(room.Id))
+        // Step 2: Query for rooms in the given hotel and package that are not in the list of reservedRoomIds
+        var availableRoomsWithPackage = await _context.Rooms
+            .Where(room => room.HotelId == hotelId
+                        && room.PackageId == packageId // Filter by packageId
+                        && !reservedRoomIds.Contains(room.Id))
             .Include(room => room.Hotel)
             .Include(room => room.Package)
             .Include(room => room.RoomStatus)
@@ -81,11 +84,8 @@ public class RoomController : ControllerBase
             })
             .ToListAsync();
 
-        return Ok(availableRooms);
+        return Ok(availableRoomsWithPackage);
     }
-
-
-
 
 
     [HttpGet("GetRoomByAny")]
@@ -138,14 +138,22 @@ public class RoomController : ControllerBase
         return Ok(result);
     }
     [HttpGet("GetAllAvailablePackages")]
-    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(int hotelId)
+    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(int hotelId, DateTime startDate, DateTime endDate)
     {
+        // Get IDs of rooms that are booked in the given date range
+        var bookedRoomIds = await _context.Reservations
+            .Where(booking => booking.ReservationStartDate < endDate && booking.ReservationEndDate > startDate)
+            .Select(booking => booking.RoomId)
+            .Distinct()
+            .ToListAsync();
+
+        // Now, get available packages by excluding the rooms that are booked
         var result = await _context.Rooms
-            .Where(room => room.HotelId == hotelId) 
+            .Where(room => room.HotelId == hotelId && !bookedRoomIds.Contains(room.Id)) // Filter out booked rooms
             .Select(room => room.Package)
-            .Distinct() 
-            .Select(package => new RoomPackage 
-            {         
+            .Distinct()
+            .Select(package => new RoomPackage
+            {
                 Id = package.Id,
                 Title = package.Title,
                 Description = package.Description,
@@ -155,6 +163,7 @@ public class RoomController : ControllerBase
 
         return Ok(result);
     }
+
 
     [HttpPost("CreateRoom")]
     public async Task<ActionResult<RoomDTO>> CreateRoom(CreateRoomDTO roomDTO)
