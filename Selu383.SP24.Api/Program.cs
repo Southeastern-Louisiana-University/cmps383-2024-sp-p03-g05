@@ -46,9 +46,7 @@ var app = builder.Build();
 
 
 using (var scope = app.Services.CreateScope())
-{
-    // Apply migrations up to the breakpoint.
-    
+{    
     await SeedHelper.MigrateAndSeed(scope.ServiceProvider);
 }
 
