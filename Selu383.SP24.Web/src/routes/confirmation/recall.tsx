@@ -1,38 +1,28 @@
 
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import useFetch from "use-http";
 import { reservationDto } from "../../features/reservations/reservationsDto";
 import { userDto } from "../../features/user/userDto";
 import ErrorPage from "../../error-page";
 
-export default function create() {
+export default function recall() {
     const [params] = useSearchParams();
 
-    const checkInDate = params.get("checkInDate") ?? "";
-    //const checkInDate: Date = new Date(parseInt(checkInDateArray[0]), parseInt(checkInDateArray[1]) - 1, parseInt(checkInDateArray[2]));
-
-
-    const checkOutDate = params.get("checkOutDate") ?? "";
-    //const checkOutDate: Date = new Date(parseInt(checkOutDateArry[0]), parseInt(checkOutDateArry[1]) - 1, parseInt(checkOutDateArry[2]));
-
-    const hotelId = params.get("hotel")
-
-    const packageId = params.get("package")
-
+    const { id } = useParams();
 
 
     const {
-        data: confirmation,
+        data: confirmations,
         loading: conLoading,
         error: conError,
-    } = useFetch<reservationDto>(
-        "/api/reservation/CreateReservation?hotelId=" + hotelId + "&packageId=" + packageId + "&reservationStartDate=" + checkInDate + "&reservationEndDate=" + checkOutDate,
+    } = useFetch<reservationDto[]>(
+        "/api/reservation/GetReservationByAny?id="+id,
         {
-            method: "POST",
+            method: "GET",
         },
         []
     );
-
+    const confirmation = confirmations?.[0]
     console.log(confirmation)
 
 
@@ -56,7 +46,8 @@ export default function create() {
        
         </> 
     }
-
+    console.log(confirmation)
+    console.log(confirmation?.guestId +" - - - "+ user?.id)
     if(confirmation?.guestId != user?.id){
         return(
             <>

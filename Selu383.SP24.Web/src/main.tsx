@@ -21,7 +21,8 @@ import FindHotel from './routes/hotel/search.tsx';
 import HotelDetails from './routes/hotel/details.tsx';
 import ReservationSchedule from './routes/hotel/reservation/schedule.tsx'
 import Room from './routes/hotel/reservation/room.tsx';
-import Confirmation from './routes/confirmation/create.tsx'
+import CreateConfirmation from './routes/confirmation/create.tsx'
+import RecallConfirmation from './routes/confirmation/recall.tsx'
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,10 @@ const router = createBrowserRouter([
         element: <Room />
       }, {
         path: "/confirmation/create",
-        element: <Confirmation />,
+        element: <CreateConfirmation />,
+      },{
+        path: "/confirmation/recall/:id",
+        element: <RecallConfirmation />,
       },{
         path: "/login",
         element: <Login />,
