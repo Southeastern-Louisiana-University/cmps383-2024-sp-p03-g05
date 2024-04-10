@@ -6,7 +6,6 @@ import { userDto } from "../../features/user/userDto";
 import ErrorPage from "../../error-page";
 
 export default function recall() {
-    const [params] = useSearchParams();
 
     const { id } = useParams();
 
