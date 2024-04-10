@@ -18,6 +18,7 @@ public class MappingProfile : Profile
         CreateMap<Reservation, ReservationDTO>()
                    .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => src.Hotel.Name))
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Status))
+                   .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Hotel.PhoneNumber))
                    .ForMember(dest => dest.RoomNumber, opt => opt.MapFrom(src => src.Room.RoomNumber));
                    
     }

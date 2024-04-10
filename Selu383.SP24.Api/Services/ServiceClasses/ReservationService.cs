@@ -41,6 +41,7 @@ public class ReservationService : IReservationService
               RoomNumber = r.Room.RoomNumber, // Assuming Room has a Number property
               GuestId = r.Guest.Id,
               Status = r.Status.Status, // Assuming Status has a Name property
+              PhoneNumber = r.Hotel.PhoneNumber,
               CreatedAt = r.CreatedAt,
               ReservationStartDate = r.ReservationStartDate,
               ReservationEndDate = r.ReservationEndDate
@@ -72,6 +73,7 @@ public class ReservationService : IReservationService
                 RoomNumber = r.Room.RoomNumber, // Assuming Room has a Number property
                 GuestId = r.Guest.Id,
                 Status = r.Status.Status, // Assuming Status has a Name property
+                PhoneNumber = r.Hotel.PhoneNumber,
                 CreatedAt = r.CreatedAt,
                 ReservationStartDate = r.ReservationStartDate,
                 ReservationEndDate = r.ReservationEndDate
@@ -81,7 +83,7 @@ public class ReservationService : IReservationService
         return reservationsDto;
     }
 
-    public async Task<IEnumerable<ReservationDTO>> GetReservationsByAnyAsync(int? hotelId, int? roomId, int? roomNumber, string? reservationStatus, DateTime? reservationDate)
+    public async Task<IEnumerable<ReservationDTO>> GetReservationsByAnyAsync(int? id, int? hotelId, int? roomId, int? roomNumber, string? reservationStatus, DateTime? reservationDate)
     {
         var query =  _context.Reservations
             .Include(reservation => reservation.Room)
@@ -93,6 +95,10 @@ public class ReservationService : IReservationService
             .Include(reservation => reservation.Status)
             .AsQueryable();
 
+        if (id.HasValue)
+        {
+            query = query.Where(reservation => reservation.Id == id);
+        }
         if (hotelId.HasValue)
         {
             query = query.Where(reservation => reservation.Room.HotelId == hotelId);
@@ -149,7 +155,7 @@ public class ReservationService : IReservationService
                 throw new ApplicationException("No available rooms for the selected dates.");
             }
 
-            var hotelName = await _context.Hotels.Where(h => h.Id == hotelId).Select(h => h.Name).FirstOrDefaultAsync();
+            var hotel = await _context.Hotels.Where(h => h.Id == hotelId).FirstOrDefaultAsync();
 
             var reservation = new Reservation
             {
@@ -167,10 +173,11 @@ public class ReservationService : IReservationService
             var reservationDTO = new ReservationDTO
             {
                 Id = reservation.Id,
-                Hotel = hotelName,
+                Hotel = hotel.Name,
                 RoomNumber = roomToReserve.RoomNumber,
                 GuestId = user.Id,
                 Status = status.Status,
+                PhoneNumber = hotel.PhoneNumber,
                 CreatedAt = DateTime.UtcNow,
                 ReservationStartDate = reservationStartDate,
                 ReservationEndDate = reservationEndDate,
@@ -214,6 +221,7 @@ public class ReservationService : IReservationService
             GuestId = r.GuestId,
             Status = r.Status.Status, 
             CreatedAt = r.CreatedAt,
+            PhoneNumber = r.Hotel.PhoneNumber,
             ReservationStartDate = r.ReservationStartDate,
             ReservationEndDate = r.ReservationEndDate,
         }).ToList();
