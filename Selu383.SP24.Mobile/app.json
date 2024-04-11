@@ -4,12 +4,14 @@
     "slug": "Selu383-SP24-Mobile-p03-g05",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/EnStay.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/EnStaygif.gif",
+      "resizeMode": "cover",
+      "backgroundColor": "#211f20"
+          
+      
     },
     "assetBundlePatterns": [
       "**/*"
