@@ -2,7 +2,7 @@
 import { Link, useParams,} from "react-router-dom";
 import useFetch from "use-http";
 import { reservationDto } from "../../features/reservations/reservationsDto";
-import { userDto } from "../../features/user/userDto";
+import  userDto from "../../features/authentication/UserDto";
 import ErrorPage from "../../error-page";
 
 export default function recall() {
