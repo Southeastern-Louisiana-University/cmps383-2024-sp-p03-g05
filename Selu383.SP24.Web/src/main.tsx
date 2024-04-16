@@ -24,6 +24,7 @@ import Room from './routes/hotel/reservation/room.tsx';
 import CreateConfirmation from './routes/confirmation/create.tsx'
 import RecallConfirmation from './routes/confirmation/recall.tsx'
 import MainLayout from './routes/_layout.tsx';
+import MyAccount from './routes/user/myaccount.tsx';
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,9 @@ const router = createBrowserRouter([
           }, {
             path: "/login/signup",
             element: <SignUp />,
+          },{
+            path:"/user/myaccount",
+            element: <MyAccount/>
           },
         ],
       

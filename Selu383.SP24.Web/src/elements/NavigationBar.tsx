@@ -29,7 +29,7 @@ export default function NavigationBar() {
             <Navbar.Collapse className="justify-content-end">
             <NavDropdown className='header-text' title={"Hello, " + authContext.user.firstName} id="basic-nav-dropdown">
               <NavDropdown.Item>
-                <Nav.Link className='header-text' href="/login">My Account</Nav.Link>
+                <Nav.Link><Link className='header-text' to={"/user/myaccount"}>My Account </Link></Nav.Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
                 <Nav.Link className='header-text' onClick={logout}>Logout</Nav.Link>
