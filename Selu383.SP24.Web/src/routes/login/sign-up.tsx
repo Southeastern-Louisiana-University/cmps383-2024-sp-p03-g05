@@ -20,7 +20,7 @@ const SignUp = () => {
         onNewData: (_, x) => {
           if (typeof x === "string") {
             setError(x);
-          } else if (typeof x === "object") {
+          } else if ('id' in x) {
             console.log("we logged in as: ");
             console.log(x);
             authContext?.setUser(x);
