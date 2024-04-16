@@ -97,7 +97,7 @@ export default function FindHotel() {
                 </div>
             </div>
 
-            <Footer />
+          
         </>
 
     );
