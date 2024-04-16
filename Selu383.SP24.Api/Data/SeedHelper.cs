@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.Hotels;
+using Selu383.SP24.Api.Migrations;
 
 namespace Selu383.SP24.Api.Data;
 
@@ -10,11 +12,13 @@ public static class SeedHelper
     public static async Task MigrateAndSeed(IServiceProvider serviceProvider)
     {
         var dataContext = serviceProvider.GetRequiredService<DataContext>();
-
+       
         await dataContext.Database.MigrateAsync();
 
+        await AddHotels(dataContext);
         await AddRoles(serviceProvider);
         await AddUsers(serviceProvider);
+        
 
     }
 
@@ -53,10 +57,7 @@ public static class SeedHelper
     private static async Task AddRoles(IServiceProvider serviceProvider)
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<Role>>();
-        if (roleManager.Roles.Any())
-        {
-            //return;
-        }
+
         await roleManager.CreateAsync(new Role
         {
             Name = RoleNames.Admin
@@ -80,25 +81,25 @@ public static class SeedHelper
         });
     }
 
-   /* private static async Task AddHotels(DataContext dataContext)
+    private static async Task AddHotels(DataContext dataContext)
     {
         var hotels = dataContext.Hotels.ToList();
 
-        if ( hotels.Count >=1)
+        if (hotels.Any(h => h.Name == "Placeholder 0"))
         {
             return;
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             dataContext.Set<Hotel>()
                 .Add(new Hotel
                 {
-                    Name = "Hammond " + i,
-                    Address = "1234 Place st"
+                    Name = "Placeholder " + i,
+                    Address = "PlaceHolder"
                 });
         }
 
         await dataContext.SaveChangesAsync();
-    }*/
+    }
 }
