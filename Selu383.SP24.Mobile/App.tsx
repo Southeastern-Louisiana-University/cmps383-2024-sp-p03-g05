@@ -5,6 +5,8 @@ import Reservation from './Pages/Reservation';
 import HomeSearch from './Pages/HomeSearch';
 import HotelList from './Pages/HotelList';
 import Home from './Pages/Home';
+import HomeGuest from './Pages/HomeGuest';
+
 
 const Stack = createStackNavigator();
 
@@ -12,8 +14,9 @@ export default function App() {
   return (
 
    <NavigationContainer>
-   <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
-   <Stack.Screen name="HomeScreen" component={NavigationPage}/>
+   <Stack.Navigator initialRouteName="Nav" screenOptions={{ headerShown: false }}>
+   <Stack.Screen name="Nav" component={NavigationPage}/>
+   <Stack.Screen name="home" component={HomeGuest}/>
    <Stack.Screen name="Home" component={Home}/>
    <Stack.Screen name="HotelList" component={HotelList}/>
    <Stack.Screen name="Reservation" component={Reservation}/>

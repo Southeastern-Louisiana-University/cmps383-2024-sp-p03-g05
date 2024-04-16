@@ -22,7 +22,7 @@ export default function Trips() {
       setLoading(false);
       setLoggedIn(true);
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      //console.error('Error fetching user data:', error);
       setLoading(false);
     }
   };
@@ -42,7 +42,7 @@ export default function Trips() {
       setUserData(data); // Set userData to the array of reservations
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching user reservations:', error);
+      //console.error('Error fetching user reservations:', error);
       setLoading(false);
     }
   };
