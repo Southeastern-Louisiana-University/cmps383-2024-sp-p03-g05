@@ -3,6 +3,7 @@ import { packageGetDto } from "../../../features/package/packagesGetDto";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import AuthContext from "../../../features/authentication/AuthContext";
+import UserDto from "../../../features/authentication/UserDto";
 
 
 export default function schedule() {
@@ -73,52 +74,52 @@ export default function schedule() {
 }
 
 
-function BookButton({packageId}:{packageId: number}) {
+function BookButton({ packageId }: { packageId: number }) {
     const authContext = useContext(AuthContext);
     const [cardOnFile, setCardOnFile] = useState<boolean>(false);
     const [params] = useSearchParams();
     const checkInDate = params.get("checkInDate") ?? ""
     const checkoutDate = params.get("checkOutDate") ?? ""
     const { id } = useParams();
-    const hotelId:string = id ?? ""
-
-    
+    const hotelId: string = id ?? ""
 
 
-    if (typeof authContext?.user != null  && typeof authContext?.user != undefined) {
+
+
+    if (authContext?.user != null) {
 
         useEffect(() => {
-        fetch("/api/users/GetCardOnFile?id=" + authContext?.user?.id, {
-            method: "get",
-        })
-            .then<boolean>((r) => r.json())
-            .then((j) => {
-                setCardOnFile(j);
-            });
-    }, []);
+            fetch("/api/users/GetCardOnFile?id=" + authContext?.user?.id, {
+                method: "get",
+            })
+                .then<boolean>((r) => r.json())
+                .then((j) => {
+                    setCardOnFile(j);
+                });
+        }, []);
 
-    if(cardOnFile){
-        return (
-            <>
-                <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
-                    <Button variant="outline-success ">Book my Suite</Button>{" "}
+        if (cardOnFile) {
+            return (
+                <>
+                    <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
+                        <Button variant="outline-success ">Book my Suite</Button>{" "}
 
-                </Link>
-            </>
-        )
-    }else{
-        return(<>
-        
-        </>)
-    }
-        
+                    </Link>
+                </>
+            )
+        } else {
+            return (<>
+
+            </>)
+        }
+
     }
     else {
         return (
             <>
-            <Link to={`/login`}>
-                <Button variant="outline-success ">Make login Model</Button>{" "}
-            </Link>
+                <Link to={`/login`}>
+                    <Button variant="outline-success ">Make login Model</Button>{" "}
+                </Link>
             </>
         )
 
