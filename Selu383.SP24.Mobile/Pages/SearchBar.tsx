@@ -1,140 +1,114 @@
-import { View, StyleSheet, TextInput, FlatList, Text, Pressable, Image, KeyboardAvoidingView, Platform, useWindowDimensions } from 'react-native';
-import { useState, useEffect } from "react";
-//import Reservation from './Reservation';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TextInput, FlatList, Text, Pressable, Image, useWindowDimensions, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import _ from 'lodash';
 
 export default function SearchBar() {
-const navigation = useNavigation(); 
- 
-   const { width } = useWindowDimensions();
-const [searchTerm, setSearchTerm] = useState("");
-const [hotels, setHotels] = useState([]);
+ const navigation = useNavigation();
+ const { width } = useWindowDimensions();
+ const [searchTerm, setSearchTerm] = useState("");
+ const [hotels, setHotels] = useState([]);
 
  useEffect(() => {
+  const delayDebounceFn = _.debounce(async () => {
   if (!searchTerm.trim()) {
-  setHotels([]);
+   setHotels([]);
   return;
   }
-
-  
-
-
-
-  const fetchHotels = async () => {
   try {
-  const response = await fetch(`https://selu383-sp24-p03-g05.azurewebsites.net/api/hotels/SearchForHotel?searchTerm=${searchTerm}`, {
-  method: "GET",
-
-});
-
-
-
+   const response = await fetch(`https://selu383-sp24-p03-g05.azurewebsites.net/api/hotels/SearchForHotel?searchTerm=${searchTerm}`, {
+   method: "GET",
+  });
   if (!response.ok) {
-  throw new Error(`HTTP error! Status: ${response.status}`);
+   throw new Error(`HTTP error! Status: ${response.status}`);
   }
-  
   const data = await response.json();
   setHotels(data);
   } 
   catch (error) {
-  console.error('Error fetching data:', error);
-  //Handle error state
+   console.error('Error fetching data:', error);
   }
-  };
-  fetchHotels();
-  console.log(searchTerm);
-  },
-  
-  [searchTerm]
-  );
-
-  
+  }, 200);
+  delayDebounceFn(); //Initial call without debounce
+  return delayDebounceFn.cancel; // Cleanup function to cancel debounced function
+  },[searchTerm]);
 
   const renderHotelItem = ({ item }) => (
+   <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={30}  >
+   <View style={styles.hotelContainer}>
+   <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.imageContainer}/>
+   <Text style={styles.id}>id: {item.id}</Text>
+   <Text style={styles.hotelName}>Name: {item.name}</Text>
+   <Text style={styles.hotelAddress}>Address: {item.address}</Text>
+   <Text style={styles.ManagerID}>ManagerID: {item.pacakge}</Text>
+   <Pressable style={styles.Button} onPress={() =>  navigation.navigate('Reservation', {hid: item.id})}>
+   <Text style={styles.Text}>Make A Reservations</Text>
+   </Pressable>
+   </View>
+   </KeyboardAvoidingView>
+  );
 
-    <View style={styles.hotelContainer}>
-     <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.imageContainer}/>
-     <Text style={styles.id}>id: {item.id}</Text>
-    <Text style={styles.hotelName}>Name: {item.name}</Text>
-    <Text style={styles.hotelAddress}>Address: {item.address}</Text>
-    <Text style={styles.ManagerID}>ManagerID: {item.managerID}</Text>
-   
-<Pressable style={styles.Button} onPress={() =>  navigation.navigate('Reservation', { hname: item.name, haddress: item.address })}>
- <Text style={styles.Text}>Make A Reservations</Text>
- </Pressable>
-        </View>
-        
-    );
-
-    
-    
-    return (
-     
-        <View>
-         
-            <TextInput
-                style={{ 
-                  width: width * 0.7, 
-                  height: 40, 
-                  borderColor: 'gray',
-                  borderWidth: 2,
-                  paddingHorizontal: 20, 
-                  textAlign:'center',
-                  marginBottom: 20,
-                  marginLeft: 20,
-                  alignItems: 'center',
-                   fontSize: 20,
-        backgroundColor: 'white',
-        borderRadius: 25,
-        padding: 10,
-   
-                }}
-                clearButtonMode="always"
-                placeholder="Look For A Hotel"
-                value={searchTerm} 
-                onChangeText={setSearchTerm}
-        
-                
-                
-
-               
-            />
-
-{hotels.length > 0 &&  (
-                <FlatList
-                    data={hotels}
-                    ListEmptyComponent={this._listEmptyComponent}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={renderHotelItem}
-                />
-            )}
-        </View>
-        
-    );
+  return (
+   <View>
+   <TextInput
+    style={[styles.TextInput, { width: width * 0.7 }]}
+        clearButtonMode="always"
+        placeholder="Look For A Hotel"
+        value={searchTerm} 
+        onChangeText={text => setSearchTerm(text)}
+      />
+      {hotels.length > 0 && (
+        <FlatList
+          data={hotels}
+          ListEmptyComponent={this._listEmptyComponent}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderHotelItem}
+        />
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-   imageContainer: {
-      width: '100%',
-      height: undefined,
-      aspectRatio: 1,
+    TextInput: {
+        width:'70%', 
+        height: 40, 
+        borderColor: 'gray',
+        borderWidth: 2,
+        paddingHorizontal: 20, 
+        textAlign:'center',
+        marginBottom: 20,
+        marginLeft:'auto',
+        marginRight:'auto',
+        marginTop: 20,
+        alignItems: 'center',
+        fontSize: 20,
+        backgroundColor: 'white',
+       borderRadius: 25,
+        padding: 10,
     },
-    Text: {
-   color: '#c1e3a8',
-   fontSize: 20
-   },
-   container: {
+
+  imageContainer: {
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1,
+  },
+  Text: {
+    color: '#c1e3a8',
+    fontSize: 20
+  },
+  container: {
     flex: 1,
     padding: 16,
     backgroundColor: '#65a30d',
-   },
-   title: {
+  },
+  title: {
     textAlign: 'center',
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
-   },
-   hotelContainer: {
+  },
+  hotelContainer: {
     flex: 1, // pushes the footer 
     backgroundColor: '#869190',
     padding: 16,
@@ -142,31 +116,31 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     //borderColor: '#ddd',
-   },
-   hotelName: {
+  },
+  hotelName: {
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
-   },
-   id: {
+  },
+  id: {
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
-   },
-   hotelAddress: {
+  },
+  hotelAddress: {
     textAlign: 'center',
     fontSize: 16,
     fontWeight: 'bold',
-   },
-   ManagerID: {
+  },
+  ManagerID: {
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
-   },
-   Button: {
+  },
+  Button: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
@@ -174,5 +148,5 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#787063',
-   }
-  });
+  }
+});
