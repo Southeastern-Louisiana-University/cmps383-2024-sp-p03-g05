@@ -3,7 +3,6 @@ import { packageGetDto } from "../../../features/package/packagesGetDto";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import AuthContext from "../../../features/authentication/AuthContext";
-import UserDto from "../../../features/authentication/UserDto";
 
 
 export default function schedule() {
