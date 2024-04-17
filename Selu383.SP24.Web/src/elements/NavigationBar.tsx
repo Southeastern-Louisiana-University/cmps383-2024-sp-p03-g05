@@ -22,7 +22,7 @@ export default function NavigationBar() {
               
               <Nav.Link><Link className='header-text' to={"/"}>Home </Link></Nav.Link>
               <Nav.Link><Link className='header-text' to={"/hotels"}>Browse Hotels </Link></Nav.Link>
-              <Nav.Link><Link className='header-text' to={""}>My Reservations </Link></Nav.Link>
+              <Nav.Link><Link className='header-text' to={"/confirmation"}>My Reservations </Link></Nav.Link>
 
             </Nav>
             <Navbar.Toggle />

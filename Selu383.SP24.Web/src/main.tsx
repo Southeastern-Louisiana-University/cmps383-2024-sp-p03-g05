@@ -24,6 +24,7 @@ import CreateConfirmation from './routes/confirmation/create.tsx'
 import RecallConfirmation from './routes/confirmation/recall.tsx'
 import MainLayout from './routes/_layout.tsx';
 import MyAccount from './routes/user/myaccount.tsx';
+import MyReservations from './routes/confirmation/myconfirmations.tsx';
 
 const router = createBrowserRouter([
   {
@@ -32,44 +33,47 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-            path: "/",
-            element: <Home />,
-          }, {
-            path: "/hotels",
-            element: <Hotels />,
-          }, {
-            path: "/hotels/search",
-            element: <FindHotel />,
-          }, {
-            path: "/hotels/details/:id",
-            element: <HotelDetails />,
-            children: [
-              {
-                path: "schedule",
-                element: <ReservationSchedule />
-              }
-            ]
-          }, {
-            path: "/hotels/details/:hotelId/confirmation/:packageId",
-            element: <Room />
-          }, {
-            path: "/confirmation/create",
-            element: <CreateConfirmation />,
-          }, {
-            path: "/confirmation/recall/:id",
-            element: <RecallConfirmation />,
-          }, {
-            path: "/login",
-            element: <Login />,
-          }, {
-            path: "/login/signup",
-            element: <SignUp />,
-          },{
-            path:"/user/myaccount",
-            element: <MyAccount/>
-          },
-        ],
-      
+        path: "/",
+        element: <Home />,
+      }, {
+        path: "/hotels",
+        element: <Hotels />,
+      }, {
+        path: "/hotels/search",
+        element: <FindHotel />,
+      }, {
+        path: "/hotels/details/:id",
+        element: <HotelDetails />,
+        children: [
+          {
+            path: "schedule",
+            element: <ReservationSchedule />
+          }
+        ]
+      }, {
+        path: "/hotels/details/:hotelId/confirmation/:packageId",
+        element: <Room />
+      }, {
+        path: "/confirmation/create",
+        element: <CreateConfirmation />,
+      }, {
+        path: "/confirmation",
+        element: <MyReservations />,
+      }, {
+        path: "/confirmation/recall/:id",
+        element: <RecallConfirmation />,
+      }, {
+        path: "/login",
+        element: <Login />,
+      }, {
+        path: "/login/signup",
+        element: <SignUp />,
+      }, {
+        path: "/user/myaccount",
+        element: <MyAccount />
+      },
+    ],
+
   }
 ]);
 
