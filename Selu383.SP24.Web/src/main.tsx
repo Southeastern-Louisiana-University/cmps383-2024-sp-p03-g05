@@ -20,6 +20,9 @@ import Hotels from './routes/hotel/index.tsx';
 import FindHotel from './routes/hotel/search.tsx';
 import HotelDetails from './routes/hotel/details.tsx';
 import ReservationSchedule from './routes/hotel/reservation/schedule.tsx'
+import Room from './routes/hotel/reservation/room.tsx';
+import CreateConfirmation from './routes/confirmation/create.tsx'
+import RecallConfirmation from './routes/confirmation/recall.tsx'
 
 const router = createBrowserRouter([
   {
@@ -39,13 +42,22 @@ const router = createBrowserRouter([
       }, {
         path: "/hotels/details/:id",
         element: <HotelDetails />,
-        children:[
+        children: [
           {
-            path:"schedule",
-            element:<ReservationSchedule />
+            path: "schedule",
+            element: <ReservationSchedule />
           }
         ]
       }, {
+        path: "/hotels/details/:hotelId/confirmation/:packageId",
+        element: <Room />
+      }, {
+        path: "/confirmation/create",
+        element: <CreateConfirmation />,
+      },{
+        path: "/confirmation/recall/:id",
+        element: <RecallConfirmation />,
+      },{
         path: "/login",
         element: <Login />,
       }, {

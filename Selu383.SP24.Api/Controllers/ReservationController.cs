@@ -49,22 +49,43 @@ public class ReservationController : ControllerBase
 
     [HttpGet("GetReservationByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
+      [FromQuery] int? id,
       [FromQuery] int? hotelId,
       [FromQuery] int? roomId,
       [FromQuery] int? roomNumber,
       [FromQuery] string? reservationStatus,
       [FromQuery] DateTime? reservationDate)
     {
-        var result = await _reservationService.GetReservationsByAnyAsync(hotelId, roomId, roomNumber, reservationStatus, reservationDate);
+        var result = await _reservationService.GetReservationsByAnyAsync(id, hotelId, roomId, roomNumber, reservationStatus, reservationDate);
 
         return Ok(result);
     }
 
     [HttpPost("CreateReservation")]
-    public async Task<ActionResult<ReservationDTO>> CreateReservation(int roomId, DateTime reservationStartDate, DateTime reservationEndDate)
+    public async Task<ActionResult<ReservationDTO>> CreateReservation(int hotelId, int packageId, DateTime reservationStartDate, DateTime reservationEndDate)
     {
+        try
+        {
+            var result = await _reservationService.CreateReservationAsync(hotelId, packageId, reservationStartDate, reservationEndDate);
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // Log the exception message if necessary
+            return Unauthorized(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            // Handle other exceptions, possibly returning a generic error response
+            // Log the exception and return a suitable error message
+            return StatusCode(500, new { message = "An error occurred while processing your request." });
+        }
+    }
 
-        var result = await _reservationService.CreateReservationAsync(roomId, reservationStartDate, reservationEndDate);
+    [HttpGet("GetMyReservations")]
+    public async Task<ActionResult<List<ReservationDTO>>> GetMyReservations()
+    {
+        var result = await _reservationService.SeeMyReservation();
 
         return Ok(result);
     }

@@ -1,4 +1,4 @@
-export interface roomGetDto 
+export interface RoomGetDto 
   {
     id: number,
     hotelId: number,
@@ -6,5 +6,4 @@ export interface roomGetDto
     price: number,
     roomNumber: number,
     roomStatusId: number
-  
   }
