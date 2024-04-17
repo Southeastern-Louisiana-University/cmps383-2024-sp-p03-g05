@@ -1,7 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { useFetch } from "use-http";
-import Footer from "../../elements/footer";
 import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
 

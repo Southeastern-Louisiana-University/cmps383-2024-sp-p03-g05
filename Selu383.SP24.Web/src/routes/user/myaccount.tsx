@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../features/authentication/AuthContext";
-import useFetch from "use-http";
 import { Button, Form, Modal } from "react-bootstrap";
 
 export default function MyAccount() {

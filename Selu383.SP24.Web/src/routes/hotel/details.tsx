@@ -1,5 +1,4 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { Button, Form } from "react-bootstrap";
