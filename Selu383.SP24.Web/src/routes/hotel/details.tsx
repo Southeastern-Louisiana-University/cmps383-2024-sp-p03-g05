@@ -1,9 +1,7 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { Button, Form } from "react-bootstrap";
-//import { roomGetDto } from "../../features/rooms/roomGetDto";
 import { packageGetDto } from "../../features/package/packagesGetDto";
 
 
@@ -18,8 +16,6 @@ export default function hotelDetails() {
 
     const [getCheckInDate, setCheckInDate] = useState("");
     const [getCheckOutDate, setCheckOutDate] = useState("");
-
-    //const [packages, setpackages] = useState<packageGetDto[]>([]);
 
 
     useEffect(() => {
@@ -124,7 +120,7 @@ export default function hotelDetails() {
 
 
 
-            <Footer />
+        
         </>
     );
 }
