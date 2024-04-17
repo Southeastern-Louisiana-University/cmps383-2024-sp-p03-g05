@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { packageGetDto } from "../../../features/package/packagesGetDto";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import AuthContext from "../../../features/authentication/AuthContext";
 import UserDto from "../../../features/authentication/UserDto";
 
@@ -82,7 +82,10 @@ function BookButton({ packageId }: { packageId: number }) {
     const checkoutDate = params.get("checkOutDate") ?? ""
     const { id } = useParams();
     const hotelId: string = id ?? ""
+    const [show, setShow] = useState(false);
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
 
 
@@ -102,14 +105,61 @@ function BookButton({ packageId }: { packageId: number }) {
             return (
                 <>
                     <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
-                        <Button variant="outline-success ">Book my Suite</Button>{" "}
-
+                        <Button variant="success " className="background-1"> Book My Room</Button>{" "}
                     </Link>
                 </>
             )
         } else {
             return (<>
+                
+                <Button
+                    variant="success "
+                    className="background-1"
+                    onClick={handleShow}
+                >
+                    Book My Room
+                </Button>
 
+
+                <Modal show={show} onHide={handleClose} backdrop="static">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add Card Information on File</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group className="mb-3">
+                            <Form.Label>
+                                <strong>Name on Card</strong>
+                            </Form.Label>
+                            <Form.Control type="text" placeholder={"Name on Card"} />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>
+                                <strong>Card Number</strong>
+                            </Form.Label>
+                            <Form.Control type="text" placeholder={"0000 0000 0000 0000"} />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>
+                                <strong>Expiration Date</strong>
+                            </Form.Label>
+                            <Form.Control type="text" placeholder={"01/24"} />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>
+                                <strong>CCV</strong>
+                            </Form.Label>
+                            <Form.Control type="text" placeholder={"CCV"} />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
+                            <Button variant="secondary " className="background-1">Book My Room</Button>{" "}
+                        </Link>
+                    </Modal.Footer>
+                </Modal>
             </>)
         }
 
@@ -118,7 +168,7 @@ function BookButton({ packageId }: { packageId: number }) {
         return (
             <>
                 <Link to={`/login`}>
-                    <Button variant="outline-success ">Make login Model</Button>{" "}
+                    <Button variant="success " className="background-1">Login To Make a Reservation</Button>{" "}
                 </Link>
             </>
         )
