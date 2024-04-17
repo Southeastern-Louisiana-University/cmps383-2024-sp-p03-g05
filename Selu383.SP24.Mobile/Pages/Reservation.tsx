@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { Button, View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -104,10 +104,18 @@ useEffect(() => {
   
 
   return (
-  <SafeAreaView style={styles.container}>
+  <SafeAreaView style={styles.container} >
     <View style={styles.container}>
       {hotel ? (
         <View>
+        <Image 
+  source={require('../assets/Enstay-Hotel1.jpg')} 
+  style={{ 
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1
+  }} 
+/>
           <View style={styles.itemContainer}>
             <Text>Name: {hotel.name}</Text>
             <Text>Address: {hotel.address}</Text>
@@ -157,6 +165,7 @@ useEffect(() => {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     padding: 16,
@@ -165,6 +174,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   itemContainer: {
+    textAlign:"center",
+    alignItems:"center",
     borderWidth: 1,
     borderColor: "#ccc",
     backgroundColor: "#c8c8c8a6",
@@ -179,6 +190,7 @@ const styles = StyleSheet.create({
   },
   dateTimeContainer: {
     flexDirection: "column",
+    backgroundColor: "#c8c8c8a6",
     alignItems: "center",
     marginBottom: 10,
   },
