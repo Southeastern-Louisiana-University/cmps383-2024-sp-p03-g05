@@ -1,25 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginPage from './Pages/Auth';
 import NavigationPage from './Pages/navigationpage';
-import CreateAccount from './Pages/CreateAccount';
 import Reservation from './Pages/Reservation';
 import HomeSearch from './Pages/HomeSearch';
+import HotelList from './Pages/HotelList';
+import Home from './Pages/Home';
+import HomeGuest from './Pages/HomeGuest';
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-   <NavigationContainer>
-   <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-   <Stack.Screen name="Login" component={LoginPage} />
-   <Stack.Screen name="HomeScreen" component={NavigationPage} />
-   <Stack.Screen name="CreateScreen" component={CreateAccount} />
-   <Stack.Screen name="Reservation" component={Reservation}/>
-   <Stack.Screen name="HomeSearch" component={HomeSearch}/>
-   </Stack.Navigator>
-   </NavigationContainer>
-   
-  );
-}
 
+ return (
+  <NavigationContainer>
+  <Stack.Navigator initialRouteName="Back" screenOptions={{ headerShown: false }}>
+  <Stack.Screen name="Back" component={NavigationPage}/>
+  <Stack.Screen name="home" component={HomeGuest}/>
+  <Stack.Screen name="Home" component={Home}/>
+  <Stack.Screen name="HotelList" component={HotelList}/>
+  <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: true, headerTitle: "", headerTransparent: true}}/>
+  <Stack.Screen name="HomeSearch" component={HomeSearch}/>
+  </Stack.Navigator>
+  </NavigationContainer> 
+ ); 
+}
