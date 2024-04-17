@@ -7,8 +7,8 @@
     "icon": "./assets/EnStay.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/EnStaygif.gif",
-      "resizeMode": "cover",
+      "image": "./assets/EnStay.png",
+      "resizeMode":"contain",
       "backgroundColor": "#211f20"
           
       
@@ -21,8 +21,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/EnStay.png",
+        "backgroundColor": "#211f20"
       },
       "package": "com.selu383.sp24.p03.g05"
     },

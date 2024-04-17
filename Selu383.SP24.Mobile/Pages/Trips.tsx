@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Trips() {
@@ -18,11 +18,9 @@ export default function Trips() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // No need to set userData here, as it's not used in this function
       setLoading(false);
       setLoggedIn(true);
     } catch (error) {
-      //console.error('Error fetching user data:', error);
       setLoading(false);
     }
   };
@@ -39,59 +37,55 @@ export default function Trips() {
       }
 
       const data = await response.json();
-      setUserData(data); // Set userData to the array of reservations
+      setUserData(data);
       setLoading(false);
     } catch (error) {
-      //console.error('Error fetching user reservations:', error);
       setLoading(false);
     }
   };
 
   const refreshData = useCallback(() => {
-    // Fetch user data and reservations when screen comes into focus
     setLoading(true);
     fetchUserData();
     getMyReservations();
   }, []);
 
-  // Fetch user data and reservations when the screen mounts initially
   useEffect(() => {
     fetchUserData();
     getMyReservations();
   }, []);
 
-  // Refresh user data and reservations when the screen comes into focus
   useFocusEffect(refreshData);
 
   if (!loggedIn) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Make account</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>Welcome to Trips</Text>
+        <Text style={styles.subtitle}>Please log in to view your reservations.</Text>
       </View>
     );
   }
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.container}>
         <ActivityIndicator size="large" color="tomato" />
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       {userData.length > 0 ? (
         userData.map((reservation, index) => (
-          <View key={index} style={{ marginBottom: 10 }}>
-            <Text>ID: {reservation.id}</Text>
+          <View key={index} style={styles.reservationContainer}>
+            <Text style={styles.reservationTitle}>Reservation ID: {reservation.id}</Text>
             <Text>Hotel: {reservation.Hotel}</Text>
             <Text>Room Number: {reservation.RoomNumber}</Text>
             <Text>Status: {reservation.Status}</Text>
             <Text>Phone Number: {reservation.PhoneNumber}</Text>
             <Text>Reservation Start: {reservation.ReservationStartDate}</Text>
             <Text>Reservation End: {reservation.ReservationEndDate}</Text>
-            {/* Add more fields as needed */}
           </View>
         ))
       ) : (
@@ -100,3 +94,35 @@ export default function Trips() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'gray',
+  },
+  reservationContainer: {
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    width: '100%',
+  },
+  reservationTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+});
