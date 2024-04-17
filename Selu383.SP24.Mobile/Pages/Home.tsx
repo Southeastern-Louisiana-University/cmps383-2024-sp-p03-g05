@@ -11,7 +11,7 @@ export default function Home({ navigation }) {
  const [userData, setUserData] = useState(null);
 
  const gotosearch = () => {
-  navigation.navigate('HomeSearch');
+  navigation.navigate('HotelLIst');
  };
 
  const me = async () => {
@@ -64,11 +64,11 @@ export default function Home({ navigation }) {
       </View>
         
        </View>
-       <View style={styles.Bar}>
+       {/* <View style={styles.Bar}>
         <Pressable onPress={gotosearch}>
         <Text style={styles.searchBarText}>Where can we take you?</Text>
         </Pressable>
-        </View> 
+        </View>  */}
         <View style={styles.con3}>
   <View style={styles.imageContainer}>
    <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.image} />

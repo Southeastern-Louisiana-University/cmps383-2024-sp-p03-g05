@@ -147,7 +147,6 @@ useEffect(() => {
               <Text>{endDate ? endDate.toString() : "No date selected"}</Text>
             </View>
           </View>
-          <Button title="Back to Home" onPress={() => navigation.navigate('HomeScreen')} />
         </View>
       ) : (
         <Text>Loading hotel details...</Text>
@@ -161,13 +160,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#65a30d",
+    backgroundColor: "#c8c8c8a6",
     alignItems: "center",
     justifyContent: "center",
   },
   itemContainer: {
     borderWidth: 1,
     borderColor: "#ccc",
+    backgroundColor: "#c8c8c8a6",
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,

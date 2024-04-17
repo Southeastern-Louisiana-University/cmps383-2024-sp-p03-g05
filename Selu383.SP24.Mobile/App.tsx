@@ -7,22 +7,20 @@ import HotelList from './Pages/HotelList';
 import Home from './Pages/Home';
 import HomeGuest from './Pages/HomeGuest';
 
-
 const Stack = createStackNavigator();
 
 export default function App() {
-  return (
 
-   <NavigationContainer>
-   <Stack.Navigator initialRouteName="Nav" screenOptions={{ headerShown: false }}>
-   <Stack.Screen name="Nav" component={NavigationPage}/>
-   <Stack.Screen name="home" component={HomeGuest}/>
-   <Stack.Screen name="Home" component={Home}/>
-   <Stack.Screen name="HotelList" component={HotelList}/>
-   <Stack.Screen name="Reservation" component={Reservation}/>
-   <Stack.Screen name="HomeSearch" component={HomeSearch}/>
-   </Stack.Navigator>
-   </NavigationContainer>
-   
-  );
+ return (
+  <NavigationContainer>
+  <Stack.Navigator initialRouteName="Back" screenOptions={{ headerShown: false }}>
+  <Stack.Screen name="Back" component={NavigationPage}/>
+  <Stack.Screen name="home" component={HomeGuest}/>
+  <Stack.Screen name="Home" component={Home}/>
+  <Stack.Screen name="HotelList" component={HotelList}/>
+  <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: true, headerTitle: "", headerTransparent: true}}/>
+  <Stack.Screen name="HomeSearch" component={HomeSearch}/>
+  </Stack.Navigator>
+  </NavigationContainer> 
+ ); 
 }
