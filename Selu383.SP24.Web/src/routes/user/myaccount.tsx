@@ -71,6 +71,9 @@ function CofButton({ id }: { id: number }) {
 
     
     function toggle() {
+        fetch("/api/users/ToggleCardOnFile?userId=" + id, {
+            method: "POST",
+        })
         if (cardOnFile) {
             console.log("Removing Card on File")
             setCardOnFile(false)
