@@ -47,6 +47,7 @@ body{
 
 .header-text{
   color: rgb(106, 163, 13);
+  text-decoration: none;
 }
 
 .footer-text{
@@ -90,3 +91,7 @@ body{
   opacity: 1;
 }
 
+.header-link{
+  color: rgb(106, 163, 13);
+   text-decoration: none;
+}

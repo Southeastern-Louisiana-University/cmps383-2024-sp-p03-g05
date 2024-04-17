@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Footer from "../../elements/footer";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { HotelDto } from "../../features/hotels/HotelDto";
@@ -68,7 +67,7 @@ function hotels() {
             
 
 
-            <Footer />
+          
         </>
     );
 }

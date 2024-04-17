@@ -3,6 +3,8 @@ using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Services.ServiceClasses;
 using Selu383.SP24.Api.Services;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,8 +43,10 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
+
+
 using (var scope = app.Services.CreateScope())
-{
+{    
     await SeedHelper.MigrateAndSeed(scope.ServiceProvider);
 }
 
