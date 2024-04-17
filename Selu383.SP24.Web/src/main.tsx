@@ -15,7 +15,6 @@ import ErrorPage from "./error-page";
 import SignUp from './routes/login/sign-up.tsx';
 import Home from './routes/home.tsx';
 import Login from './routes/login/login.tsx';
-import Header from "./elements/NavigationBar.tsx"
 import Hotels from './routes/hotel/index.tsx';
 import FindHotel from './routes/hotel/search.tsx';
 import HotelDetails from './routes/hotel/details.tsx';

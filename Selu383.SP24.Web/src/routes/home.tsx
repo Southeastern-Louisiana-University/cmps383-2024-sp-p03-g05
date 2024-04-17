@@ -1,4 +1,4 @@
-import Footer from "../elements/footer.tsx"
+
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
