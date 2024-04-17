@@ -1,8 +1,7 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import {FormEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
-import Footer from "../../elements/footer.tsx";
 import AuthContext from "../../features/authentication/AuthContext";
 import useFetch from "use-http";
 
