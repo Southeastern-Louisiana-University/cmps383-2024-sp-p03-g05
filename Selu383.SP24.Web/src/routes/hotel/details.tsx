@@ -2,7 +2,6 @@ import { Link, Outlet, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HotelDto } from "../../features/hotels/HotelDto";
 import { Button, Form } from "react-bootstrap";
-//import { roomGetDto } from "../../features/rooms/roomGetDto";
 import { packageGetDto } from "../../features/package/packagesGetDto";
 
 
@@ -17,8 +16,6 @@ export default function hotelDetails() {
 
     const [getCheckInDate, setCheckInDate] = useState("");
     const [getCheckOutDate, setCheckOutDate] = useState("");
-
-    //const [packages, setpackages] = useState<packageGetDto[]>([]);
 
 
     useEffect(() => {
