@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { packageGetDto } from "../../../features/package/packagesGetDto";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import AuthContext from "../../../features/authentication/AuthContext";
 
 
 export default function schedule() {
@@ -73,22 +74,30 @@ export default function schedule() {
 
 
 function BookButton({packageId}:{packageId: number}) {
-    const [isAuthed, setIsAuthed] = useState(false);
+    const authContext = useContext(AuthContext);
+    const [cardOnFile, setCardOnFile] = useState<boolean>(false);
     const [params] = useSearchParams();
     const checkInDate = params.get("checkInDate") ?? ""
     const checkoutDate = params.get("checkOutDate") ?? ""
     const { id } = useParams();
     const hotelId:string = id ?? ""
 
-    useEffect(() => {
-        fetch(`/api/authentication/me`, {
+    
+
+
+    if (typeof authContext?.user != null  && typeof authContext?.user != undefined) {
+
+        useEffect(() => {
+        fetch("/api/users/GetCardOnFile?id=" + authContext?.user?.id, {
             method: "get",
         })
-            .then(response => { if (response.ok) { setIsAuthed(true) } })
+            .then<boolean>((r) => r.json())
+            .then((j) => {
+                setCardOnFile(j);
+            });
     }, []);
 
-
-    if (isAuthed) {
+    if(cardOnFile){
         return (
             <>
                 <Link to={`/confirmation/create?checkInDate=${encodeURIComponent(checkInDate)}&checkOutDate=${encodeURIComponent(checkoutDate)}&hotel=${encodeURIComponent(hotelId)}&package=${encodeURIComponent(packageId)}`}>
@@ -97,6 +106,12 @@ function BookButton({packageId}:{packageId: number}) {
                 </Link>
             </>
         )
+    }else{
+        return(<>
+        
+        </>)
+    }
+        
     }
     else {
         return (
