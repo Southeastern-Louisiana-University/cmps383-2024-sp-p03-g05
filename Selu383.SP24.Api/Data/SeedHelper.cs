@@ -16,7 +16,6 @@ public static class SeedHelper
         await AddRoles(serviceProvider);
         await AddUsers(serviceProvider);
 
-        await AddHotels(dataContext);
     }
 
     private static async Task AddUsers(IServiceProvider serviceProvider)
@@ -56,7 +55,7 @@ public static class SeedHelper
         var roleManager = serviceProvider.GetRequiredService<RoleManager<Role>>();
         if (roleManager.Roles.Any())
         {
-            return;
+            //return;
         }
         await roleManager.CreateAsync(new Role
         {
@@ -67,9 +66,21 @@ public static class SeedHelper
         {
             Name = RoleNames.User
         });
+        await roleManager.CreateAsync(new Role
+        {
+            Name = RoleNames.Customer
+        });
+        await roleManager.CreateAsync(new Role
+        {
+            Name = RoleNames.Manager
+        });
+        await roleManager.CreateAsync(new Role
+        {
+            Name = RoleNames.Employee
+        });
     }
 
-    private static async Task AddHotels(DataContext dataContext)
+   /* private static async Task AddHotels(DataContext dataContext)
     {
         var hotels = dataContext.Hotels.ToList();
 
@@ -89,5 +100,5 @@ public static class SeedHelper
         }
 
         await dataContext.SaveChangesAsync();
-    }
+    }*/
 }

@@ -15,7 +15,6 @@ public class Room
     public int RoomNumber { get; set; }
     public int RoomStatusId { get; set; }
     public UniversalStatus? RoomStatus { get; set; }
-    // Directly navigate to Reservations from Room
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }
 

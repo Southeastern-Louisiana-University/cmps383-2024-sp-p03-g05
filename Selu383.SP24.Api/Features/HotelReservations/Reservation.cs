@@ -24,10 +24,11 @@ public class Reservation
 public class ReservationDTO
 {
     public int Id { get; set; }
-    public string Hotel { get; set; }
+    public string Hotel { get; set; } = string.Empty;
     public int RoomNumber { get; set; }
     public int GuestId { get; set;}
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
+    public string PhoneNumber {  get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime ReservationStartDate { get; set;}
     public DateTime ReservationEndDate { get; set;}

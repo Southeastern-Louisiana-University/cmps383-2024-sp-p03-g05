@@ -28,11 +28,13 @@ public class HotelsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<Hotel> GetAllHotels()
+    public ActionResult<IEnumerable<HotelDto>> GetAllHotels()
     {
         var result = _context.Hotels.ToList();
 
-        return Ok(result);
+        var dtoList = _autoMapper.Map<IEnumerable<HotelDto>>(result);
+
+        return Ok(dtoList);
     }
 
 
@@ -46,7 +48,9 @@ public class HotelsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(result);
+        var dto = _autoMapper.Map<HotelDto>(result);
+
+        return Ok(dto);
     }
 
     [HttpPost]
@@ -57,7 +61,8 @@ public class HotelsController : ControllerBase
         {
             Name = dto.Name,
             Address = dto.Address,
-            ManagerId = dto.ManagerId
+            ManagerId = dto.ManagerId,
+            PhoneNumber = dto.PhoneNumber
         };
 
         _context.Hotels.Add(hotel);
@@ -89,6 +94,8 @@ public class HotelsController : ControllerBase
 
         hotel.Name = dto.Name;
         hotel.Address = dto.Address;
+        hotel.PhoneNumber = dto.PhoneNumber;
+
         if (User.IsInRole(RoleNames.Admin))
         {
             hotel.ManagerId = dto.ManagerId;
