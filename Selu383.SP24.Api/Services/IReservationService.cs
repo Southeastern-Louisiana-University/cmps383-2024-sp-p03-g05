@@ -11,4 +11,5 @@ public interface IReservationService
     Task<IEnumerable<ReservationDTO>> GetReservationsByAnyAsync(int? id, int? hotelId, int? roomId, int? roomNumber, string? reservationStatus, DateTime? reservationDate);
     Task<ReservationDTO> CreateReservationAsync(int hotelId, int packageId, DateTime reservationStartDate, DateTime reservationEndDate);
     Task<List<ReservationDTO>> SeeMyReservation();
+    Task<List<ReservationDTO>> SeeMyOldReservation();
 }

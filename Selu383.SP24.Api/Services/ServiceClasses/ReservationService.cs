@@ -34,10 +34,12 @@ public class ReservationService : IReservationService
           .ThenInclude(ro => ro.Package)
           .Include(r => r.Status)
           .Include(r => r.Guest)
+          .OrderByDescending(r => r.ReservationStartDate)
           .Select(r => new ReservationDTO
           {
               Id = r.Id,
               Hotel = r.Hotel.Name, // Assuming Hotel has a Name property
+              HotelAddress = r.Hotel.Address,
               RoomNumber = r.Room.RoomNumber, // Assuming Room has a Number property
               GuestId = r.Guest.Id,
               Status = r.Status.Status, // Assuming Status has a Name property
@@ -66,10 +68,12 @@ public class ReservationService : IReservationService
             .ThenInclude(ro => ro.Package)
             .Include(r => r.Status)
             .Include(r => r.Guest)
+            .OrderByDescending(r => r.ReservationStartDate)
             .Select(r => new ReservationDTO
             {
                 Id = r.Id,
                 Hotel = r.Hotel.Name, // Assuming Hotel has a Name property
+                HotelAddress = r.Hotel.Address,
                 RoomNumber = r.Room.RoomNumber, // Assuming Room has a Number property
                 GuestId = r.Guest.Id,
                 Status = r.Status.Status, // Assuming Status has a Name property
@@ -174,6 +178,7 @@ public class ReservationService : IReservationService
             {
                 Id = reservation.Id,
                 Hotel = hotel.Name,
+                HotelAddress = hotel.Address,
                 RoomNumber = roomToReserve.RoomNumber,
                 GuestId = user.Id,
                 Status = status.Status,
@@ -210,16 +215,54 @@ public class ReservationService : IReservationService
             .Where(r => r.GuestId == user.Id)
             .Include(r => r.Room)
             .ThenInclude(room => room.Hotel)
-            .Include(r => r.Status) 
+            .Include(r => r.Status)
+            .OrderByDescending(r => r.ReservationStartDate)
             .ToListAsync();
 
         var reservationDTOs = reservations.Select(r => new ReservationDTO
         {
             Id = r.Id,
             Hotel = r.Room.Hotel.Name, 
+            HotelAddress = r.Room.Hotel.Address,
             RoomNumber = r.Room.RoomNumber, 
             GuestId = r.GuestId,
             Status = r.Status.Status, 
+            CreatedAt = r.CreatedAt,
+            PhoneNumber = r.Hotel.PhoneNumber,
+            ReservationStartDate = r.ReservationStartDate,
+            ReservationEndDate = r.ReservationEndDate,
+        }).ToList();
+
+        return reservationDTOs;
+    }
+
+
+    public async Task<List<ReservationDTO>> SeeMyOldReservation()
+    {
+        var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+        if (user == null)
+        {
+
+            throw new UnauthorizedAccessException("User not found.");
+        }
+
+        var reservations = await _context.Reservations
+            .Where(r => r.GuestId == user.Id)
+            .Where(r => r.ReservationStartDate < DateTime.Now)
+            .Include(r => r.Room)
+            .ThenInclude(room => room.Hotel)
+            .Include(r => r.Status)
+            .OrderByDescending(r => r.ReservationStartDate)
+            .ToListAsync();
+
+        var reservationDTOs = reservations.Select(r => new ReservationDTO
+        {
+            Id = r.Id,
+            Hotel = r.Room.Hotel.Name,
+            HotelAddress = r.Room.Hotel.Address,
+            RoomNumber = r.Room.RoomNumber,
+            GuestId = r.GuestId,
+            Status = r.Status.Status,
             CreatedAt = r.CreatedAt,
             PhoneNumber = r.Hotel.PhoneNumber,
             ReservationStartDate = r.ReservationStartDate,

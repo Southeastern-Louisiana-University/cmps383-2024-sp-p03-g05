@@ -89,4 +89,12 @@ public class ReservationController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("GetMyOldReservations")]
+    public async Task<ActionResult<List<ReservationDTO>>> GetMyOldReservations()
+    {
+        var result = await _reservationService.SeeMyOldReservation();
+
+        return Ok(result);
+    }
 }
