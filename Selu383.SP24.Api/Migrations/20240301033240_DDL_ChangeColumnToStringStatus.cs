@@ -12,7 +12,8 @@ namespace Selu383.SP24.Api.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_ServiceRequests_UniversalStatus_RequestStatusId",
-                table: "ServiceRequests");
+                table: "ServiceRequests"
+            );
 
             migrationBuilder.AlterColumn<int>(
                 name: "RequestStatusId",
@@ -20,21 +21,24 @@ namespace Selu383.SP24.Api.Migrations
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
-                oldType: "int");
+                oldType: "int"
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Status",
                 table: "ServiceRequests",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ServiceRequests_UniversalStatus_RequestStatusId",
                 table: "ServiceRequests",
                 column: "RequestStatusId",
                 principalTable: "UniversalStatus",
-                principalColumn: "Id");
+                principalColumn: "Id"
+            );
         }
 
         /// <inheritdoc />
@@ -42,11 +46,10 @@ namespace Selu383.SP24.Api.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_ServiceRequests_UniversalStatus_RequestStatusId",
-                table: "ServiceRequests");
+                table: "ServiceRequests"
+            );
 
-            migrationBuilder.DropColumn(
-                name: "Status",
-                table: "ServiceRequests");
+            migrationBuilder.DropColumn(name: "Status", table: "ServiceRequests");
 
             migrationBuilder.AlterColumn<int>(
                 name: "RequestStatusId",
@@ -56,7 +59,8 @@ namespace Selu383.SP24.Api.Migrations
                 defaultValue: 0,
                 oldClrType: typeof(int),
                 oldType: "int",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ServiceRequests_UniversalStatus_RequestStatusId",
@@ -64,7 +68,8 @@ namespace Selu383.SP24.Api.Migrations
                 column: "RequestStatusId",
                 principalTable: "UniversalStatus",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
         }
     }
 }

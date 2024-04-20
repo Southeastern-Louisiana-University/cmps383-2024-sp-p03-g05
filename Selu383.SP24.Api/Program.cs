@@ -1,18 +1,19 @@
 using Microsoft.EntityFrameworkCore;
-using Selu383.SP24.Api.Data;
-using Selu383.SP24.Api.Features.Authorization;
-using Selu383.SP24.Api.Services.ServiceClasses;
-using Selu383.SP24.Api.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Selu383.SP24.Api.Data;
+using Selu383.SP24.Api.Features.Authorization;
+using Selu383.SP24.Api.Services;
+using Selu383.SP24.Api.Services.ServiceClasses;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")));
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext"))
+);
 
-builder.Services.AddIdentity<User, Role>()
-    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<DataContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -29,24 +30,22 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
- 
 builder.Services.AddScoped<IReservationService, ReservationService>();
+
 // Other service registrations
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddHttpContextAccessor();
 
-
 var app = builder.Build();
 
-
-
 using (var scope = app.Services.CreateScope())
-{    
+{
     await SeedHelper.MigrateAndSeed(scope.ServiceProvider);
 }
 
@@ -61,8 +60,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
-app
-    .UseRouting()
+app.UseRouting()
     .UseAuthorization()
     .UseEndpoints(x =>
     {

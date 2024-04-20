@@ -10,7 +10,8 @@ namespace Selu383.SP24.Api.Features.HotelServices
             builder.ToTable("ServiceRequests");
 
             builder.HasKey(sr => sr.Id);
-            builder.HasOne(sr => sr.RequestStatus)
+            builder
+                .HasOne(sr => sr.RequestStatus)
                 .WithMany()
                 .HasForeignKey(sr => sr.RequestStatusId)
                 .OnDelete(DeleteBehavior.NoAction);
@@ -25,8 +26,6 @@ namespace Selu383.SP24.Api.Features.HotelServices
 
             // Primary Key
             builder.HasKey(srs => srs.Id);
-
         }
     }
 }
-

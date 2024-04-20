@@ -30,7 +30,9 @@ public sealed class WebTestContext : IDisposable
     {
         if (webHostFactory == null)
         {
-            webHostFactory = new WebHostFactory<Program>(SqlServerTestDatabaseProvider.GetConnectionString());
+            webHostFactory = new WebHostFactory<Program>(
+                SqlServerTestDatabaseProvider.GetConnectionString()
+            );
         }
 
         return webHostFactory.Services;
@@ -40,7 +42,9 @@ public sealed class WebTestContext : IDisposable
     {
         if (webHostFactory == null)
         {
-            webHostFactory = new WebHostFactory<Program>(SqlServerTestDatabaseProvider.GetConnectionString());
+            webHostFactory = new WebHostFactory<Program>(
+                SqlServerTestDatabaseProvider.GetConnectionString()
+            );
         }
 
         if (cleanNeeded)
@@ -51,7 +55,10 @@ public sealed class WebTestContext : IDisposable
         }
 
         var cookieContainer = new CookieContainer(100);
-        return webHostFactory.CreateDefaultClient(new RedirectHandler(10), new NonSecureCookieHandler(cookieContainer));
+        return webHostFactory.CreateDefaultClient(
+            new RedirectHandler(10),
+            new NonSecureCookieHandler(cookieContainer)
+        );
     }
 
     public void Dispose()
@@ -59,7 +66,8 @@ public sealed class WebTestContext : IDisposable
         cleanNeeded = true;
     }
 
-    public class WebHostFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    public class WebHostFactory<TStartup> : WebApplicationFactory<TStartup>
+        where TStartup : class
     {
         private readonly string connectionString;
 
@@ -72,16 +80,18 @@ public sealed class WebTestContext : IDisposable
         {
             x.ConfigureAppConfiguration(y =>
             {
-                y.Add(new MemoryConfigurationSource
-                {
-                    InitialData = new List<KeyValuePair<string, string?>>
+                y.Add(
+                    new MemoryConfigurationSource
                     {
-                        new("ConnectionStrings:DataContext", connectionString),
-                        new("Logging:LogLevel:Microsoft", "Error"),
-                        new("Logging:LogLevel:Microsoft.Hosting.Lifetime", "Error"),
-                        new("Logging:LogLevel:Default", "Error")
+                        InitialData = new List<KeyValuePair<string, string?>>
+                        {
+                            new("ConnectionStrings:DataContext", connectionString),
+                            new("Logging:LogLevel:Microsoft", "Error"),
+                            new("Logging:LogLevel:Microsoft.Hosting.Lifetime", "Error"),
+                            new("Logging:LogLevel:Default", "Error")
+                        }
                     }
-                });
+                );
             });
             base.ConfigureWebHost(x);
         }
@@ -96,9 +106,14 @@ public sealed class WebTestContext : IDisposable
             this.cookieContainer = cookieContainer;
         }
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken
+        )
         {
-            var cookieHeader = cookieContainer.GetCookieHeader(request.RequestUri ?? throw new Exception("No request uri"));
+            var cookieHeader = cookieContainer.GetCookieHeader(
+                request.RequestUri ?? throw new Exception("No request uri")
+            );
 
             if (!string.IsNullOrWhiteSpace(cookieHeader))
             {
@@ -113,7 +128,11 @@ public sealed class WebTestContext : IDisposable
                     // HACK: we cannot test on https so we have to force it to be insecure
                     var keys = header.Split("; ").Where(x => !string.Equals(x, "secure"));
                     var result = string.Join("; ", keys);
-                    cookieContainer.SetCookies(response.RequestMessage?.RequestUri ?? throw new Exception("No request uri"), result);
+                    cookieContainer.SetCookies(
+                        response.RequestMessage?.RequestUri
+                            ?? throw new Exception("No request uri"),
+                        result
+                    );
                 }
             }
 

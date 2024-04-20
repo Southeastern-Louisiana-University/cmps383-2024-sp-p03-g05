@@ -7,10 +7,9 @@ namespace Selu383.SP24.Api.Features.HotelRoom
     {
         public void Configure(EntityTypeBuilder<RoomPackage> builder)
         {
-            builder.ToTable("RoomPackages"); 
+            builder.ToTable("RoomPackages");
 
             builder.HasKey(rp => rp.Id);
-
         }
     }
 }

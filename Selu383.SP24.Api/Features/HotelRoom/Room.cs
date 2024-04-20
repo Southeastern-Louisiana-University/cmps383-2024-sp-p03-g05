@@ -18,7 +18,6 @@ public class Room
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }
 
-
 public class RoomDTO
 {
     public int Id { get; set; }
@@ -26,7 +25,7 @@ public class RoomDTO
     public string Package { get; set; }
     public double Price { get; set; }
     public int RoomNumber { get; set; }
-    public string RoomStatus { get; set; } 
+    public string RoomStatus { get; set; }
 }
 
 public class CreateRoomDTO
@@ -34,5 +33,5 @@ public class CreateRoomDTO
     public int HotelId { get; set; }
     public int PackageId { get; set; }
     public double Price { get; set; }
-    public int RoomNumber { get; set;}
+    public int RoomNumber { get; set; }
 }

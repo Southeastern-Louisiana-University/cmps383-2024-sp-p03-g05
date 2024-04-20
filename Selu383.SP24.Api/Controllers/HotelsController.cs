@@ -19,7 +19,12 @@ public class HotelsController : ControllerBase
     private readonly ILogger<ServiceRequestController> _logger;
     private readonly IMapper _autoMapper;
 
-    public HotelsController(DataContext dataContext, UserManager<User> userManager, ILogger<ServiceRequestController> logger, IMapper mapper)
+    public HotelsController(
+        DataContext dataContext,
+        UserManager<User> userManager,
+        ILogger<ServiceRequestController> logger,
+        IMapper mapper
+    )
     {
         this._context = dataContext;
         _userManager = userManager;
@@ -36,7 +41,6 @@ public class HotelsController : ControllerBase
 
         return Ok(dtoList);
     }
-
 
     [HttpGet]
     [Route("{id}")]
@@ -79,8 +83,6 @@ public class HotelsController : ControllerBase
     [Authorize]
     public ActionResult<HotelDto> UpdateHotel(int id, HotelDto dto)
     {
-        
-
         var hotel = _context.Hotels.FirstOrDefault(x => x.Id == id);
         if (hotel == null)
         {
@@ -139,11 +141,13 @@ public class HotelsController : ControllerBase
             return BadRequest("Search term cannot be empty.");
         }
 
-        var result = _context.Hotels
-            .Where(h => EF.Functions.Like(h.Name, $"%{searchTerm}%") || EF.Functions.Like(h.Address, $"%{searchTerm}%"))
+        var result = _context
+            .Hotels.Where(h =>
+                EF.Functions.Like(h.Name, $"%{searchTerm}%")
+                || EF.Functions.Like(h.Address, $"%{searchTerm}%")
+            )
             .ToList();
 
         return Ok(result);
     }
-
 }

@@ -21,7 +21,13 @@ public class ReservationController : ControllerBase
     private readonly IMapper _autoMapper;
     private readonly IReservationService _reservationService;
 
-    public ReservationController(IReservationService reservationService, DataContext dataContext, UserManager<User> userManager, ILogger<ServiceRequestController> logger, IMapper mapper)
+    public ReservationController(
+        IReservationService reservationService,
+        DataContext dataContext,
+        UserManager<User> userManager,
+        ILogger<ServiceRequestController> logger,
+        IMapper mapper
+    )
     {
         _context = dataContext;
         _userManager = userManager;
@@ -39,34 +45,54 @@ public class ReservationController : ControllerBase
     }
 
     [HttpGet("GetReservationsBetweenDates")]
-    public async Task<ActionResult<IEnumerable<ReservationDTO>>> GetReservationsBetweenDates(DateTime startDate, DateTime endDate)
+    public async Task<ActionResult<IEnumerable<ReservationDTO>>> GetReservationsBetweenDates(
+        DateTime startDate,
+        DateTime endDate
+    )
     {
         var result = await _reservationService.GetReservationsBetweenDatesAsync(startDate, endDate);
-        
+
         return Ok(result);
     }
 
-
     [HttpGet("GetReservationByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
-      [FromQuery] int? id,
-      [FromQuery] int? hotelId,
-      [FromQuery] int? roomId,
-      [FromQuery] int? roomNumber,
-      [FromQuery] string? reservationStatus,
-      [FromQuery] DateTime? reservationDate)
+        [FromQuery] int? id,
+        [FromQuery] int? hotelId,
+        [FromQuery] int? roomId,
+        [FromQuery] int? roomNumber,
+        [FromQuery] string? reservationStatus,
+        [FromQuery] DateTime? reservationDate
+    )
     {
-        var result = await _reservationService.GetReservationsByAnyAsync(id, hotelId, roomId, roomNumber, reservationStatus, reservationDate);
+        var result = await _reservationService.GetReservationsByAnyAsync(
+            id,
+            hotelId,
+            roomId,
+            roomNumber,
+            reservationStatus,
+            reservationDate
+        );
 
         return Ok(result);
     }
 
     [HttpPost("CreateReservation")]
-    public async Task<ActionResult<ReservationDTO>> CreateReservation(int hotelId, int packageId, DateTime reservationStartDate, DateTime reservationEndDate)
+    public async Task<ActionResult<ReservationDTO>> CreateReservation(
+        int hotelId,
+        int packageId,
+        DateTime reservationStartDate,
+        DateTime reservationEndDate
+    )
     {
         try
         {
-            var result = await _reservationService.CreateReservationAsync(hotelId, packageId, reservationStartDate, reservationEndDate);
+            var result = await _reservationService.CreateReservationAsync(
+                hotelId,
+                packageId,
+                reservationStartDate,
+                reservationEndDate
+            );
             return Ok(result);
         }
         catch (UnauthorizedAccessException ex)
@@ -78,7 +104,10 @@ public class ReservationController : ControllerBase
         {
             // Handle other exceptions, possibly returning a generic error response
             // Log the exception and return a suitable error message
-            return StatusCode(500, new { message = "An error occurred while processing your request." });
+            return StatusCode(
+                500,
+                new { message = "An error occurred while processing your request." }
+            );
         }
     }
 

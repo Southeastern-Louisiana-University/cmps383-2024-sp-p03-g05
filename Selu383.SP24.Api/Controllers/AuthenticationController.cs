@@ -16,7 +16,8 @@ public class AuthenticationController : ControllerBase
 
     public AuthenticationController(
         SignInManager<User> signInManager,
-        UserManager<User> userManager)
+        UserManager<User> userManager
+    )
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
@@ -27,7 +28,8 @@ public class AuthenticationController : ControllerBase
     public async Task<ActionResult<UserDto>> Me()
     {
         var username = User.GetCurrentUserName();
-        var resultDto = await GetUserDto(userManager.Users).SingleAsync(x => x.UserName == username);
+        var resultDto = await GetUserDto(userManager.Users)
+            .SingleAsync(x => x.UserName == username);
         return Ok(resultDto);
     }
 
@@ -47,7 +49,8 @@ public class AuthenticationController : ControllerBase
 
         await signInManager.SignInAsync(user, false);
 
-        var resultDto = await GetUserDto(userManager.Users).SingleAsync(x => x.UserName == user.UserName);
+        var resultDto = await GetUserDto(userManager.Users)
+            .SingleAsync(x => x.UserName == user.UserName);
         return Ok(resultDto);
     }
 

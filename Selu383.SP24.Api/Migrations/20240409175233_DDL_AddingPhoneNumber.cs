@@ -15,15 +15,14 @@ namespace Selu383.SP24.Api.Migrations
                 table: "Hotels",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "PhoneNumber",
-                table: "Hotels");
+            migrationBuilder.DropColumn(name: "PhoneNumber", table: "Hotels");
         }
     }
 }
