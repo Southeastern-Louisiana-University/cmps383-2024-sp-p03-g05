@@ -65,6 +65,7 @@ public class ReservationService : IReservationService
     {
         if (startDate > endDate)
         {
+            //return an empty list
             return new List<ReservationDTO>();
         }
 

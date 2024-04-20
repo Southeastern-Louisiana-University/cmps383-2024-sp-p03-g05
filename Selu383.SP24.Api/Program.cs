@@ -31,6 +31,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IHotelService, HotelService>();
 
 // Other service registrations
 

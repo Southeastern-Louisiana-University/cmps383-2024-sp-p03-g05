@@ -7,6 +7,7 @@ using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Extensions;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.Hotels;
+using Selu383.SP24.Api.Services;
 
 namespace Selu383.SP24.Api.Controllers;
 
@@ -18,62 +19,45 @@ public class HotelsController : ControllerBase
     private readonly UserManager<User> _userManager;
     private readonly ILogger<ServiceRequestController> _logger;
     private readonly IMapper _autoMapper;
+    private readonly IHotelService _hotelService;
 
     public HotelsController(
         DataContext dataContext,
         UserManager<User> userManager,
         ILogger<ServiceRequestController> logger,
-        IMapper mapper
+        IMapper mapper,
+        IHotelService hotelService
     )
     {
         this._context = dataContext;
         _userManager = userManager;
         _logger = logger;
         _autoMapper = mapper;
+        _hotelService = hotelService;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<HotelDto>> GetAllHotels()
+    public async Task<ActionResult<IEnumerable<HotelDto>>> GetAllHotels()
     {
-        var result = _context.Hotels.ToList();
+        var result = await _hotelService.GetAllHotels();
 
-        var dtoList = _autoMapper.Map<IEnumerable<HotelDto>>(result);
-
-        return Ok(dtoList);
+        return Ok(result);
     }
 
     [HttpGet]
     [Route("{id}")]
-    public ActionResult<HotelDto> GetHotelById(int id)
+    public async Task<ActionResult<HotelDto>> GetHotelById(int id)
     {
-        var result = _context.Hotels.FirstOrDefault(h => h.Id == id);
-        if (result == null)
-        {
-            return NotFound();
-        }
+        var result = await _hotelService.GetHotelById(id);
 
-        var dto = _autoMapper.Map<HotelDto>(result);
-
-        return Ok(dto);
+        return Ok(result);
     }
 
     [HttpPost]
     [Authorize(Roles = RoleNames.Admin)]
-    public ActionResult<HotelDto> CreateHotel(HotelDto dto)
+    public async Task<ActionResult<HotelDto>> CreateHotel(HotelDto dto)
     {
-        var hotel = new Hotel
-        {
-            Name = dto.Name,
-            Address = dto.Address,
-            ManagerId = dto.ManagerId,
-            PhoneNumber = dto.PhoneNumber
-        };
-
-        _context.Hotels.Add(hotel);
-
-        _context.SaveChanges();
-
-        dto.Id = hotel.Id;
+        var result = await _hotelService.CreateHotel(dto);
 
         return CreatedAtAction(nameof(GetHotelById), new { id = dto.Id }, dto);
     }
@@ -81,56 +65,26 @@ public class HotelsController : ControllerBase
     [HttpPut]
     [Route("{id}")]
     [Authorize]
-    public ActionResult<HotelDto> UpdateHotel(int id, HotelDto dto)
+    public async Task<ActionResult<HotelDto>> UpdateHotel(int id, HotelDto dto)
     {
-        var hotel = _context.Hotels.FirstOrDefault(x => x.Id == id);
-        if (hotel == null)
-        {
-            return NotFound();
-        }
+        var result = await _hotelService.UpdateHotel(id, dto);
 
-        if (!User.IsInRole(RoleNames.Admin) && User.GetCurrentUserId() != hotel.ManagerId)
+        if (!User.IsInRole(RoleNames.Admin) && User.GetCurrentUserId() != result.ManagerId)
         {
             return Forbid();
         }
 
-        hotel.Name = dto.Name;
-        hotel.Address = dto.Address;
-        hotel.PhoneNumber = dto.PhoneNumber;
-
-        if (User.IsInRole(RoleNames.Admin))
-        {
-            hotel.ManagerId = dto.ManagerId;
-        }
-
-        _context.SaveChanges();
-
-        dto.Id = hotel.Id;
-
-        return Ok(dto);
+        return Ok(result);
     }
 
     [HttpDelete]
     [Route("{id}")]
     [Authorize]
-    public ActionResult DeleteHotel(int id)
+    public async Task<ActionResult> DeleteHotel(int id)
     {
-        var hotel = _context.Hotels.FirstOrDefault(x => x.Id == id);
-        if (hotel == null)
-        {
-            return NotFound();
-        }
+        var result = await _hotelService.DeleteHotel(id);
 
-        if (!User.IsInRole(RoleNames.Admin) && User.GetCurrentUserId() != hotel.ManagerId)
-        {
-            return Forbid();
-        }
-
-        _context.Hotels.Remove(hotel);
-
-        _context.SaveChanges();
-
-        return Ok();
+        return Ok(result);
     }
 
     [HttpGet("SearchForHotel")]
