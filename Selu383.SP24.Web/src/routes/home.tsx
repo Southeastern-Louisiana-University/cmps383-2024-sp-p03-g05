@@ -1,4 +1,4 @@
-import Footer from "../elements/footer.tsx"
+
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -60,81 +60,6 @@ function Home() {
                 height: "2vh",
             }}>
             </div>
-
-
-            {/*<div style={{
-                backgroundImage: `url(${beach})`,
-                height: "80vh",
-                // fontSize: "50px",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover", // Add this line
-                backgroundAttachment: "fixed", // Add this line
-            }}>
-                <br />
-
-                 <div className="container" style={{ backgroundColor: 'rgba(255,255,255,.45)' }}>
-                    <div className="row">
-                        <div className="col-1"></div>
-
-                        <div className="col-2">
-                            <table>
-                                <tr>
-                                    <td><h3>We have Info</h3></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="https://loremflickr.com/250/300" /></td>
-                                </tr>
-                                <tr>
-                                    <td><p>hello I say words and more works with stuff and more stuff</p></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div className="col-2"></div>
-
-                        <div className="col-2">
-                            <table>
-                                <tr>
-                                    <td><h3>We have Info</h3></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="https://loremflickr.com/250/300" /></td>
-                                </tr>
-                                <tr>
-                                    <td><p>hello I say words and more works with stuff and more stuff</p></td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div className="col-2"></div>
-
-                        <div className="col-2">
-                            <table>
-                                <tr>
-                                    <td><h3>We have Info</h3></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="https://loremflickr.com/250/300" /></td>
-                                </tr>
-                                <tr>
-                                    <td><p>hello I say words and more works with stuff and more stuff</p></td>
-                                </tr>
-                            </table>
-
-                        </div>
-                        <div className="col-1">
-                            
-                        </div>
-                    </div> 
-                    
-
-
-                </div>
-            
-
-            </div>*/}
-
-
-            <Footer />
         </>
     )
 }
