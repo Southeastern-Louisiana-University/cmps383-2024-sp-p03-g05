@@ -74,7 +74,7 @@ function ConfirmationBar({ reservation }: { reservation: reservationDto }) {
                     <div>
                         <br />
                         <h2>{reservation.hotel ?? "Hotel Name"}</h2>
-                        <p><a href="tel:{reservation?.phone ?? '(225) 910-8239'}"><i>{reservation?.phone ?? "(225) 910-8239"}</i></a></p>
+                        <p><a href="tel:{reservation?.phone ?? '(225) 910-8239'}"><i>{reservation?.phoneNumber ?? "(225) 910-8239"}</i></a></p>
                         <p>{reservation?.address ?? "Placeholder Address, City, State, ZIP"}</p>
                     </div>
                 </div>
@@ -107,7 +107,7 @@ function ConfirmationBar({ reservation }: { reservation: reservationDto }) {
                     <div>
                         <br />
                         <h2>{reservation.hotel ?? "Hotel Name"}</h2>
-                        <p><a href="tel:{reservation?.phone ?? '(225) 910-8239'}"><i>{reservation?.phone ?? "(225) 910-8239"}</i></a></p>
+                        <p><a href="tel:{reservation?.phone ?? '(225) 910-8239'}"><i>{reservation?.phoneNumber ?? "(225) 910-8239"}</i></a></p>
                         <p>{reservation?.address ?? "Placeholder Address, City, State, ZIP"}</p>
                     </div>
                 </div>
