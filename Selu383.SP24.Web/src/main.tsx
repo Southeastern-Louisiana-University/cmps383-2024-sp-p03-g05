@@ -25,6 +25,7 @@ import RecallConfirmation from './routes/confirmation/recall.tsx'
 import MainLayout from './routes/_layout.tsx';
 import MyAccount from './routes/user/myaccount.tsx';
 import MyReservations from './routes/confirmation/myconfirmations.tsx';
+import MyOldConfirmations from './routes/confirmation/myOldConfirmations.tsx'
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,9 @@ const router = createBrowserRouter([
       }, {
         path: "/confirmation",
         element: <MyReservations />,
+      }, {
+        path: "/confirmation/archives",
+        element: <MyOldConfirmations />,
       }, {
         path: "/confirmation/recall/:id",
         element: <RecallConfirmation />,
