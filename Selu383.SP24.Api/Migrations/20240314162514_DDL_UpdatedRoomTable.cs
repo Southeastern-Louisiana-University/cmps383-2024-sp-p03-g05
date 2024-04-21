@@ -14,19 +14,22 @@ namespace Selu383.SP24.Api.Migrations
                 name: "RoomId1",
                 table: "Reservations",
                 type: "int",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomId1",
                 table: "Reservations",
-                column: "RoomId1");
+                column: "RoomId1"
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Reservations_Rooms_RoomId1",
                 table: "Reservations",
                 column: "RoomId1",
                 principalTable: "Rooms",
-                principalColumn: "Id");
+                principalColumn: "Id"
+            );
         }
 
         /// <inheritdoc />
@@ -34,15 +37,12 @@ namespace Selu383.SP24.Api.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Reservations_Rooms_RoomId1",
-                table: "Reservations");
+                table: "Reservations"
+            );
 
-            migrationBuilder.DropIndex(
-                name: "IX_Reservations_RoomId1",
-                table: "Reservations");
+            migrationBuilder.DropIndex(name: "IX_Reservations_RoomId1", table: "Reservations");
 
-            migrationBuilder.DropColumn(
-                name: "RoomId1",
-                table: "Reservations");
+            migrationBuilder.DropColumn(name: "RoomId1", table: "Reservations");
         }
     }
 }

@@ -14,5 +14,4 @@ public class CreateCustomerDto
 
     public string FistName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-
 }

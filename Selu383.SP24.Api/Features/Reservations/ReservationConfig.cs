@@ -12,26 +12,29 @@ namespace Selu383.SP24.Api.Features.HotelRoom
 
             builder.HasKey(r => r.Id);
 
-            builder.HasOne(r => r.Hotel)
+            builder
+                .HasOne(r => r.Hotel)
                 .WithMany()
                 .HasForeignKey(r => r.HotelId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(r => r.Room)
+            builder
+                .HasOne(r => r.Room)
                 .WithMany()
                 .HasForeignKey(r => r.RoomId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(r => r.Status)
+            builder
+                .HasOne(r => r.Status)
                 .WithMany()
                 .HasForeignKey(r => r.StatusId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(r => r.Guest)
+            builder
+                .HasOne(r => r.Guest)
                 .WithMany()
                 .HasForeignKey(r => r.GuestId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
-

@@ -28,11 +28,10 @@ internal static class AuthenticationHelpers
     {
         try
         {
-            var responseMessage = await webClient.PostAsJsonAsync("/api/authentication/login", new LoginDto
-            {
-                UserName = "galkadi",
-                Password = DefaultUserPassword
-            });
+            var responseMessage = await webClient.PostAsJsonAsync(
+                "/api/authentication/login",
+                new LoginDto { UserName = "galkadi", Password = DefaultUserPassword }
+            );
             return await AssertLoginFunctions(responseMessage);
         }
         catch (Exception)
@@ -45,11 +44,10 @@ internal static class AuthenticationHelpers
     {
         try
         {
-            var responseMessage = await webClient.PostAsJsonAsync("/api/authentication/login", new LoginDto
-            {
-                UserName = "bob",
-                Password = DefaultUserPassword
-            });
+            var responseMessage = await webClient.PostAsJsonAsync(
+                "/api/authentication/login",
+                new LoginDto { UserName = "bob", Password = DefaultUserPassword }
+            );
             return await AssertLoginFunctions(responseMessage);
         }
         catch (Exception)
@@ -62,11 +60,10 @@ internal static class AuthenticationHelpers
     {
         try
         {
-            var responseMessage = await webClient.PostAsJsonAsync("/api/authentication/login", new LoginDto
-            {
-                UserName = "sue",
-                Password = DefaultUserPassword
-            });
+            var responseMessage = await webClient.PostAsJsonAsync(
+                "/api/authentication/login",
+                new LoginDto { UserName = "sue", Password = DefaultUserPassword }
+            );
             return await AssertLoginFunctions(responseMessage);
         }
         catch (Exception)
@@ -77,22 +74,46 @@ internal static class AuthenticationHelpers
 
     internal static async Task<UserDto> AssertLoginFunctions(this HttpResponseMessage httpResponse)
     {
-        httpResponse.StatusCode.Should().Be(HttpStatusCode.OK, "we expect an HTTP 200 when calling POST /api/authentication/login when a valid username / password is given");
-        httpResponse.Headers.Should().ContainKey("Set-Cookie", "we expect that a login operation will use Set-Cookie to log the user in");
+        httpResponse
+            .StatusCode.Should()
+            .Be(
+                HttpStatusCode.OK,
+                "we expect an HTTP 200 when calling POST /api/authentication/login when a valid username / password is given"
+            );
+        httpResponse
+            .Headers.Should()
+            .ContainKey(
+                "Set-Cookie",
+                "we expect that a login operation will use Set-Cookie to log the user in"
+            );
 
         var resultDto = await httpResponse.Content.ReadAsJsonAsync<UserDto>();
         resultDto.Should().NotBeNull("we expect a UserDto as the result of logging in");
         Assert.IsNotNull(resultDto);
-        resultDto.Id.Should().BeGreaterThan(0, "we should have a valid user Id returned after logging in");
-        resultDto.UserName.Should().NotBeNullOrEmpty("we should have a valid user name returned after logging in");
+        resultDto
+            .Id.Should()
+            .BeGreaterThan(0, "we should have a valid user Id returned after logging in");
+        resultDto
+            .UserName.Should()
+            .NotBeNullOrEmpty("we should have a valid user name returned after logging in");
 
         return resultDto;
     }
 
     internal static void AssertLogoutFunctions(this HttpResponseMessage httpResponse)
     {
-        httpResponse.StatusCode.Should().Be(HttpStatusCode.OK, "we expect an HTTP 200 when calling POST /api/authentication/logout while logged in");
-        httpResponse.Headers.Should().ContainKey("Set-Cookie", "we expect that a logout operation will use Set-Cookie to log the user out");
+        httpResponse
+            .StatusCode.Should()
+            .Be(
+                HttpStatusCode.OK,
+                "we expect an HTTP 200 when calling POST /api/authentication/logout while logged in"
+            );
+        httpResponse
+            .Headers.Should()
+            .ContainKey(
+                "Set-Cookie",
+                "we expect that a logout operation will use Set-Cookie to log the user out"
+            );
     }
 
     internal static async Task AssertLoggedOut(this HttpClient webClient)
@@ -107,7 +128,9 @@ internal static class AuthenticationHelpers
     {
         if (await webClient.LoginAsSueAsync() == null)
         {
-            Assert.Fail("You are not ready for this test - logging as 'sue' (a user) should work first");
+            Assert.Fail(
+                "You are not ready for this test - logging as 'sue' (a user) should work first"
+            );
         }
     }
 
@@ -115,7 +138,9 @@ internal static class AuthenticationHelpers
     {
         if (await webClient.LoginAsBobAsync() == null)
         {
-            Assert.Fail("You are not ready for this test - logging as 'bob' (a user) should work first");
+            Assert.Fail(
+                "You are not ready for this test - logging as 'bob' (a user) should work first"
+            );
         }
     }
 
@@ -123,7 +148,9 @@ internal static class AuthenticationHelpers
     {
         if (await webClient.LoginAsAdminAsync() == null)
         {
-            Assert.Fail("You are not ready for this test - logging as 'galkadi' (an admin) should work first");
+            Assert.Fail(
+                "You are not ready for this test - logging as 'galkadi' (an admin) should work first"
+            );
         }
     }
 }

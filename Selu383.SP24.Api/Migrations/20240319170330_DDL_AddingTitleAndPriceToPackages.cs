@@ -15,26 +15,24 @@ namespace Selu383.SP24.Api.Migrations
                 table: "RoomPackages",
                 type: "float",
                 nullable: false,
-                defaultValue: 0.0);
+                defaultValue: 0.0
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Title",
                 table: "RoomPackages",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "StartingPrice",
-                table: "RoomPackages");
+            migrationBuilder.DropColumn(name: "StartingPrice", table: "RoomPackages");
 
-            migrationBuilder.DropColumn(
-                name: "Title",
-                table: "RoomPackages");
+            migrationBuilder.DropColumn(name: "Title", table: "RoomPackages");
         }
     }
 }
