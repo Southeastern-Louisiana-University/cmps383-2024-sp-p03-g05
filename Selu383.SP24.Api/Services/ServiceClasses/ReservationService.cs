@@ -7,6 +7,7 @@ using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.HotelReservations;
 using Selu383.SP24.Api.Features.HotelRoom;
+using System.Text.RegularExpressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Selu383.SP24.Api.Services.ServiceClasses;
@@ -212,7 +213,7 @@ public class ReservationService : IReservationService
                 RoomNumber = roomToReserve.RoomNumber,
                 GuestId = user.Id,
                 Status = status.Status,
-                PhoneNumber = hotel.PhoneNumber,
+                PhoneNumber = FormatPhoneNumber(hotel.PhoneNumber),
                 CreatedAt = DateTime.UtcNow,
                 ReservationStartDate = reservationStartDate,
                 ReservationEndDate = reservationEndDate,
@@ -257,7 +258,7 @@ public class ReservationService : IReservationService
                 GuestId = r.GuestId,
                 Status = r.Status.Status,
                 CreatedAt = r.CreatedAt,
-                PhoneNumber = r.Hotel.PhoneNumber,
+                PhoneNumber = FormatPhoneNumber(r.Hotel.PhoneNumber),
                 ReservationStartDate = r.ReservationStartDate,
                 ReservationEndDate = r.ReservationEndDate,
             })
@@ -293,12 +294,21 @@ public class ReservationService : IReservationService
                 GuestId = r.GuestId,
                 Status = r.Status.Status,
                 CreatedAt = r.CreatedAt,
-                PhoneNumber = r.Hotel.PhoneNumber,
+                PhoneNumber = FormatPhoneNumber(r.Hotel.PhoneNumber),
                 ReservationStartDate = r.ReservationStartDate,
                 ReservationEndDate = r.ReservationEndDate,
             })
             .ToList();
 
         return reservationDTOs;
+    }
+
+    private string FormatPhoneNumber(string phoneNumber)
+    {
+        // Remove non-numeric characters
+        string digits = Regex.Replace(phoneNumber, @"\D", "");
+
+        // Apply the formatting pattern
+        return Regex.Replace(digits, @"(\d{3})(\d{3})(\d{4})", "($1) $2-$3");
     }
 }
