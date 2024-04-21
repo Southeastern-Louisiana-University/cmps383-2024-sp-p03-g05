@@ -84,10 +84,11 @@ console.log(login);
   tabBarInactiveTintColor: 'gray',
   })}>
   {/*-------------------------------*/}
-  <Tab.Screen name="Home" component={Home}  />
+  <Tab.Screen name="Home" component={Home} />
   <Tab.Screen name="Search" component={HotelList} />
   <Tab.Screen name="Account" component={AccountsPage} />
-  <Tab.Screen name="Trips" component={Trips} />
+  {/* <Tab.Screen name="Trips" component={Trips} options={{ headerShown: true}}/> */}
+  <Tab.Screen name="Trips" component={Trips}/>
   </Tab.Navigator>
 );
   

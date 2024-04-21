@@ -37,10 +37,10 @@ export default function SearchBar() {
    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={30}  >
    <View style={styles.hotelContainer}>
    <Image source={require('../assets/Enstay-Hotel1.jpg')} style={styles.imageContainer}/>
-   <Text style={styles.hotelName}>Name: {item.name}</Text>
-   <Text style={styles.hotelAddress}>Address: {item.address}</Text>
+   <Text style={styles.hotelName}>{item.name}</Text>
+   <Text style={styles.hotelAddress}>{item.address}</Text>
    <Pressable style={styles.Button} onPress={() =>  navigation.navigate('Reservation', {hid: item.id})}>
-   <Text style={styles.Text}>Make A Reservations</Text>
+   <Text style={styles.buttonText}>Make A Reservations</Text>
    </Pressable>
    </View>
    </KeyboardAvoidingView>
@@ -145,6 +145,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#787063',
-  }
+    backgroundColor: "#6AA30D",
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

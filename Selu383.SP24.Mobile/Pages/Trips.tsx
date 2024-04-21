@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Trips() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   const fetchUserData = async () => {
     try {
@@ -60,7 +61,7 @@ export default function Trips() {
   if (!loggedIn) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Trips</Text>
+        <Text style={styles.title}>Welcome</Text>
         <Text style={styles.subtitle}>Please log in to view your reservations.</Text>
       </View>
     );
@@ -74,22 +75,46 @@ export default function Trips() {
     );
   }
 
+
+  
+/*
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    // Options to include the day of the week
+    const weekday = {weekday: 'long'}
+    const options = { weekday: 'long',  month: 'long', day: 'numeric',};
+    // Format the date with options
+    const formattedDate = `${date.toLocaleDateString(undefined, weekday)} at ${date.toLocaleTimeString()}`;
+    return formattedDate;
+  };
+  */
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const weekdayFormatter = new Intl.DateTimeFormat(undefined, { weekday: 'long' });
+    const dateFormatter = new Intl.DateTimeFormat(undefined, { month: 'long', day: 'numeric' });
+    const timeFormatter = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: 'numeric' });
+  
+    const formattedDate = `${weekdayFormatter.format(date)}, ${dateFormatter.format(date)} at ${timeFormatter.format(date)}`;
+    return formattedDate;
+  };
   return (
+    
     <View style={styles.container}>
       {userData.length > 0 ? (
         userData.map((reservation, index) => (
           <View key={index} style={styles.reservationContainer}>
-            <Text style={styles.reservationTitle}>Reservation ID: {reservation.id}</Text>
-            <Text>Hotel: {reservation.Hotel}</Text>
-            <Text>Room Number: {reservation.RoomNumber}</Text>
-            <Text>Status: {reservation.Status}</Text>
-            <Text>Phone Number: {reservation.PhoneNumber}</Text>
-            <Text>Reservation Start: {reservation.ReservationStartDate}</Text>
-            <Text>Reservation End: {reservation.ReservationEndDate}</Text>
+            <Text style={styles.title}>{reservation.hotel}</Text>
+            <Text style={styles.subtitle}>Phone Number: {reservation.phoneNumber}</Text>
+            <Text style={styles.subtitle}>Room Number: {reservation.roomNumber}</Text>
+            <Text style={styles.subtitle}>Start: {formatDate(reservation.reservationStartDate)}</Text>
+            <Text style={styles.subtitle}>End: {formatDate(reservation.reservationEndDate)}</Text>
           </View>
         ))
       ) : (
-        <Text>No reservations available</Text>
+        <View style={styles.reservationContainer}>
+        <Text style={styles.title}>You Have No reservations</Text>
+        </View>
       )}
     </View>
   );
@@ -105,6 +130,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    textAlign:"center",
     marginBottom: 10,
   },
   subtitle: {
@@ -113,6 +139,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   reservationContainer: {
+    textAlign:'center',
     marginBottom: 20,
     borderWidth: 1,
     borderColor: '#ccc',

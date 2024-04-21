@@ -47,27 +47,6 @@ export default function AccountsPage({ navigation }) {
 
 
 
-  // const getcard = async () => {
-  //   try {
-  //     const response = await fetch('https://selu383-sp24-p03-g05.azurewebsites.net/api/users/GetCardOnFile?userId='+userId, {
-  //       method: 'GET',
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
-  
-  //     if (!response.ok) {
-  //       setcard('No'); // Set card to 'No' if there's an error or the card is not present
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-  
-  //     const data = await response.json();
-  //     setcard(data); // Set card to 'Yes' if it's present, otherwise 'No'
-  //     console.log("Card:", data);
-  //   } catch (error) {
-  //     console.error('Error fetching card status:', error);
-  //     // Display error message to the user
-  //   }
-  // };
-
 
   const getcard = async () => {
     try {
