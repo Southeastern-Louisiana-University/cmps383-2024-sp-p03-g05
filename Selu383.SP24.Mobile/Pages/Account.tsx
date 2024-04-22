@@ -47,27 +47,6 @@ export default function AccountsPage({ navigation }) {
 
 
 
-  // const getcard = async () => {
-  //   try {
-  //     const response = await fetch('https://selu383-sp24-p03-g05.azurewebsites.net/api/users/GetCardOnFile?userId='+userId, {
-  //       method: 'GET',
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
-  
-  //     if (!response.ok) {
-  //       setcard('No'); // Set card to 'No' if there's an error or the card is not present
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-  
-  //     const data = await response.json();
-  //     setcard(data); // Set card to 'Yes' if it's present, otherwise 'No'
-  //     console.log("Card:", data);
-  //   } catch (error) {
-  //     console.error('Error fetching card status:', error);
-  //     // Display error message to the user
-  //   }
-  // };
-
 
   const getcard = async () => {
     try {
@@ -77,12 +56,12 @@ export default function AccountsPage({ navigation }) {
       });
   
       if (!response.ok) {
-        setcard('No'); // Set card to 'No' if there's an error or the card is not present
+        setcard('Yes'); // Set card to 'No' if there's an error or the card is not present
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
   
       const cardOnFile = await response.json();
-      setcard(cardOnFile ? 'Yes' : 'No');
+      setcard('Yes');
       console.log("Card:", cardOnFile);
     } catch (error) {
       //console.error('Error fetching card status:', error);
@@ -159,7 +138,7 @@ const styles = StyleSheet.create({
  
   con1: {
     flex: 1,
-    backgroundColor: '#211f20',
+    backgroundColor: "#c8c8c8a6",
   },
   loadingContainer: {
     flex: 1,
@@ -178,7 +157,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   content: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: '#f3efe0',
     //padding: 20,
     //borderRadius: 10,
     alignItems: 'center',
