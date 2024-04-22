@@ -6,6 +6,7 @@ using Selu383.SP24.Api.Controllers;
 using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.Hotels;
+using System.Text.RegularExpressions;
 
 namespace Selu383.SP24.Api.Services.ServiceClasses
 {
@@ -58,7 +59,7 @@ namespace Selu383.SP24.Api.Services.ServiceClasses
                 Name = dto.Name,
                 Address = dto.Address,
                 ManagerId = dto.ManagerId,
-                PhoneNumber = dto.PhoneNumber
+                PhoneNumber = FormatPhoneNumber(dto.PhoneNumber),
             };
 
             _context.Hotels.Add(hotel);
@@ -68,6 +69,15 @@ namespace Selu383.SP24.Api.Services.ServiceClasses
             dto.Id = hotel.Id;
 
             return dto;
+        }
+
+        private string FormatPhoneNumber(string phoneNumber)
+        {
+            // Remove non-numeric characters
+            string digits = Regex.Replace(phoneNumber, @"\D", "");
+
+            // Apply the formatting pattern
+            return Regex.Replace(digits, @"(\d{3})(\d{3})(\d{4})", "($1) $2-$3");
         }
 
         public async Task<HotelDto> UpdateHotel(int id, HotelDto dto)
