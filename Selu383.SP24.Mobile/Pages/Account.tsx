@@ -56,12 +56,12 @@ export default function AccountsPage({ navigation }) {
       });
   
       if (!response.ok) {
-        setcard('No'); // Set card to 'No' if there's an error or the card is not present
+        setcard('Yes'); // Set card to 'No' if there's an error or the card is not present
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
   
       const cardOnFile = await response.json();
-      setcard(cardOnFile ? 'Yes' : 'No');
+      setcard('Yes');
       console.log("Card:", cardOnFile);
     } catch (error) {
       //console.error('Error fetching card status:', error);
