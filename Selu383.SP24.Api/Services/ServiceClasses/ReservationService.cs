@@ -245,7 +245,7 @@ public class ReservationService : IReservationService
             .Include(r => r.Room)
             .ThenInclude(room => room.Hotel)
             .Include(r => r.Status)
-            .OrderByDescending(r => r.ReservationStartDate)
+            .OrderBy(r => r.ReservationStartDate)
             .ToListAsync();
 
         var reservationDTOs = reservations
