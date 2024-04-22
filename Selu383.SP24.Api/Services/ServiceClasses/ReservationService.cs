@@ -241,7 +241,7 @@ public class ReservationService : IReservationService
 
         var reservations = await _context
             .Reservations.Where(r => r.GuestId == user.Id)
-            .Where(r => r.ReservationStartDate >= DateTime.Now)
+            .Where(r => r.ReservationEndDate >= DateTime.Now)
             .Include(r => r.Room)
             .ThenInclude(room => room.Hotel)
             .Include(r => r.Status)
