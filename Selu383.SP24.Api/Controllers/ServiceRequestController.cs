@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,6 @@ using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.Hotels;
 using Selu383.SP24.Api.Features.HotelServices;
-using System.Diagnostics;
 
 namespace Selu383.SP24.Api.Controllers;
 
@@ -23,7 +23,12 @@ public class ServiceRequestController : ControllerBase
     private readonly ILogger<ServiceRequestController> _logger;
     private readonly IMapper _autoMapper;
 
-    public ServiceRequestController(DataContext dataContext, UserManager<User> userManager, ILogger<ServiceRequestController> logger, IMapper mapper)
+    public ServiceRequestController(
+        DataContext dataContext,
+        UserManager<User> userManager,
+        ILogger<ServiceRequestController> logger,
+        IMapper mapper
+    )
     {
         this._context = dataContext;
         _userManager = userManager;
@@ -36,55 +41,59 @@ public class ServiceRequestController : ControllerBase
     {
         try
         {
-            var serviceRequest = _context.ServiceRequests
-                .Include(sr => sr.RequestStatus)
+            var serviceRequest = _context
+                .ServiceRequests.Include(sr => sr.RequestStatus)
                 .Include(sr => sr.User)
                 .Include(sr => sr.Room)
-                    .ThenInclude(r => r.Hotel)
+                .ThenInclude(r => r.Hotel)
                 .Include(sr => sr.Room)
-                    .ThenInclude(r => r.Package)
+                .ThenInclude(r => r.Package)
                 .Include(sr => sr.Room)
-                    .ThenInclude(r => r.RoomStatus)
-                 .ToList();
+                .ThenInclude(r => r.RoomStatus)
+                .ToList();
 
-
-            return(serviceRequest);
-
+            return (serviceRequest);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the GetAllServiceRequest request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the GetAllServiceRequest request."
+            );
             return Enumerable.Empty<ServiceRequest>();
         }
     }
+
     [HttpGet("GetServiceRequestByStatus")]
     public async Task<ActionResult<ServiceRequest>> GetServiceRequestByStatus(string status)
     {
         try
         {
-            var serviceRequest = await _context.ServiceRequests
-                .Where(sr => sr.RequestStatus.Status == status)
-                 .Include(sr => sr.RequestStatus)
-                 .Include(sr => sr.User)
-                 .Include(sr => sr.Room)
-                     .ThenInclude(r => r.Hotel)
-                 .Include(sr => sr.Room)
-                     .ThenInclude(r => r.Package)
-                 .Include(sr => sr.Room)
-                     .ThenInclude(r => r.RoomStatus)
-                  .ToListAsync();
+            var serviceRequest = await _context
+                .ServiceRequests.Where(sr => sr.RequestStatus.Status == status)
+                .Include(sr => sr.RequestStatus)
+                .Include(sr => sr.User)
+                .Include(sr => sr.Room)
+                .ThenInclude(r => r.Hotel)
+                .Include(sr => sr.Room)
+                .ThenInclude(r => r.Package)
+                .Include(sr => sr.Room)
+                .ThenInclude(r => r.RoomStatus)
+                .ToListAsync();
 
             if (serviceRequest == null)
             {
                 return NotFound($"There are no service requests with the status '{status}' ");
             }
 
-
             return Ok(serviceRequest);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the GetServiceRequestByStatus request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the GetServiceRequestByStatus request."
+            );
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
@@ -95,41 +104,44 @@ public class ServiceRequestController : ControllerBase
     {
         try
         {
-            var serviceRequest = await _context.ServiceRequests
-                 .Include(sr => sr.RequestStatus)
-                 .Include(sr => sr.User)
-                 .Include(sr => sr.Room)
-                     .ThenInclude(r => r.Hotel)
-                 .Include(sr => sr.Room)
-                     .ThenInclude(r => r.Package)
-                 .Include(sr => sr.Room)
-                     .ThenInclude(r => r.RoomStatus)
-                  .FirstOrDefaultAsync(sr => sr.Id == id);
+            var serviceRequest = await _context
+                .ServiceRequests.Include(sr => sr.RequestStatus)
+                .Include(sr => sr.User)
+                .Include(sr => sr.Room)
+                .ThenInclude(r => r.Hotel)
+                .Include(sr => sr.Room)
+                .ThenInclude(r => r.Package)
+                .Include(sr => sr.Room)
+                .ThenInclude(r => r.RoomStatus)
+                .FirstOrDefaultAsync(sr => sr.Id == id);
 
             if (serviceRequest == null)
             {
                 return NotFound("Service request was not found");
             }
 
-
             return Ok(serviceRequest);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the GerServiceRequestById request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the GerServiceRequestById request."
+            );
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
 
-
     [HttpPost("CreateServiceRequest")]
-    public async Task<ActionResult<ServiceRequestDTO>> CreateServiceRequest(CreateServiceRequestDTO serviceRequestDTO)
+    public async Task<ActionResult<ServiceRequestDTO>> CreateServiceRequest(
+        CreateServiceRequestDTO serviceRequestDTO
+    )
     {
         try
         {
-            var requestStatus = _context.UniversalStatuses
-                .Where(x => x.Status == "Pending")
+            var requestStatus = _context
+                .UniversalStatuses.Where(x => x.Status == "Pending")
                 .FirstOrDefault();
 
             var user = await _userManager.GetUserAsync(User);
@@ -152,7 +164,10 @@ public class ServiceRequestController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the CreateServiceRequest request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the CreateServiceRequest request."
+            );
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
@@ -163,12 +178,12 @@ public class ServiceRequestController : ControllerBase
     {
         try
         {
-            var requestStatus = _context.UniversalStatuses
-                 .Where(x => x.Status == "Started")
-                 .FirstOrDefault();
+            var requestStatus = _context
+                .UniversalStatuses.Where(x => x.Status == "Started")
+                .FirstOrDefault();
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(_ => _.RequestStatus)
+            var serviceRequest = await _context
+                .ServiceRequests.Include(_ => _.RequestStatus)
                 .FirstOrDefaultAsync(sr => sr.Id == serviceRequestId);
 
             if (serviceRequest == null)
@@ -191,7 +206,6 @@ public class ServiceRequestController : ControllerBase
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
-
     }
 
     [HttpPost("FinishServiceRequest")]
@@ -199,12 +213,12 @@ public class ServiceRequestController : ControllerBase
     {
         try
         {
-            var requestStatus = _context.UniversalStatuses
-                .Where(x => x.Status == "Finished")
+            var requestStatus = _context
+                .UniversalStatuses.Where(x => x.Status == "Finished")
                 .FirstOrDefault();
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(_ => _.RequestStatus)
+            var serviceRequest = await _context
+                .ServiceRequests.Include(_ => _.RequestStatus)
                 .FirstOrDefaultAsync(sr => sr.Id == serviceRequestId);
 
             if (serviceRequest == null)
@@ -222,24 +236,27 @@ public class ServiceRequestController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the FinishServiceRequest request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the FinishServiceRequest request."
+            );
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
-
     }
+
     [Authorize]
     [HttpPost("CancelServiceRequest")]
     public async Task<ActionResult<bool>> CancelService(int serviceRequestId)
     {
         try
         {
-            var requestStatus = _context.UniversalStatuses
-                .Where(x => x.Status == "Cancelled")
+            var requestStatus = _context
+                .UniversalStatuses.Where(x => x.Status == "Cancelled")
                 .FirstOrDefault();
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(_ => _.RequestStatus)
+            var serviceRequest = await _context
+                .ServiceRequests.Include(_ => _.RequestStatus)
                 .FirstOrDefaultAsync(sr => sr.Id == serviceRequestId);
 
             if (serviceRequest == null)
@@ -264,12 +281,16 @@ public class ServiceRequestController : ControllerBase
     }
 
     [HttpPut("UpdateServiceRequest")]
-    public async Task<ActionResult<ServiceRequestDTO>> UpdateServiceRequest(CreateServiceRequestDTO serviceRequestDTO, int id)
+    public async Task<ActionResult<ServiceRequestDTO>> UpdateServiceRequest(
+        CreateServiceRequestDTO serviceRequestDTO,
+        int id
+    )
     {
         try
         {
-            var serviceRequest = await _context.ServiceRequests
-                .FirstOrDefaultAsync(sr => sr.Id == id);
+            var serviceRequest = await _context.ServiceRequests.FirstOrDefaultAsync(sr =>
+                sr.Id == id
+            );
 
             if (serviceRequest == null)
             {
@@ -286,7 +307,10 @@ public class ServiceRequestController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the UpdateServiceRequest request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the UpdateServiceRequest request."
+            );
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
@@ -297,9 +321,11 @@ public class ServiceRequestController : ControllerBase
     {
         try
         {
-            var serviceRequest = await _context.ServiceRequests.FirstOrDefaultAsync(sr => sr.Id == id);
+            var serviceRequest = await _context.ServiceRequests.FirstOrDefaultAsync(sr =>
+                sr.Id == id
+            );
 
-            if(serviceRequest == null)
+            if (serviceRequest == null)
             {
                 return NotFound("Could not find the service request you are looking for");
             }
@@ -311,10 +337,12 @@ public class ServiceRequestController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing the DeleteServiceRequest request.");
+            _logger.LogError(
+                ex,
+                "An error occurred while processing the DeleteServiceRequest request."
+            );
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
 }
-

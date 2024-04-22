@@ -10,18 +10,17 @@ namespace Selu383.SP24.Api.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"-- Insert 'Available'
+            migrationBuilder.Sql(
+                @"-- Insert 'Available'
                                     INSERT INTO UniversalStatus (Status) VALUES ('Available');
 
                                     -- Insert 'Occupied'
                                     INSERT INTO UniversalStatus (Status) VALUES ('Occupied');
-                                    ");
+                                    "
+            );
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-
-        }
+        protected override void Down(MigrationBuilder migrationBuilder) { }
     }
 }

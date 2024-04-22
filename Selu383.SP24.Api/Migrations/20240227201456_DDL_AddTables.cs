@@ -15,33 +15,42 @@ namespace Selu383.SP24.Api.Migrations
                 name: "RoomPackages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    Description = table.Column<string>(
+                        type: "nvarchar(255)",
+                        maxLength: 255,
+                        nullable: false
+                    )
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RoomPackages", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "UniversalStatus",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UniversalStatus", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelId = table.Column<int>(type: "int", nullable: false),
                     PackageId = table.Column<int>(type: "int", nullable: false),
@@ -58,25 +67,30 @@ namespace Selu383.SP24.Api.Migrations
                         column: x => x.HotelId,
                         principalTable: "Hotel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "FK_Rooms_RoomPackages_PackageId",
                         column: x => x.PackageId,
                         principalTable: "RoomPackages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "FK_Rooms_UniversalStatus_UniversalStatusId",
                         column: x => x.UniversalStatusId,
                         principalTable: "UniversalStatus",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "ServiceRequests",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Request = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatorId = table.Column<int>(type: "int", nullable: false),
@@ -96,65 +110,71 @@ namespace Selu383.SP24.Api.Migrations
                         name: "FK_ServiceRequests_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_ServiceRequests_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_ServiceRequests_UniversalStatus_RequestStatusId",
                         column: x => x.RequestStatusId,
                         principalTable: "UniversalStatus",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
-                column: "HotelId");
+                column: "HotelId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_PackageId",
                 table: "Rooms",
-                column: "PackageId");
+                column: "PackageId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_UniversalStatusId",
                 table: "Rooms",
-                column: "UniversalStatusId");
+                column: "UniversalStatusId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceRequests_RequestStatusId",
                 table: "ServiceRequests",
-                column: "RequestStatusId");
+                column: "RequestStatusId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceRequests_RoomId",
                 table: "ServiceRequests",
-                column: "RoomId");
+                column: "RoomId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceRequests_UserId",
                 table: "ServiceRequests",
-                column: "UserId");
+                column: "UserId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ServiceRequests");
+            migrationBuilder.DropTable(name: "ServiceRequests");
 
-            migrationBuilder.DropTable(
-                name: "Rooms");
+            migrationBuilder.DropTable(name: "Rooms");
 
-            migrationBuilder.DropTable(
-                name: "RoomPackages");
+            migrationBuilder.DropTable(name: "RoomPackages");
 
-            migrationBuilder.DropTable(
-                name: "UniversalStatus");
+            migrationBuilder.DropTable(name: "UniversalStatus");
         }
     }
 }
