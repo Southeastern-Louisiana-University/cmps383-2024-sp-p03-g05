@@ -2,7 +2,7 @@ export interface reservationDto {
     id: number;
     hotel: string;
     address: string;
-    phone: string;
+    phoneNumber: string;
     roomNumber: number,
     guestId: number,
     status: string,

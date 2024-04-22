@@ -12,31 +12,23 @@ namespace Selu383.SP24.Api.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Rooms_UniversalStatus_UniversalStatusId",
-                table: "Rooms");
+                table: "Rooms"
+            );
 
             migrationBuilder.DropForeignKey(
                 name: "FK_ServiceRequests_Rooms_RoomId",
-                table: "ServiceRequests");
+                table: "ServiceRequests"
+            );
 
-            migrationBuilder.DropIndex(
-                name: "IX_Rooms_UniversalStatusId",
-                table: "Rooms");
+            migrationBuilder.DropIndex(name: "IX_Rooms_UniversalStatusId", table: "Rooms");
 
-            migrationBuilder.DropColumn(
-                name: "RoomNumber",
-                table: "ServiceRequests");
+            migrationBuilder.DropColumn(name: "RoomNumber", table: "ServiceRequests");
 
-            migrationBuilder.DropColumn(
-                name: "Status",
-                table: "ServiceRequests");
+            migrationBuilder.DropColumn(name: "Status", table: "ServiceRequests");
 
-            migrationBuilder.DropColumn(
-                name: "Status",
-                table: "Rooms");
+            migrationBuilder.DropColumn(name: "Status", table: "Rooms");
 
-            migrationBuilder.DropColumn(
-                name: "UniversalStatusId",
-                table: "Rooms");
+            migrationBuilder.DropColumn(name: "UniversalStatusId", table: "Rooms");
 
             migrationBuilder.AlterColumn<int>(
                 name: "RoomId",
@@ -46,7 +38,8 @@ namespace Selu383.SP24.Api.Migrations
                 defaultValue: 0,
                 oldClrType: typeof(int),
                 oldType: "int",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<int>(
                 name: "RequestStatusId",
@@ -56,14 +49,16 @@ namespace Selu383.SP24.Api.Migrations
                 defaultValue: 0,
                 oldClrType: typeof(int),
                 oldType: "int",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "RoomStatusId",
                 table: "Rooms",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
@@ -72,12 +67,14 @@ namespace Selu383.SP24.Api.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(255)",
-                oldMaxLength: 255);
+                oldMaxLength: 255
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomStatusId",
                 table: "Rooms",
-                column: "RoomStatusId");
+                column: "RoomStatusId"
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Rooms_UniversalStatus_RoomStatusId",
@@ -85,7 +82,8 @@ namespace Selu383.SP24.Api.Migrations
                 column: "RoomStatusId",
                 principalTable: "UniversalStatus",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ServiceRequests_Rooms_RoomId",
@@ -93,7 +91,8 @@ namespace Selu383.SP24.Api.Migrations
                 column: "RoomId",
                 principalTable: "Rooms",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
         }
 
         /// <inheritdoc />
@@ -101,19 +100,17 @@ namespace Selu383.SP24.Api.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Rooms_UniversalStatus_RoomStatusId",
-                table: "Rooms");
+                table: "Rooms"
+            );
 
             migrationBuilder.DropForeignKey(
                 name: "FK_ServiceRequests_Rooms_RoomId",
-                table: "ServiceRequests");
+                table: "ServiceRequests"
+            );
 
-            migrationBuilder.DropIndex(
-                name: "IX_Rooms_RoomStatusId",
-                table: "Rooms");
+            migrationBuilder.DropIndex(name: "IX_Rooms_RoomStatusId", table: "Rooms");
 
-            migrationBuilder.DropColumn(
-                name: "RoomStatusId",
-                table: "Rooms");
+            migrationBuilder.DropColumn(name: "RoomStatusId", table: "Rooms");
 
             migrationBuilder.AlterColumn<int>(
                 name: "RoomId",
@@ -121,7 +118,8 @@ namespace Selu383.SP24.Api.Migrations
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
-                oldType: "int");
+                oldType: "int"
+            );
 
             migrationBuilder.AlterColumn<int>(
                 name: "RequestStatusId",
@@ -129,34 +127,39 @@ namespace Selu383.SP24.Api.Migrations
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
-                oldType: "int");
+                oldType: "int"
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "RoomNumber",
                 table: "ServiceRequests",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Status",
                 table: "ServiceRequests",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Status",
                 table: "Rooms",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "UniversalStatusId",
                 table: "Rooms",
                 type: "int",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
@@ -165,26 +168,30 @@ namespace Selu383.SP24.Api.Migrations
                 maxLength: 255,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_UniversalStatusId",
                 table: "Rooms",
-                column: "UniversalStatusId");
+                column: "UniversalStatusId"
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Rooms_UniversalStatus_UniversalStatusId",
                 table: "Rooms",
                 column: "UniversalStatusId",
                 principalTable: "UniversalStatus",
-                principalColumn: "Id");
+                principalColumn: "Id"
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ServiceRequests_Rooms_RoomId",
                 table: "ServiceRequests",
                 column: "RoomId",
                 principalTable: "Rooms",
-                principalColumn: "Id");
+                principalColumn: "Id"
+            );
         }
     }
 }

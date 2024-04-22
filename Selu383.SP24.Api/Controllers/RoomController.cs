@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Reflection;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Selu383.SP24.Api.Data;
 using Selu383.SP24.Api.Features.Authorization;
 using Selu383.SP24.Api.Features.HotelRoom;
-using System.Reflection;
 
 namespace Selu383.SP24.Api.Controllers;
 
@@ -19,7 +19,12 @@ public class RoomController : ControllerBase
     private readonly ILogger<ServiceRequestController> _logger;
     private readonly IMapper _autoMapper;
 
-    public RoomController(DataContext dataContext, UserManager<User> userManager, ILogger<ServiceRequestController> logger, IMapper mapper)
+    public RoomController(
+        DataContext dataContext,
+        UserManager<User> userManager,
+        ILogger<ServiceRequestController> logger,
+        IMapper mapper
+    )
     {
         this._context = dataContext;
         _userManager = userManager;
@@ -32,23 +37,29 @@ public class RoomController : ControllerBase
     {
         try
         {
-            var rooms = await _context.Rooms
-                .Include(r => r.Hotel)
+            var rooms = await _context
+                .Rooms.Include(r => r.Hotel)
                 .Include(r => r.Package)
                 .Include(r => r.RoomStatus)
                 .ToListAsync();
 
             return Ok(rooms);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while processing the GetAllRooms request.");
 
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
+
     [HttpGet("GetAvailableRoomsWithPackage")]
-    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRoomsWithPackage(int hotelId, int packageId, DateTime startDate, DateTime endDate)
+    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRoomsWithPackage(
+        int hotelId,
+        int packageId,
+        DateTime startDate,
+        DateTime endDate
+    )
     {
         if (startDate > endDate)
         {
@@ -56,20 +67,24 @@ public class RoomController : ControllerBase
         }
 
         // Step 1: Identify rooms with reservations that overlap the given date range
-        var reservedRoomIds = await _context.Reservations
-            .Where(reservation => reservation.ReservationEndDate >= startDate
-                               && reservation.ReservationStartDate <= endDate
-                               && reservation.Room.HotelId == hotelId
-                               && reservation.Room.PackageId == packageId) // Filter by packageId as well
+        var reservedRoomIds = await _context
+            .Reservations.Where(reservation =>
+                reservation.ReservationEndDate >= startDate
+                && reservation.ReservationStartDate <= endDate
+                && reservation.Room.HotelId == hotelId
+                && reservation.Room.PackageId == packageId
+            ) // Filter by packageId as well
             .Select(reservation => reservation.RoomId)
             .Distinct()
             .ToListAsync();
 
         // Step 2: Query for rooms in the given hotel and package that are not in the list of reservedRoomIds
-        var availableRoomsWithPackage = await _context.Rooms
-            .Where(room => room.HotelId == hotelId
-                        && room.PackageId == packageId // Filter by packageId
-                        && !reservedRoomIds.Contains(room.Id))
+        var availableRoomsWithPackage = await _context
+            .Rooms.Where(room =>
+                room.HotelId == hotelId
+                && room.PackageId == packageId // Filter by packageId
+                && !reservedRoomIds.Contains(room.Id)
+            )
             .Include(room => room.Hotel)
             .Include(room => room.Package)
             .Include(room => room.RoomStatus)
@@ -87,17 +102,17 @@ public class RoomController : ControllerBase
         return Ok(availableRoomsWithPackage);
     }
 
-
     [HttpGet("GetRoomByAny")]
     public async Task<ActionResult<IEnumerable<Room>>> GetRooms(
-       [FromQuery] int? packageId,
-       [FromQuery] double? price,
-       [FromQuery] int? roomNumber,
-       [FromQuery] string? roomStatus,
-       [FromQuery] int? hotelId)
+        [FromQuery] int? packageId,
+        [FromQuery] double? price,
+        [FromQuery] int? roomNumber,
+        [FromQuery] string? roomStatus,
+        [FromQuery] int? hotelId
+    )
     {
-        IQueryable<Room> query = _context.Rooms
-            .Include(r => r.Hotel)
+        IQueryable<Room> query = _context
+            .Rooms.Include(r => r.Hotel)
             .Include(r => r.Package)
             .Include(r => r.RoomStatus);
 
@@ -106,7 +121,7 @@ public class RoomController : ControllerBase
             query = query.Where(r => r.PackageId == packageId);
         }
 
-        if(hotelId.HasValue) 
+        if (hotelId.HasValue)
         {
             query = query.Where(r => r.HotelId == hotelId);
         }
@@ -137,19 +152,26 @@ public class RoomController : ControllerBase
 
         return Ok(result);
     }
+
     [HttpGet("GetAllAvailablePackages")]
-    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(int hotelId, DateTime startDate, DateTime endDate)
+    public async Task<ActionResult<IEnumerable<RoomPackage>>> GetAllAvailablePackages(
+        int hotelId,
+        DateTime startDate,
+        DateTime endDate
+    )
     {
         // Get IDs of rooms that are booked in the given date range
-        var bookedRoomIds = await _context.Reservations
-            .Where(booking => booking.ReservationStartDate < endDate && booking.ReservationEndDate > startDate)
+        var bookedRoomIds = await _context
+            .Reservations.Where(booking =>
+                booking.ReservationStartDate < endDate && booking.ReservationEndDate > startDate
+            )
             .Select(booking => booking.RoomId)
             .Distinct()
             .ToListAsync();
 
         // Now, get available packages by excluding the rooms that are booked
-        var result = await _context.Rooms
-            .Where(room => room.HotelId == hotelId && !bookedRoomIds.Contains(room.Id)) // Filter out booked rooms
+        var result = await _context
+            .Rooms.Where(room => room.HotelId == hotelId && !bookedRoomIds.Contains(room.Id)) // Filter out booked rooms
             .Select(room => room.Package)
             .Distinct()
             .Select(package => new RoomPackage
@@ -164,7 +186,6 @@ public class RoomController : ControllerBase
         return Ok(result);
     }
 
-
     [HttpPost("CreateRoom")]
     public async Task<ActionResult<RoomDTO>> CreateRoom(CreateRoomDTO roomDTO)
     {
@@ -173,7 +194,10 @@ public class RoomController : ControllerBase
             return BadRequest("Input cannot be null");
         }
 
-        var statusId = await _context.UniversalStatuses.Where(us => us.Status == "Available").Select(us => us.Id).FirstOrDefaultAsync();
+        var statusId = await _context
+            .UniversalStatuses.Where(us => us.Status == "Available")
+            .Select(us => us.Id)
+            .FirstOrDefaultAsync();
 
         var room = new Room
         {
@@ -193,14 +217,17 @@ public class RoomController : ControllerBase
     }
 
     [HttpPost("CreateRoomPackage")]
-    public async Task<ActionResult<RoomPackage>> CreatePackage(string description, string title, double price)
+    public async Task<ActionResult<RoomPackage>> CreatePackage(
+        string description,
+        string title,
+        double price
+    )
     {
         var roomPackage = new RoomPackage
         {
             Title = title,
             Description = description,
             StartingPrice = price
-            
         };
 
         _context.RoomsPackage.Add(roomPackage);
@@ -209,20 +236,17 @@ public class RoomController : ControllerBase
         return Ok(roomPackage);
     }
 
-
-
     [HttpPost("SetRoomStatusToOccupied")]
     public async Task<ActionResult<bool>> SetRoomStatusToOccupied(int roomId)
     {
-        var room = await _context.Rooms
-            .FindAsync(roomId);
+        var room = await _context.Rooms.FindAsync(roomId);
 
-        var statusId = await _context.UniversalStatuses
-            .Where(us => us.Status == "Occupied")
+        var statusId = await _context
+            .UniversalStatuses.Where(us => us.Status == "Occupied")
             .Select(us => us.Id)
             .FirstOrDefaultAsync();
 
-        if(room == null)
+        if (room == null)
         {
             return NotFound($"Could not find room with the id: {roomId}");
         }
@@ -233,20 +257,19 @@ public class RoomController : ControllerBase
         _context.SaveChanges();
 
         return Ok(true);
-    } 
-    
+    }
+
     [HttpPost("SetRoomStatusToAvailable")]
     public async Task<ActionResult<bool>> SetRoomStatusToAvailable(int roomId)
     {
-        var room = await _context.Rooms
-            .FindAsync(roomId);
+        var room = await _context.Rooms.FindAsync(roomId);
 
-        var statusId = await _context.UniversalStatuses
-            .Where(us => us.Status == "Available")
+        var statusId = await _context
+            .UniversalStatuses.Where(us => us.Status == "Available")
             .Select(us => us.Id)
             .FirstOrDefaultAsync();
 
-        if(room == null)
+        if (room == null)
         {
             return NotFound($"Could not find room with the id: {roomId}");
         }
@@ -264,7 +287,7 @@ public class RoomController : ControllerBase
     {
         var room = await _context.Rooms.FindAsync(roomId);
 
-        if(room == null)
+        if (room == null)
         {
             return NotFound($"Could not find room with the id: {roomId}");
         }
@@ -272,17 +295,17 @@ public class RoomController : ControllerBase
         room.Price = price;
 
         _context.Rooms.Update(room);
-        _context.SaveChanges(); 
+        _context.SaveChanges();
 
-        return Ok(true);       
-    }    
-    
+        return Ok(true);
+    }
+
     [HttpPut("UpdateRoomPackage")]
     public async Task<ActionResult<bool>> UpdateRoomPackage(int roomId, int packageId)
     {
         var room = await _context.Rooms.FindAsync(roomId);
 
-        if(room == null)
+        if (room == null)
         {
             return NotFound($"Could not find room with the id: {roomId}");
         }
@@ -292,7 +315,7 @@ public class RoomController : ControllerBase
         _context.Rooms.Update(room);
         _context.SaveChanges();
 
-        return Ok(true);       
+        return Ok(true);
     }
 
     [HttpDelete("DeleteRoom")]
@@ -300,7 +323,7 @@ public class RoomController : ControllerBase
     {
         var room = await _context.Rooms.FindAsync(id);
 
-        if(room == null)
+        if (room == null)
         {
             return NotFound($"Could not find room with the id: {id}");
         }
@@ -308,14 +331,14 @@ public class RoomController : ControllerBase
         _context.SaveChanges();
 
         return Ok(true);
-    }   
-    
+    }
+
     [HttpDelete("DeleteRoomPackage")]
     public async Task<ActionResult<bool>> DeleteRoomPackage(int id)
     {
         var room = await _context.RoomsPackage.FindAsync(id);
 
-        if(room == null)
+        if (room == null)
         {
             return NotFound($"Could not find room package with the id: {id}");
         }

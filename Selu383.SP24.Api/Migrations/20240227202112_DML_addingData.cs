@@ -10,18 +10,16 @@ namespace Selu383.SP24.Api.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"INSERT INTO UniversalStatus  (Status) VALUES
+            migrationBuilder.Sql(
+                @"INSERT INTO UniversalStatus  (Status) VALUES
                    ('Pending'),
                    ('Started'),
                    ('Finished'),
-                   ('Cancelled');");
-
+                   ('Cancelled');"
+            );
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-
-        }
+        protected override void Down(MigrationBuilder migrationBuilder) { }
     }
 }

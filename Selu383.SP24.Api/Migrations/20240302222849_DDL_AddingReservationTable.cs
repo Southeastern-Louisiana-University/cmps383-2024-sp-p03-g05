@@ -15,7 +15,8 @@ namespace Selu383.SP24.Api.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
@@ -31,50 +32,58 @@ namespace Selu383.SP24.Api.Migrations
                         name: "FK_Reservations_AspNetUsers_GuestId",
                         column: x => x.GuestId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_Reservations_Hotel_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotel",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_Reservations_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_Reservations_UniversalStatus_StatusId",
                         column: x => x.StatusId,
                         principalTable: "UniversalStatus",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_GuestId",
                 table: "Reservations",
-                column: "GuestId");
+                column: "GuestId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_HotelId",
                 table: "Reservations",
-                column: "HotelId");
+                column: "HotelId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomId",
                 table: "Reservations",
-                column: "RoomId");
+                column: "RoomId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_StatusId",
                 table: "Reservations",
-                column: "StatusId");
+                column: "StatusId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Reservations");
+            migrationBuilder.DropTable(name: "Reservations");
         }
     }
 }

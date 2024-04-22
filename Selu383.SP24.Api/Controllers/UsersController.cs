@@ -16,8 +16,11 @@ public class UsersController : ControllerBase
     private readonly DataContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-    public UsersController(UserManager<User> userManager, DataContext Context, IHttpContextAccessor httpContextAccessor)
+    public UsersController(
+        UserManager<User> userManager,
+        DataContext Context,
+        IHttpContextAccessor httpContextAccessor
+    )
     {
         this.userManager = userManager;
         _context = Context;
@@ -25,7 +28,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-   // [Authorize(Roles = RoleNames.Admin)]
+    // [Authorize(Roles = RoleNames.Admin)]
     public async Task<ActionResult<UserDto>> Create(CreateUserDto dto)
     {
         using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
@@ -50,25 +53,28 @@ public class UsersController : ControllerBase
                 return BadRequest();
             }
         }
-        catch (InvalidOperationException e) when(e.Message.StartsWith("Role") && e.Message.EndsWith("does not exist."))
+        catch (InvalidOperationException e)
+            when (e.Message.StartsWith("Role") && e.Message.EndsWith("does not exist."))
         {
             return BadRequest();
         }
 
         transaction.Complete();
 
-        return Ok(new UserDto
-        {
-            Id = newUser.Id,
-            Roles = dto.Roles,
-            UserName = newUser.UserName,
-            FirstName = newUser.FirstName,
-            LastName = newUser.LastName,
-        });
+        return Ok(
+            new UserDto
+            {
+                Id = newUser.Id,
+                Roles = dto.Roles,
+                UserName = newUser.UserName,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+            }
+        );
     }
 
     [HttpPost]
-    [Route ("signup")]
+    [Route("signup")]
     // [Authorize(Roles = RoleNames.Admin)]
     public async Task<ActionResult<UserDto>> Create(CreateCustomerDto dto)
     {
@@ -94,38 +100,40 @@ public class UsersController : ControllerBase
                 return BadRequest("Failed");
             }
         }
-        catch (InvalidOperationException e) when (e.Message.StartsWith("Role") && e.Message.EndsWith("does not exist."))
+        catch (InvalidOperationException e)
+            when (e.Message.StartsWith("Role") && e.Message.EndsWith("does not exist."))
         {
             return BadRequest("ROle doesn't exitst");
         }
 
         transaction.Complete();
 
-        return Ok(new UserDto
-        {
-            Id = newUser.Id,
-            Roles = ["Customer"],
-            UserName = newUser.UserName,
-            FirstName = newUser.FirstName,
-            LastName = newUser.LastName
-        });
+        return Ok(
+            new UserDto
+            {
+                Id = newUser.Id,
+                Roles = ["Customer"],
+                UserName = newUser.UserName,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName
+            }
+        );
     }
 
     [HttpGet("GetCardOnFile")]
     public async Task<ActionResult<bool>> GetUserCardOnFile(int id)
     {
-
         var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
-        if(user == null)
+        if (user == null)
         {
             return Unauthorized();
         }
 
-        var cardOnFile = await _context.Users
-            .Where(u => u.Id == id)
+        var cardOnFile = await _context
+            .Users.Where(u => u.Id == id)
             .Select(u => u.CardOnFile)
-            .FirstOrDefaultAsync();  
+            .FirstOrDefaultAsync();
 
         return Ok(cardOnFile);
     }
@@ -147,5 +155,4 @@ public class UsersController : ControllerBase
 
         return Ok(user.CardOnFile);
     }
-
 }

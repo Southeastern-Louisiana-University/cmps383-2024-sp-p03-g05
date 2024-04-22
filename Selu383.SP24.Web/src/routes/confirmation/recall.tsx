@@ -83,7 +83,7 @@ export default function recall() {
                             <div className="row">
                                 <div className="col-9">
                                     <h1>{confirmation?.hotel ?? "Hotel Name"}</h1>
-                                    <a href="tel:{confirmation?.phone ?? '(225) 910-8239'}"><i>{confirmation?.phone ?? "(225) 910-8239"}</i></a>
+                                    <a href="tel:{confirmation?.phone ?? '(225) 910-8239'}"><i>{confirmation?.phoneNumber ?? "(225) 910-8239"}</i></a>
                                     
                                     <p>{confirmation?.address ?? "Placeholder Address, City, State, ZIP"}</p>
                                     
