@@ -102,41 +102,14 @@ const styles = StyleSheet.create({
     color: "#6AA30D",
     paddingBottom: 5, // You can adjust this value based on your design
   },
-
-  searchBarText: {
-    fontSize: 16,
-    color: "#555",
-  },
-  Bar: {
-    //position: 'absolute',
-    //left: 0,
-    top: 25,
-    //right: 0,
-    alignSelf: "center",
-    width: "70%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 2,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 25,
-    zIndex: 1,
-  },
   safecon: {
-    flexDirection: "column",
     backgroundColor: "grey",
-    //flex: 1,
-    // marginBottom: -95,
   },
   con1: {
     flexDirection: "column",
     backgroundColor: "#211f20",
     flex: 1,
-    //marginBottom: -95,
-    //padding: 20,
   },
-
   con3: {
     flex: 10,
     flexDirection: "column",
@@ -147,7 +120,6 @@ const styles = StyleSheet.create({
     marginRight: -50,
     marginBottom: -50,
   },
-
   imageContainer: {
     width: 300,
     height: 300,

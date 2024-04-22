@@ -5,7 +5,8 @@ import Reservation from './Pages/Reservation';
 import HotelList from './Pages/HotelList';
 import Home from './Pages/Home';
 import HomeGuest from './Pages/HomeGuest';
-import Book from './Pages/Book'
+import Book from './Pages/Book';
+import OldTrips from './Pages/OldTrips';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
   <Stack.Screen name="HotelList" component={HotelList}/>
   <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: true, headerTitle: "", headerTransparent: true}}/>
   <Stack.Screen name="Book" component={Book} options={{ headerShown: true, headerTitle: "", headerTransparent: true}}/>
+  <Stack.Screen name="OldTrips" component={OldTrips} options={{ headerShown: true, headerTitle: "", headerTransparent: true}}/>
   </Stack.Navigator>
   </NavigationContainer> 
  ); 

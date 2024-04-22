@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, Pressable, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { useNavigation, useRoute } from "@react-navigation/native";
 
-export default function Trips({route}) {
-  const navigation = useNavigation();
+export default function Trips() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +28,7 @@ export default function Trips({route}) {
 
   const getMyReservations = async () => {
     try {
-      const response = await fetch('https://selu383-sp24-p03-g05.azurewebsites.net/api/reservation/GetMyReservations', {
+      const response = await fetch('https://selu383-sp24-p03-g05.azurewebsites.net/api/reservation/GetMyOldReservations', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -79,17 +77,7 @@ export default function Trips({route}) {
 
 
   
-/*
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    // Options to include the day of the week
-    const weekday = {weekday: 'long'}
-    const options = { weekday: 'long',  month: 'long', day: 'numeric',};
-    // Format the date with options
-    const formattedDate = `${date.toLocaleDateString(undefined, weekday)} at ${date.toLocaleTimeString()}`;
-    return formattedDate;
-  };
-  */
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -102,12 +90,8 @@ export default function Trips({route}) {
   };
   return (
     
-    
-      <SafeAreaView style={styles.container}>
-  <Pressable onPress={() => navigation.navigate("OldTrips")}>
-    <Text style={styles.oldTripText}>See Old Reservation</Text>
-  </Pressable>
-  <ScrollView style={{ flex: 1 }}>
+    <View style={styles.container}>
+         <ScrollView style={{ flex: 1 }}>
       {userData.length > 0 ? (
         userData.map((reservation, index) => (
           <View key={index} style={styles.reservationContainer}>
@@ -116,26 +100,22 @@ export default function Trips({route}) {
             <Text style={styles.subtitle}>Room Number: {reservation.roomNumber}</Text>
             <Text style={styles.subtitle}>Start: {formatDate(reservation.reservationStartDate)}</Text>
             <Text style={styles.subtitle}>End: {formatDate(reservation.reservationEndDate)}</Text>
-            
           </View>
-         
-          
-        
         ))
       ) : (
         <View style={styles.reservationContainer}>
-        <Text style={styles.title}>You Have No reservations</Text>
+        <Text style={styles.title}>You Have No Old Reservations</Text>
         </View>
-        
       )}
-  </ScrollView>
-    </SafeAreaView>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: 100,
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -164,9 +144,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-  },
-  oldTripText: {
-    fontSize: 20, // Increase the font size
-    color: 'blue', // Change the text color to blue
   },
 });

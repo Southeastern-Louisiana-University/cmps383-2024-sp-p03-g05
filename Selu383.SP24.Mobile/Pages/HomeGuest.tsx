@@ -25,6 +25,8 @@ export default function HomeGuest({ navigation }) {
   const [userData, setUserData] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [causername, casetUsername] = useState("");
+  const [capassword, casetPassword] = useState("");
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [siginmodal, setsigninmodal] = useState(false);
@@ -100,7 +102,7 @@ export default function HomeGuest({ navigation }) {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password, firstname, lastname }),
+          body: JSON.stringify({ causername, capassword, firstname, lastname }),
         }
       );
       if (!response.ok) {
@@ -244,14 +246,14 @@ export default function HomeGuest({ navigation }) {
               <TextInput
                 style={[{ width: width * 0.7 }, styles.Input]}
                 placeholder="UserName"
-                value={username}
-                onChangeText={(text) => setUsername(text)} />
+                value={causername}
+                onChangeText={(text) => casetUsername(text)} />
               <TextInput
                 style={[{ width: width * 0.7 }, styles.Input]}
                 placeholder="Password"
                 secureTextEntry
-                value={password}
-                onChangeText={(text) => setPassword(text)} />
+                value={capassword}
+                onChangeText={(text) => casetPassword(text)} />
               <TextInput
                 style={[{ width: width * 0.7 }, styles.Input]}
                 placeholder="First Name"

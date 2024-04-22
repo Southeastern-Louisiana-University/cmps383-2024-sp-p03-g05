@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
  
   con1: {
     flex: 1,
-    backgroundColor: '#211f20',
+    backgroundColor: "#c8c8c8a6",
   },
   loadingContainer: {
     flex: 1,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   content: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: '#f3efe0',
     //padding: 20,
     //borderRadius: 10,
     alignItems: 'center',

@@ -8,6 +8,7 @@ import {
   Image,
   useWindowDimensions,
   Pressable,
+  ScrollView,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -137,9 +138,9 @@ export default function Book({ route }) {
             <Image
               source={require("../assets/Enstay-Hotel1.jpg")}
               style={{
-                height: height / 2,
+                height: height / 8,
                 width: width / 2,
-                aspectRatio: 1,
+                aspectRatio: 4,
               }}
             />
             <View style={styles.itemContainer}>
@@ -149,7 +150,7 @@ export default function Book({ route }) {
               <Text style={styles.hotelname}>Package:{title}</Text>
               <Text style={styles.hotelname}>Price:{price}</Text>
             </View>
-
+            <ScrollView style={{ flex: 1 }}>
             <View style={styles.itemContainer}>
               <View style={styles.dateTimeContainer}>
                 <Text>Start:</Text>
@@ -179,6 +180,7 @@ export default function Book({ route }) {
                 <Text>Book Reservation</Text>
               </Pressable>
             </View>
+            </ScrollView>
           </View>
         ) : (
           <Text>Loading hotel details...</Text>
